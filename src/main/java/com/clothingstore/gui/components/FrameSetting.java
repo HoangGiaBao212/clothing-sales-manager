@@ -80,7 +80,25 @@ public class FrameSetting extends JFrame {
     button8 = new JButton("Sua");
      created_atTextField = new JTextField("Sua");
     button9 = new JButton("Sua");
-    setLayout(new GridLayout(0,1));
+    setLayout(new GridLayout(0,2));
+    add(usernameTextField); 
+    add(button1);
+    add(passwordTextField); 
+    add(button2);
+    add(emailTextField);  
+    add(button3);
+    add(nameTextField);
+     add(button4);
+    add(phoneTextField);
+     add(button5);
+    add(genderTextField);
+     add(button6);
+    add(imageTextField);
+     add(button7);
+    add(role_idTextField1);
+     add(button8);
+    created_atTextField = new JTextField("Sua");
+   
 
   }
 
