@@ -149,12 +149,11 @@ public class InvoiceDetail extends JFrame {
 
     Name.setFont(new Font("Segoe UI", 0, 14));
     Name.setHorizontalAlignment(JTextField.RIGHT);
+    Name.setEditable(false);
 
     Phone.setFont(new Font("Segoe UI", 0, 14));
     Phone.addFocusListener(LostFocusPhone);
     Phone.setHorizontalAlignment(JTextField.RIGHT);
-
-    Name.addFocusListener(nameFocusListener);
 
     UsePoint.setFont(new Font("Segoe UI", 0, 14));
     UsePoint.setHorizontalAlignment(JTextField.RIGHT);
@@ -603,14 +602,14 @@ public class InvoiceDetail extends JFrame {
       CustomerBUS.getInstance().refreshData();
       CustomerModel customerModel = null;
       List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());
-      for (int i = 0; i < customerList.size(); i++) {
-        if (String.valueOf(Phone.getText()).equals(customerList.get(i).getPhone())) {
-          customerModel = customerList.get(i);
+      for (CustomerModel customer : customerList) {
+        if (String.valueOf(Phone.getText()).equals(customer.getPhone())) {
+          customerModel = customer;
         } else {
           continue;
         }
       }
-      if (customerList != null && !customerList.isEmpty()) {
+      if (customerModel != null) {
         Name.setText(customerModel.getCustomerName());
         point = PointBUS.getInstance()
             .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
@@ -623,6 +622,24 @@ public class InvoiceDetail extends JFrame {
         }
         revalidate();
         repaint();
+      }
+      else{
+
+        JFrame fr = new JFrame();
+        fr.setAlwaysOnTop(true);
+        int choice = JOptionPane.showConfirmDialog(fr,
+            "Số điện thoại không tìm thấy. Bạn có muốn thêm vào khách hàng mới không?");
+        if (choice == JOptionPane.YES_OPTION) {
+          Name.setEditable(true);
+          Name.addFocusListener(nameFocusListener);
+          revalidate();
+          repaint();
+        } else if (choice == JOptionPane.NO_OPTION) {
+          RegularCus.setSelected(false);
+          UsePoint.setVisible(false);
+          CustomerInfo.setVisible(false);
+          Slogan.setVisible(true);
+        }
       }
     }
   };
@@ -670,32 +687,14 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
+      CustomerModel customer = new CustomerModel(0, Name.getText().toString(), Phone.getText(), null);
+      CustomerBUS.getInstance().addModel(customer);
+      JFrame fr1 = new JFrame();
+      fr1.setAlwaysOnTop(true);
+      JOptionPane.showMessageDialog(fr1, "Đã thêm 1 khách hàng mới thành công.");
+      CustomerBUS.getInstance().refreshData();
       revalidate();
       repaint();
-      List<CustomerModel> customerList = new ArrayList<>();
-      customerList
-          .addAll(CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
-      if (customerList == null || customerList.isEmpty()) {
-        JFrame fr = new JFrame();
-        fr.setAlwaysOnTop(true);
-        int choice = JOptionPane.showConfirmDialog(fr,
-            "Số điện thoại không tìm thấy. Bạn có muốn thêm vào khách hàng mới không?");
-        if (choice == JOptionPane.YES_OPTION) {
-          CustomerModel customerModel = new CustomerModel(0, Name.getText(), Phone.getText(), null);
-          CustomerBUS.getInstance().addModel(customerModel);
-          JFrame fr1 = new JFrame();
-          fr1.setAlwaysOnTop(true);
-          JOptionPane.showMessageDialog(fr1, "Đã thêm 1 khách hàng mới thành công.");
-          CustomerBUS.getInstance().refreshData();
-          revalidate();
-          repaint();
-        } else if (choice == JOptionPane.NO_OPTION) {
-          RegularCus.setSelected(false);
-          UsePoint.setVisible(false);
-          CustomerInfo.setVisible(false);
-          Slogan.setVisible(true);
-        }
-      }
     }
   };
 
