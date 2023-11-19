@@ -21,6 +21,7 @@ public class HomePage extends JFrame {
   private static HomePage instance;
   public Authentication authentication;
   UserModel currentUser;
+  Menu menu;
 
   public static HomePage getInstance() {
     if (instance == null) {
@@ -57,26 +58,13 @@ public class HomePage extends JFrame {
       default:
         break;
     }
-    add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
+    menu = Menu.getInstance(MenuData.getDataMenu(currentUser.getRoleId()));
+    add(menu, BorderLayout.WEST);
   }
 
-  public ArrayList<MenuData> getDataMenu() {
-    ArrayList<MenuData> data;
-    switch (currentUser.getRoleId()) {
-      case 1:
-        data = MenuData.getDataAdmin();
-        break;
-      case 2:
-        data = MenuData.getDataManager();
-        break;
-      case 3:
-        data = MenuData.getDataEmployee();
-        break;
-      default:
-        throw new IllegalArgumentException("User role is not supported");
-    }
-    return data;
-  }
+  // public ArrayList<MenuData> getDataMenu() {
+  // return MenuData.getDataMenu();
+  // }
 
   public void Remove() {
     Container contentPane = HomePage.getInstance().getContentPane();
@@ -106,7 +94,8 @@ public class HomePage extends JFrame {
     revalidate();
     repaint();
   }
-  public void reUI(){
+
+  public void reUI() {
     initComponent();
     Container contentPane = HomePage.getInstance().getContentPane();
     System.out.println(((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.EAST));
@@ -116,28 +105,38 @@ public class HomePage extends JFrame {
 
     @Override
     public void windowStateChanged(WindowEvent arg0) {
-      int column = (int)HomePage.getInstance().getSize().getWidth() / 280;
+      int column = (int) HomePage.getInstance().getSize().getWidth() / 280;
       Products.getInstance().ChangeLayout(column);
       revalidate();
       repaint();
     }
-    
+
   };
 
   ComponentAdapter componentListener = new ComponentAdapter() {
     @Override
     public void componentResized(ComponentEvent e) {
-      int column =(int) HomePage.getInstance().getSize().getWidth() / 250 ;
+      int column = (int) HomePage.getInstance().getSize().getWidth() / 250;
       double width = HomePage.getInstance().getSize().getWidth() / 250;
-      if( width - (int)width > 0.5 ){
-        column = (int)width + 1 ;
+      if (width - (int) width > 0.5) {
+        column = (int) width + 1;
       }
-      if(currentUser.getRoleId()==3)
-        Products.getInstance().ChangeLayout(column-1);
+      if (currentUser.getRoleId() == 3)
+        Products.getInstance().ChangeLayout(column - 1);
       else
         Products.getInstance().ChangeLayout(column);
       revalidate();
       repaint();
     }
   };
+
+  public void closeHomePage() {
+    this.removeAll();
+    this.reUI();
+    this.revalidate();
+    this.repaint();
+    dispose();
+    instance = null;
+    Menu.getInstance(null).closeMenuPanel();
+  }
 }

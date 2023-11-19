@@ -3,6 +3,7 @@ package com.clothingstore.gui.models;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.admin.employees.Employees;
@@ -18,6 +19,8 @@ import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.login.Login;
 import com.clothingstore.models.UserModel;
+import java.util.ArrayList;
+import java.util.List;
 
 import services.Authentication;
 
@@ -28,6 +31,7 @@ public class MenuData {
     private String icon;
     public Authentication authentication;
     static UserModel currentUser = Authentication.getCurrentUser();
+    private static List<JFrame> allFrames = new ArrayList<>();
 
     public MenuData() {
 
@@ -74,12 +78,30 @@ public class MenuData {
         return data;
     }
 
+    public static ArrayList<MenuData> getDataMenu(int roleId) {
+        ArrayList<MenuData> data;
+        switch (roleId) {
+            case 1:
+                data = MenuData.getDataAdmin();
+                break;
+            case 2:
+                data = MenuData.getDataManager();
+                break;
+            case 3:
+                data = MenuData.getDataEmployee();
+                break;
+            default:
+                throw new IllegalArgumentException("User role is not supported");
+        }
+        return data;
+    }
+
     public static ArrayList<MenuData> getDataEmployee() {
         ArrayList<MenuData> data = new ArrayList<>();
 
         data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
-        data.add(new MenuData("Khách hàng",null,CustomerAction(),"customer"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+        data.add(new MenuData("Khách hàng", null, CustomerAction(), "customer"));
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
 
         return data;
@@ -89,7 +111,7 @@ public class MenuData {
         ArrayList<MenuData> data = new ArrayList<>();
 
         data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
         data.add(new MenuData(
                 "Quản lý nhập hàng",
                 new ArrayList<MenuItemData>() {
@@ -104,14 +126,14 @@ public class MenuData {
                 "Quản lý nhân viên",
                 new ArrayList<MenuItemData>() {
                     // {
-                    //     add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
-                    //     add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
+                    // add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
+                    // add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
 
                     // }
                 },
                 EmployeeAction(), "employee"));
-        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
-        data.add(new MenuData("Thống kê",null,RevenueAction(), "revenue"));
+        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
+        data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
         data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
         return data;
@@ -132,7 +154,7 @@ public class MenuData {
                     }
                 },
                 null, "import"));
-        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
+        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
         return data;
     }
@@ -180,9 +202,9 @@ public class MenuData {
 
     private static ActionListener EmployeeAction() {
         return e -> {
-            HomePage.getInstance().Remove();           
+            HomePage.getInstance().Remove();
             HomePage.getInstance().Add(Employees.getInstance());
-         
+
         };
     }
 
@@ -210,8 +232,11 @@ public class MenuData {
                     JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
                 Authentication.logout();
-                HomePage.getInstance().dispose();
-                HomePage.getInstance().setVisible(false);
+                for (JFrame frame : allFrames) {
+                    frame.dispose();
+                }
+                allFrames.clear();
+                HomePage.getInstance().closeHomePage();
                 Login.getInstance().setVisible(true);
             }
         };
