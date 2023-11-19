@@ -1,109 +1,135 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
-import javax.swing.*;
-import org.netbeans.lib.awtextra.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
-import com.clothingstore.bus.CategoryBUS;
-import com.clothingstore.bus.ImportItemsBUS;
-import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.bus.SizeBUS;
-import com.clothingstore.bus.SizeItemBUS;
-import com.clothingstore.gui.employee.Invoice;
-import com.clothingstore.models.ImportItemsModel;
-import com.clothingstore.models.ProductModel;
-import com.clothingstore.models.SizeItemModel;
-import com.clothingstore.models.SizeModel;
+import javax.swing.*;
+
+import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.UserModel;
-import services.Authentication;
 
 public class FrameSetting extends JFrame {
-    private JTextField usernameTextField;
-    private JTextField passwordTextField;
-    private JTextField emailTextField;
-    private JTextField nameTextField;
-    private JTextField phoneTextField;
-    private JTextField genderTextField;
-    private JTextField imageTextField;
-    private JTextField role_idTextField1;
-    private JTextField addressTextField;
-    private JTextField statusTextField;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
-    private JButton button5;
-    private JButton button6;
-    private JButton button7;
-    private JButton button8;
-    private JTextField created_atTextField;
-    private JButton button9;
+  UserModel userModel;
+  String[] name = { "Name", "Password", "Email", "Phone", "Gender", "Address", "Status" };
+  String[] value = { "", "", "", "", "", "", "" };
+  ArrayList<String> user = new ArrayList<>() ;
 
-  public FrameSetting() {
-    
-    setAlwaysOnTop(true);
-    setSize(new Dimension(685, 390));
-    setPreferredSize(new Dimension(685, 325));
-    setResizable(false);
-    getContentPane().setLayout(new AbsoluteLayout());
-  
-    setLocationRelativeTo(null);
+  public FrameSetting(UserModel userModel) {
+    this.userModel = userModel;
+    user.add(userModel.getName());
+    user.add(userModel.getPassword());
+    user.add(userModel.getEmail());
+    user.add(userModel.getPhone());
+    user.add(String.valueOf(userModel.getGender()));
+    user.add(userModel.getAddress());
+    user.add(""+userModel.getUserStatus());
 
     initComponents();
+    setVisible(true);
+    setLocationRelativeTo(null);
+    this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
 
-  ImportItemsModel importItemsModel = null;
-  SizeItemModel sizeItemModel = null;
-  SizeModel sizeModel = null;
+  public void initComponents() {
+    Scroll = new JScrollPane();
+    Panel = new JPanel();
+    Content = new JPanel();
+    NameLabel = new JLabel("Thông tin tài khoản");
+    Buttons = new JPanel();
+    ButtonBack = new JButton("Thoát");
+    ButtonSave = new JButton("Lưu");
 
-  private void initComponents() {
-     usernameTextField = new JTextField("username");
-    passwordTextField = new JTextField("password");
-    emailTextField = new JTextField("email");
-    nameTextField= new JTextField("name");
-    phoneTextField = new JTextField("phone");
-    genderTextField = new JTextField("gender");
-    imageTextField = new JTextField("image");
-    role_idTextField1 = new JTextField("role_id");
-    addressTextField = new JTextField("address");
-    statusTextField = new JTextField("status");
-    button1  = new JButton("Sua");
-    button2 = new JButton("Sua");
-    button3 = new JButton("Sua");
-    button4 = new JButton("Sua");
-    button5 = new JButton("Sua");
-    button6 = new JButton("Sua");
-    button7 = new JButton("Sua");
-    button8 = new JButton("Sua");
-     created_atTextField = new JTextField("Sua");
-    button9 = new JButton("Sua");
-    setLayout(new GridLayout(0,2));
-    add(usernameTextField); 
-    add(button1);
-    add(passwordTextField); 
-    add(button2);
-    add(emailTextField);  
-    add(button3);
-    add(nameTextField);
-     add(button4);
-    add(phoneTextField);
-     add(button5);
-    add(genderTextField);
-     add(button6);
-    add(imageTextField);
-     add(button7);
-    add(role_idTextField1);
-     add(button8);
-    created_atTextField = new JTextField("Sua");
-   
+    setSize(800, 500);
+    setPreferredSize(new Dimension(800, 500));
+    setLayout(new BorderLayout());
+
+    add(NameLabel, BorderLayout.NORTH);
+
+    Panel.setLayout(new BorderLayout());
+
+    Content.setLayout(new GridLayout(0, 1));
+    for (int i = 0; i < 7; i++) {
+      final int index = i;
+      JPanel IndexPanel = new JPanel();
+      IndexPanel.setLayout(new BorderLayout());
+      IndexPanel.setPreferredSize(new Dimension(40, 80));
+      IndexPanel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
+
+      JLabel Name = new JLabel(name[i]);
+      JLabel Invalid = new JLabel();
+      JTextField Value = new JTextField();
+
+      Name.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 45));
+      Name.setFont(new Font("Segoe UI", 1, 15)); 
+      IndexPanel.add(Name, BorderLayout.NORTH);
+
+      Value.setPreferredSize(new Dimension(150, 35));
+      Value.setText(user.get(i));
+      Value.addFocusListener(new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+          if (Value.getText().equals(user.get(index))) {
+            Value.setText("");
+          }
+        }
+        
+        @Override
+        public void focusLost(FocusEvent e) {
+          if (Value.getText().isEmpty()) {
+            Value.setText(user.get(index));
+          }
+            value[index] = Value.getText();
+        }
+      });
+
+      IndexPanel.add(Value, BorderLayout.CENTER);
+
+      IndexPanel.add(Invalid, BorderLayout.SOUTH);
+      Invalid.setForeground(Color.RED);
+
+      Content.add(IndexPanel);
+    }
+    Panel.add(Content, BorderLayout.CENTER);
+
+    Scroll.setViewportView(Panel);
+    add(Scroll, BorderLayout.CENTER);
+
+
+    ButtonSave.addActionListener(SaveAction);
+
+    Buttons.setPreferredSize(new Dimension(60, 60));
+    Buttons.setLayout(new GridBagLayout());
+    Buttons.add(ButtonBack);
+    Buttons.add(ButtonSave);
+    add(Buttons, BorderLayout.SOUTH);
 
   }
+
+  private JScrollPane Scroll;
+  private JPanel Panel;
+  private JPanel Content;
+  private JLabel NameLabel;
+  private JPanel Buttons;
+  private JButton ButtonBack;
+  private JButton ButtonSave;
+
 
   public static void main(String[] args) {
-    FrameSetting frameSetting = new FrameSetting();
+    FrameSetting frameSetting = new FrameSetting(UserBUS.getInstance().getModelById(1));
     frameSetting.setVisible(true);
   }
+  private ActionListener SaveAction = new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+      for(int i = 0; i< 7; i++){
+        System.out.println(value[i]);
+      }
+    }
+    
+  };
 }
