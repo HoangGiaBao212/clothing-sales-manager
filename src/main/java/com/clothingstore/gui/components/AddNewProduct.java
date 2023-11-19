@@ -26,7 +26,7 @@ public class AddNewProduct extends JFrame {
         this.setBackground(Color.RED);
         initComponents();
         setSize(800, 500);
-        setTitle("Add new Product");
+        setTitle("Thêm sản phẩm");
         setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
@@ -35,12 +35,12 @@ public class AddNewProduct extends JFrame {
     public void initComponents() {
         jTextFieldName = new JTextField();
         jTextFieldPrice = new JTextField();
-        String[] genders = { "Gender *", "Male", "Female" };
+        String[] genders = { "Giới tính *", "Nam", "Nữ" };
         comboBoxCategory = new JComboBox<>();
         comboBoxGender = new JComboBox<>(genders);
-        buttonCancel = new JButton("Cancel");
-        buttonSave = new JButton("Save");
-        jLabelTitle = new JLabel("Add New Product");
+        buttonCancel = new JButton("Hủy");
+        buttonSave = new JButton("Lưu");
+        jLabelTitle = new JLabel("Thêm Sản Phẩm");
         jLabelTitle.setFont(new Font("Arial", Font.BOLD, 20));
         jLabelTitle.setSize(910, 100);
         int margin = 20;
@@ -66,18 +66,18 @@ public class AddNewProduct extends JFrame {
         jPanelInfor.setLayout(new BoxLayout(jPanelInfor, BoxLayout.Y_AXIS));
         jTextFieldName.setPreferredSize(new java.awt.Dimension(300, 40));
         jTextFieldName.setBorder(null);
-        addPlaceholder(jTextFieldName, " Product Name *");
+        addPlaceholder(jTextFieldName, " Tên Sản Phẩm *");
         jTextFieldPrice.setPreferredSize(new java.awt.Dimension(300, 40));
         jTextFieldPrice.setBorder(null);
-        addPlaceholder(jTextFieldPrice, " Price *");
+        addPlaceholder(jTextFieldPrice, " Giá Bán *");
         comboBoxGender.setPreferredSize(new java.awt.Dimension(300, 40));
         comboBoxGender.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedGender = (String) comboBoxGender.getSelectedItem();
-                if ("Male".equals(selectedGender)) {
+                if ("Nam".equals(selectedGender)) {
                     selectedGenderId = 1;
-                } else if ("Female".equals(selectedGender)) {
+                } else if ("Nữ".equals(selectedGender)) {
                     selectedGenderId = 0;
                 } else {
                     selectedGenderId = -1;
@@ -233,7 +233,7 @@ public class AddNewProduct extends JFrame {
     private void updateCategoryComboBox() {
         List<CategoryModel> categories = CategoryBUS.getInstance().getAllCategories();
         comboBoxCategory.removeAllItems();
-        comboBoxCategory.addItem("Category *");
+        comboBoxCategory.addItem("Loại sản phẩm *");
         for (CategoryModel category : categories) {
             comboBoxCategory.addItem(category.getCategoryName());
         }
@@ -272,27 +272,21 @@ public class AddNewProduct extends JFrame {
         public void actionPerformed(ActionEvent e) {
             jTextFieldName.setBorder(null);
             jTextFieldPrice.setBorder(null);
-            System.out.println("click");
-            System.out.println("Name: " + jTextFieldName.getText());
-            System.out.println("Price: " + jTextFieldPrice.getText());
-            System.out.println("Selected Gender ID: " + selectedGenderId);
-            System.out.println("Selected Category ID: " + selectedCategoryId);
-            System.out.println("image: " + imagePath);
             if (jTextFieldName.getText().trim().isEmpty() || jTextFieldPrice.getText().trim().isEmpty()
                     || selectedGenderId == -1 || selectedCategoryId == -1
-                    || jTextFieldName.getText().equals(" Product Name *")
-                    || jTextFieldPrice.getText().equals(" Price *")
+                    || jTextFieldName.getText().equals(" Tên Sản Phẩm *")
+                    || jTextFieldPrice.getText().equals(" Giá Bán *")
                     || imagePath == null) {
-                JOptionPane.showMessageDialog(null, "Please fill in all required fields.", "Error",
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin!", "Thông Báo",
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 if (Validation.isValidPrice(jTextFieldName.getText())) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid Name Product!", "Error",
+                    JOptionPane.showMessageDialog(null, "Tên sản phẩm không hợp lệ!", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     jTextFieldName.setBorder(BorderFactory.createLineBorder(Color.RED));
                     jTextFieldName.setText(null);
                 } else if (!Validation.isValidPrice(jTextFieldPrice.getText())) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid Price!", "Error",
+                    JOptionPane.showMessageDialog(null, "Giá bán không hợp lệ!", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     jTextFieldPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
                     jTextFieldPrice.setText(null);
@@ -306,11 +300,11 @@ public class AddNewProduct extends JFrame {
                     productModel.setImage(imagePath);
                     int resuilt = ProductBUS.getInstance().addModel(productModel);
                     if (resuilt == 1) {
-                        JOptionPane.showMessageDialog(null, "Product added successfully", "Success",
+                        JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công!", "Thông báo",
                                 JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                     } else {
-                        JOptionPane.showMessageDialog(null, "An error occurred. Please try again.", "Error",
+                        JOptionPane.showMessageDialog(null, "Thêm thất bại. Thử lại!", "Lỗi",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 }

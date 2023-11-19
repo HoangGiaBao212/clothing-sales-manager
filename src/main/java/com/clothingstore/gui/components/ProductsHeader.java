@@ -94,7 +94,7 @@ public class ProductsHeader extends JPanel {
         repaint();
       }
     });
-    ButtonAdd.setText("Add");
+    ButtonAdd.setText("Thêm");
     ButtonAdd.addActionListener(new ActionListener() {
 
       @Override
