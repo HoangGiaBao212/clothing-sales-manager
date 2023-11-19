@@ -1,8 +1,15 @@
 package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
+import com.clothingstore.gui.components.HomePage;
+import com.clothingstore.gui.components.invoicesHistory.HistoryList;
+import com.clothingstore.gui.components.invoicesHistory.InvoiceDetail;
+import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
@@ -20,6 +27,15 @@ public class Invoice extends JPanel {
     String productTotal = String.valueOf(orderModel.getCustomerId());
     String totalPrice = String.valueOf(orderModel.getTotalPrice());
     initComponents(id, date, productTotal, totalPrice);
+    this.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+          HomePage.getInstance().Remove();
+          InvoiceHistory.getInstance().removeAll();
+          InvoiceHistory.getInstance().add(new InvoiceDetail(orderModel), BorderLayout.CENTER);
+          HomePage.getInstance().Add(InvoiceHistory.getInstance());
+      }
+    });
   }
 
   private void initComponents(String id, String date, String quantity, String total) {

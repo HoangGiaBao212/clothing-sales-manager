@@ -22,7 +22,7 @@ public class Customer extends JPanel {
       @Override
       public void mouseClicked(MouseEvent e) {
         CustomerDetail customerDetail = new CustomerDetail(customerModel);
-        // Customers.getInstance().Remove();
+        Customers.getInstance().Remove();
         Customers.getInstance().add(customerDetail, BorderLayout.CENTER);
         Customers.getInstance().revalidate();
         Customers.getInstance().repaint();
