@@ -30,9 +30,7 @@ public class Invoice extends JPanel {
       @Override
       public void mouseClicked(MouseEvent e) {
         HomePage.getInstance().Remove();
-        InvoiceHistory.getInstance().removeAll();
-        InvoiceHistory.getInstance().add(new InvoiceDetail(orderModel), BorderLayout.CENTER);
-        HomePage.getInstance().Add(InvoiceHistory.getInstance());
+        HomePage.getInstance().Add(new InvoiceDetail(orderModel));
       }
     });
   }

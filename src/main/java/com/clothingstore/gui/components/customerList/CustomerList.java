@@ -61,7 +61,7 @@ public class CustomerList extends JPanel {
     ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
     ButtonMenu.setBackground(color);
     ButtonMenu.setBorder(null);
-    ButtonMenu.addActionListener(NavData.MenuAction());
+    ButtonMenu.addActionListener(new NavData().MenuAction());
     NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
 
     Header.add(NameHeader, BorderLayout.NORTH);

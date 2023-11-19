@@ -75,17 +75,15 @@ public class Products extends JPanel {
   private JScrollPane Scroll;
 
   public void showProductsFromResult(List<ProductModel> productModels) {
-    revalidate();
-    repaint();
     Products.removeAll();
     for (ProductModel products : productModels) {
       if (products.getStatus() == 1) {
         Product product = new Product(products);
         product.setBackground(new Color(170, 205, 239));
         Products.add(product);
-        revalidate();
-        repaint();
       }
     }
+    revalidate();
+    repaint();
   }
 }
