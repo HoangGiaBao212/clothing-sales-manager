@@ -147,6 +147,6 @@ public class Menu extends JPanel {
     };
 
     public void closeMenuPanel() {
-        instance = null; // đặt giá trị frame về null
+        instance = null;
     }
 }

@@ -23,20 +23,15 @@ public class ProductsHeader extends JPanel {
 
   public static ProductsHeader getInstance() {
     if (instance == null) {
-      System.out.println("co chan k");
       instance = new ProductsHeader();
 
     }
     return instance;
   }
 
-  
-
   public static void setInstance(ProductsHeader instance) {
     ProductsHeader.instance = instance;
   }
-
-
 
   public ProductsHeader() {
     initComponents();
@@ -120,14 +115,6 @@ public class ProductsHeader extends JPanel {
     ButtonMenu.setBorder(null);
     NavData.resetStaticFields();
     ButtonMenu.addActionListener(NavData.MenuAction());
-    ButtonMenu.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        System.out.println("Clicked");
-      }
-      
-    });
 
     if (currentUser.getRoleId() != 3) {
       add(ButtonMenu, BorderLayout.WEST);

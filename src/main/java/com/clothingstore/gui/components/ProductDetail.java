@@ -69,7 +69,6 @@ public class ProductDetail extends JFrame {
         totalProduct += sizeItemModel.getQuantity();
       }
     }
-    System.out.println(sizeItemModels.size());
 
     Name = new JTextField();
     Price = new JLabel();

@@ -62,7 +62,6 @@ public class HomePage extends JFrame {
       default:
         break;
     }
-    // menu = Menu.getInstance(MenuData.getDataMenu(currentUser.getRoleId()));
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
@@ -116,7 +115,6 @@ public class HomePage extends JFrame {
   public void reUI() {
     initComponent();
     Container contentPane = HomePage.getInstance().getContentPane();
-    System.out.println(((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.EAST));
   }
 
   WindowStateListener windowStateListener = new WindowStateListener() {

@@ -179,10 +179,6 @@ public class EditProduct extends JFrame {
         Map<Integer, Integer> sizeIdToQuantityMap = new HashMap<>();
         for (SizeItemModel sizeItemModel : sizeItemModels) {
             sizeIdToQuantityMap.put(sizeItemModel.getSizeId(), sizeItemModel.getQuantity());
-
-            System.out.println("ProId: " + sizeItemModel.getProductId());
-            System.out.println("SizeId: " + sizeItemModel.getSizeId());
-            System.out.println("Quantity: " + sizeItemModel.getQuantity());
         }
 
         for (int i = 0; i < sizeNames.length; i++) {
@@ -193,7 +189,6 @@ public class EditProduct extends JFrame {
 
             if (sizeIdToQuantityMap.containsKey(sizeIds[i])) {
                 textField.setText(String.valueOf(sizeIdToQuantityMap.get(sizeIds[i])));
-                System.out.println(sizeIdToQuantityMap.get(sizeIds[i]));
             }
             textField.addFocusListener(editText);
 
@@ -404,7 +399,6 @@ public class EditProduct extends JFrame {
                 jTextFieldName.setBorder(null);
                 jTextFieldPrice.setBorder(null);
                 sizeSValue = sizeToTextFieldMap.get("Size S").getText();
-                System.out.println(sizeSValue);
                 sizeMValue = sizeToTextFieldMap.get("Size M").getText();
                 sizeLValue = sizeToTextFieldMap.get("Size L").getText();
                 sizeXLValue = sizeToTextFieldMap.get("Size XL").getText();

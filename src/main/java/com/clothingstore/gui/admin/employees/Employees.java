@@ -70,10 +70,9 @@ public class Employees extends JPanel {
   private JButton btnSearch;
   private String imagePath_2;
 
-  public Employees(){
+  public Employees() {
     initComponents();
   }
-
 
   public void initComponents() {
 
@@ -98,7 +97,7 @@ public class Employees extends JPanel {
     lbl_title = new JLabel("      Home/Employees");
     lbl_title.setForeground(new Color(255, 255, 255));
     lbl_title.setFont(new Font("Arial Black", Font.BOLD, 17));
-    lbl_title.setPreferredSize(new Dimension(20,30));
+    lbl_title.setPreferredSize(new Dimension(20, 30));
     topPanel.add(lbl_title);
 
     titleLabel = new JLabel("  Quản lý nhân viên");
@@ -107,7 +106,7 @@ public class Employees extends JPanel {
     topPanel.add(titleLabel);
 
     panel = new JPanel();
-    panel.setPreferredSize(new Dimension(20,20));
+    panel.setPreferredSize(new Dimension(20, 20));
     panel.setBackground(new Color(0, 38, 77));
     topPanel.add(panel);
 
@@ -116,10 +115,10 @@ public class Employees extends JPanel {
     centerPanel.setBackground(new Color(0, 38, 77));
     employeePanel.add(centerPanel, BorderLayout.CENTER);
     GridBagLayout gbl_centerPanel = new GridBagLayout();
-    gbl_centerPanel.columnWidths = new int[]{86, 224, 0, 172, 144, 0, 0};
-    gbl_centerPanel.rowHeights = new int[]{0, 36, 0, 0};
-    gbl_centerPanel.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-    gbl_centerPanel.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+    gbl_centerPanel.columnWidths = new int[] { 86, 224, 0, 172, 144, 0, 0 };
+    gbl_centerPanel.rowHeights = new int[] { 0, 36, 0, 0 };
+    gbl_centerPanel.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+    gbl_centerPanel.rowWeights = new double[] { 1.0, 0.0, 1.0, Double.MIN_VALUE };
     centerPanel.setLayout(gbl_centerPanel);
 
     lblNewLabel_1 = new JLabel("Tìm kiếm");
@@ -151,11 +150,13 @@ public class Employees extends JPanel {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        String searchValue = textField.getText()+"";
+        String searchValue = textField.getText() + "";
 
-//				String[] columnNames = {"id","username","password","email","name","phone","address","gender","image","role_id","status"};
-//				String[] columnNames = {"id","username","status","name","email","phone",""};
-        String[] columnNames = {"username", "password", "email", "image", "name", "phone", "address", "gender", "role_id", "status"};
+        // String[] columnNames =
+        // {"id","username","password","email","name","phone","address","gender","image","role_id","status"};
+        // String[] columnNames = {"id","username","status","name","email","phone",""};
+        String[] columnNames = { "username", "password", "email", "image", "name", "phone", "address", "gender",
+            "role_id", "status" };
         List<UserModel> searchResults = userBUS.getInstance().searchModel(searchValue, columnNames);
         showSearchResult(searchResults);
       }
@@ -167,7 +168,8 @@ public class Employees extends JPanel {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           String searchValue = textField.getText();
-          String[] columnNames = {"username", "password", "email", "image", "name", "phone", "address", "gender", "role_id", "status"};
+          String[] columnNames = { "username", "password", "email", "image", "name", "phone", "address", "gender",
+              "role_id", "status" };
           List<UserModel> searchResults = userBUS.getInstance().searchModel(searchValue, columnNames);
           showSearchResult(searchResults);
         }
@@ -182,24 +184,26 @@ public class Employees extends JPanel {
     panel_table = new JPanel();
     panel_table.setForeground(new Color(0, 38, 77));
     panel_table.setBackground(new Color(0, 38, 77));
-    panel_table.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh sách nhân viên", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-    panel_table.setPreferredSize(new Dimension(500,400));
+    panel_table.setBorder(
+        new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+            "Danh sách nhân viên", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+    panel_table.setPreferredSize(new Dimension(500, 400));
     panel_table.setLayout(new BorderLayout(0, 0));
 
     table = new JTable();
     table.setModel(new DefaultTableModel(
-                           new Object[][] {
-                           },
-                           new String[] {
-                                   "ID", "Username", "Email", "Tên", "Số điện thoại", "Giới tính", "Hình ảnh", "Chức vụ", "Địa chỉ", "Tình trạng", "Reset"
-                           }
-                   ) {
-                     @Override
-                     public boolean isCellEditable(int row, int column) {
-                       // Chỉ cho phép chỉnh sửa cột "Status"
-                       return column == getColumnCount() - 2;
-                     }
-                   }
+        new Object[][] {
+        },
+        new String[] {
+            "ID", "Username", "Email", "Tên", "Số điện thoại", "Giới tính", "Hình ảnh", "Chức vụ", "Địa chỉ",
+            "Tình trạng", "Reset"
+        }) {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        // Chỉ cho phép chỉnh sửa cột "Status"
+        return column == getColumnCount() - 2;
+      }
+    }
 
     );
     scrollPane = new JScrollPane(table);
@@ -238,12 +242,14 @@ public class Employees extends JPanel {
 
     panel_Model = new JPanel();
     panel_Model.setBackground(new Color(0, 38, 77));
-    panel_Model.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Các chức năng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-    panel_Model.setPreferredSize(new Dimension(200,80));
+    panel_Model.setBorder(
+        new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+            "Các chức năng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+    panel_Model.setPreferredSize(new Dimension(200, 80));
     panel_table.add(panel_Model, BorderLayout.SOUTH);
 
     btnAdd = new JButton("Thêm nhân viên");
-    btnAdd.setPreferredSize(new Dimension(200,40));
+    btnAdd.setPreferredSize(new Dimension(200, 40));
     panel_Model.add(btnAdd);
     btnAdd.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -253,20 +259,20 @@ public class Employees extends JPanel {
       }
     });
 
-
-
     btnDelete = new JButton("Xóa nhân viên");
-    btnDelete.setPreferredSize(new Dimension(200,40));
+    btnDelete.setPreferredSize(new Dimension(200, 40));
     panel_Model.add(btnDelete);
     btnDelete.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
-          JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+          JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn xóa", "Thông báo",
+              JOptionPane.INFORMATION_MESSAGE);
           return;
         }
 
-        int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa nhân viên này?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa nhân viên này?", "Confirm Deletion",
+            JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
           int employeeId = (int) table.getModel().getValueAt(selectedRow, 0);
           deleteEmployee(employeeId);
@@ -275,22 +281,21 @@ public class Employees extends JPanel {
       }
     });
 
-
     btnEdit = new JButton("Sửa nhân viên");
-    btnEdit.setPreferredSize(new Dimension(200,40));
+    btnEdit.setPreferredSize(new Dimension(200, 40));
     panel_Model.add(btnEdit);
     btnEdit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int index = table.getSelectedRow();
         if (index == -1) {
-          JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn sửa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+          JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn sửa", "Thông báo",
+              JOptionPane.INFORMATION_MESSAGE);
           return;
         } else {
           int modelIndex = table.convertRowIndexToModel(index);
           int id = (int) table.getModel().getValueAt(modelIndex, 0);
-          System.out.println(id);
           UserBUS.getInstance().refreshData();
-          if(UserBUS.getInstance().getModelById(id).getUserStatus() == UserStatus.BANNED) {
+          if (UserBUS.getInstance().getModelById(id).getUserStatus() == UserStatus.BANNED) {
             JOptionPane.showMessageDialog(null, "Tài khoản đang bị khóa, không thể chỉnh sửa");
             return;
           }
@@ -302,7 +307,7 @@ public class Employees extends JPanel {
     });
 
     JButton btnRefresh = new JButton("Refresh");
-    btnRefresh.setPreferredSize(new Dimension(200,40));
+    btnRefresh.setPreferredSize(new Dimension(200, 40));
     panel_Model.add(btnRefresh);
     btnRefresh.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -315,7 +320,6 @@ public class Employees extends JPanel {
     statusHandle(table);
     resetHandle(table);
   }
-
 
   public void updateDTFromList() {
     UserBUS.getInstance().refreshData();
@@ -348,9 +352,9 @@ public class Employees extends JPanel {
         status.setSelectedItem("Active");
       }
 
-      model_table.addRow(new Object[]{user.getId(), user.getUsername() + "",
-              user.getEmail() + "", user.getName() + "", user.getPhone() + "", textGender,
-              user.getImage(), textRole, user.getAddress(), status.getSelectedItem(), imagePath});
+      model_table.addRow(new Object[] { user.getId(), user.getUsername() + "",
+          user.getEmail() + "", user.getName() + "", user.getPhone() + "", textGender,
+          user.getImage(), textRole, user.getAddress(), status.getSelectedItem(), imagePath });
 
     }
 
@@ -365,11 +369,10 @@ public class Employees extends JPanel {
 
   }
 
-
   public void deleteEmployee(int userID) {
     try {
       int deletedRow = UserBUS.getInstance().deleteModel(userID);
-      if(deletedRow > 0) {
+      if (deletedRow > 0) {
         JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công");
       }
     } catch (Exception e) {
@@ -388,22 +391,20 @@ public class Employees extends JPanel {
     editEmployee.textField_name.setText(userModel.getName());
     editEmployee.textField_phone.setText(userModel.getPhone());
     editEmployee.textField_address.setText(userModel.getAddress());
-    if(userModel.getRoleId() == 1) {
+    if (userModel.getRoleId() == 1) {
       JOptionPane.showMessageDialog(null, "Tài khoản admin không thể sửa");
       return;
     }
 
-
-    if(userModel.getRoleId() == 2) {
+    if (userModel.getRoleId() == 2) {
       editEmployee.comboBox_role.setSelectedItem("manager");
-    }else {
+    } else {
       editEmployee.comboBox_role.setSelectedItem("employee");
     }
 
-
-    if(table.getModel().getValueAt(table.getSelectedRow(), 5).equals("Male")) {
+    if (table.getModel().getValueAt(table.getSelectedRow(), 5).equals("Male")) {
       editEmployee.comboBox_role.setSelectedItem("Male");
-    }else {
+    } else {
       editEmployee.comboBox_role.setSelectedItem("Female");
     }
 
@@ -430,25 +431,25 @@ public class Employees extends JPanel {
       String role = null;
       String imagePath = "src\\main\\java\\config\\image\\resetImg.jpg";
 
-      if(user.getRoleId() == 1) {
+      if (user.getRoleId() == 1) {
         role = "Admin";
-      }else if(user.getRoleId() == 2) {
+      } else if (user.getRoleId() == 2) {
         role = "Manager";
-      }else {
+      } else {
         role = "Employee";
       }
       model.addRow(new Object[] {
-              user.getId(),
-              user.getUsername(),
-              user.getEmail(),
-              user.getName(),
-              user.getPhone(),
-              gender,
-              user.getImage(),
-              role,
-              user.getAddress(),
-              user.getUserStatus(),
-              imagePath
+          user.getId(),
+          user.getUsername(),
+          user.getEmail(),
+          user.getName(),
+          user.getPhone(),
+          gender,
+          user.getImage(),
+          role,
+          user.getAddress(),
+          user.getUserStatus(),
+          imagePath
       });
     }
   }
@@ -466,8 +467,6 @@ public class Employees extends JPanel {
         int id = (int) table.getValueAt(row, 0);
 
         String currentStatus = UserBUS.getInstance().getModelById(id).getUserStatus().toString();
-        System.out.println("CurrentStatus: " + currentStatus);
-        System.out.println("SelectedStatus: " + selectedStatus);
 
         if (currentStatus.toLowerCase().equals(selectedStatus.toLowerCase())) {
           JOptionPane.showMessageDialog(null, "Nhân viên hiện đang " + currentStatus);
@@ -475,27 +474,30 @@ public class Employees extends JPanel {
         }
 
         if (selectedStatus.equals("Banned") && !currentStatus.equals("Banned")) {
-          int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn khóa tài khoản nhân viên này?", "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
+          int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn khóa tài khoản nhân viên này?",
+              "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
           if (choice == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Khóa tài khoản thành công");
             UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.BANNED);
             UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
             updateDTFromList();
-          } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION || JOptionPane.CLOSED_OPTION == -1) {
+          } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION
+              || JOptionPane.CLOSED_OPTION == -1) {
             UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.ACTIVE);
             UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
             updateDTFromList();
           }
         } else if (selectedStatus.equals("Active") && !currentStatus.equals("Active")) {
-          int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn mở khóa tài khoản nhân viên này?", "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
+          int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn mở khóa tài khoản nhân viên này?",
+              "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
           if (choice == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Mở khóa tài khoản thành công");
             UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.ACTIVE);
             UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
             updateDTFromList();
-          } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION || JOptionPane.CLOSED_OPTION == -1) {
+          } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION
+              || JOptionPane.CLOSED_OPTION == -1) {
             UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.BANNED);
-            System.out.println(UserBUS.getInstance().getModelById(id));
             UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
             updateDTFromList();
           }
@@ -503,10 +505,6 @@ public class Employees extends JPanel {
       }
     });
   }
-
-
-
-
 
   public void resetHandle(JTable table) {
     table.addMouseListener(new MouseAdapter() {
@@ -516,10 +514,11 @@ public class Employees extends JPanel {
 
         if (table.columnAtPoint(e.getPoint()) == column) {
           int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đặt lại mật khẩu mặc định không?");
-          if(choice == 0) {
+          if (choice == 0) {
             int row = table.rowAtPoint(e.getPoint());
             int id = (int) table.getValueAt(row, 0);
-            UserBUS.getInstance().getModelById(id).setPassword("$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi");
+            UserBUS.getInstance().getModelById(id)
+                .setPassword("$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi");
             UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
             JOptionPane.showMessageDialog(null, "Reset về mật khẩu mặc định thành công");
           }
