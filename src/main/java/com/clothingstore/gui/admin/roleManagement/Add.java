@@ -6,21 +6,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import com.clothingstore.bus.PermissionBUS;
 import com.clothingstore.bus.RoleBUS;
 import com.clothingstore.bus.RolePermissionBUS;
-import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.PermissionModel;
 import com.clothingstore.models.RoleModel;
 import com.clothingstore.models.RolePermissionModel;
-import com.clothingstore.models.UserModel;
 
 public class Add extends JFrame {
 

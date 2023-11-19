@@ -401,7 +401,7 @@ public class InvoiceDetail extends JFrame {
         }
 
       }
-      //TODO: Lỗi nhận sai id
+
       private void exportReceiptToPDF(List<OrderItemModel> orderList, int idCustomer) {
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
@@ -622,8 +622,7 @@ public class InvoiceDetail extends JFrame {
         }
         revalidate();
         repaint();
-      }
-      else{
+      } else {
 
         JFrame fr = new JFrame();
         fr.setAlwaysOnTop(true);

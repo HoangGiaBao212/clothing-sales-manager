@@ -8,7 +8,6 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.CategoryBUS;
-import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeBUS;
 import com.clothingstore.bus.SizeItemBUS;

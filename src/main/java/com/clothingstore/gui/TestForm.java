@@ -25,7 +25,6 @@ public class TestForm {
         HomePage homePage = HomePage.getInstance();
         homePage.setVisible(true);
       } catch (LoginException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     });

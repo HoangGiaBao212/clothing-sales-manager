@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.clothingstore.bus.RoleBUS;
-import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
 import com.clothingstore.models.UserModel;

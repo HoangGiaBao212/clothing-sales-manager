@@ -1,39 +1,23 @@
 package com.clothingstore.gui.admin.employees;
 
-import com.clothingstore.gui.components.Menu;
-import com.clothingstore.gui.models.MenuData;
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EtchedBorder;
-
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.enums.UserStatus;
-import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
-import com.mysql.cj.x.protobuf.MysqlxNotice.Frame;
-import com.toedter.calendar.JDateChooser;
-
-import com.clothingstore.gui.admin.employees.Add;
-import com.clothingstore.gui.admin.employees.Edit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import java.util.List;
 

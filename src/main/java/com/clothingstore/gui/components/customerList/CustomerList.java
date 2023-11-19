@@ -70,7 +70,6 @@ public class CustomerList extends JPanel {
     Panel.setLayout(new BorderLayout());
     Panel.setBackground(color);
 
-    //TODO: Add actionListener on buttonSearch.
     ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png"))); // NOI18N
     ButtonSearch.setBorder(null);
     ButtonSearch.setBackground(Color.WHITE);
