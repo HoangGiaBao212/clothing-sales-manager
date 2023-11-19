@@ -17,6 +17,7 @@ public class FrameSetting extends JFrame {
   String[] name = { "Name", "Password", "Email", "Phone", "Gender", "Address", "Status" };
   String[] value = { "", "", "", "", "", "", "" };
   ArrayList<String> user = new ArrayList<>() ;
+  private boolean dataChanged;
 
   public FrameSetting(UserModel userModel) {
     this.userModel = userModel;
@@ -33,7 +34,21 @@ public class FrameSetting extends JFrame {
     setLocationRelativeTo(null);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
-
+  public void updateUserData(UserModel userModel){
+    
+    userModel.setName(value[0]);
+    userModel.setPassword(value[1]);
+    userModel.setEmail(value[2]);
+    userModel.setPhone(value[3]);
+    try{
+    userModel.setGender(Integer.valueOf(value[4]));
+    }catch(NumberFormatException e){
+        System.out.println("Invalid gender value: " + value[4]);
+    }
+    userModel.setAddress(value[5]);
+    userModel.setUserStatus(null);
+    
+  }
   public void initComponents() {
     Scroll = new JScrollPane();
     Panel = new JPanel();
@@ -121,15 +136,23 @@ public class FrameSetting extends JFrame {
   public static void main(String[] args) {
     FrameSetting frameSetting = new FrameSetting(UserBUS.getInstance().getModelById(1));
     frameSetting.setVisible(true);
+    
   }
   private ActionListener SaveAction = new ActionListener() {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-      for(int i = 0; i< 7; i++){
+      for (int i = 0; i< 7; i++) {
         System.out.println(value[i]);
+        if(dataChanged){
+        updateUserData(userModel);
+      } else{
+        dispose();
+      }
       }
     }
     
   };
+
+  
 }

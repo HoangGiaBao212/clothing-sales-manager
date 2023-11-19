@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.dashboard;
+package com.clothingstore.gui.admin.Dashboard;
 
 import java.awt.*;
 
