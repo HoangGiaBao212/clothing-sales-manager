@@ -130,7 +130,8 @@ public class Menu extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            
+            FrameSetting frameSetting = new FrameSetting();
+            frameSetting.setVisible(true);
         }
         
     };
