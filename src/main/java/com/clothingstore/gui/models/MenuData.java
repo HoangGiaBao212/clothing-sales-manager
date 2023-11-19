@@ -103,13 +103,13 @@ public class MenuData {
         data.add(new MenuData(
                 "Quản lý nhân viên",
                 new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
-                        add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
+                    // {
+                    //     add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
+                    //     add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
 
-                    }
+                    // }
                 },
-                null, "employee"));
+                EmployeeAction(), "employee"));
         data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
         data.add(new MenuData("Thống kê",null,RevenueAction(), "revenue"));
         data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
@@ -180,11 +180,9 @@ public class MenuData {
 
     private static ActionListener EmployeeAction() {
         return e -> {
-            HomePage.getInstance().Remove();
-            if (e.getActionCommand().equals("Danh sách nhân viên")) {
-                HomePage.getInstance().Add(Employees.getInstance());
-            } else if (e.getActionCommand().equals("Thêm nhân viên")) {
-            }
+            HomePage.getInstance().Remove();           
+            HomePage.getInstance().Add(Employees.getInstance());
+         
         };
     }
 

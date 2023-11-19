@@ -332,7 +332,7 @@ public class Employees extends JPanel {
     for (UserModel user : UserBUS.getInstance().getAllModels()) {
       String textGender = (user.getGender() == 1) ? "Nam" : "Nữ";
       String textRole = null;
-      String imagePath = "src\\main\\java\\config\\image\\resetImg.png";
+      String imagePath = "src\\main\\java\\config\\image\\resetImg.jpg";
 
       if (user.getRoleId() == 1) {
         textRole = "Admin";
@@ -428,7 +428,7 @@ public class Employees extends JPanel {
     for (UserModel user : search) {
       String gender = user.getGender() == 1 ? "Nam" : "Nữ";
       String role = null;
-      String imagePath = "src\\main\\java\\config\\image\\resetImg.png";
+      String imagePath = "src\\main\\java\\config\\image\\resetImg.jpg";
 
       if(user.getRoleId() == 1) {
         role = "Admin";
