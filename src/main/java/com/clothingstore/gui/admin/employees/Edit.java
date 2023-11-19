@@ -25,7 +25,6 @@ public class Edit extends JFrame {
     public JTextField textField_id;
     public JTextField textField_phone;
     public JTextField textField_username;
-    public JTextField textField_password;
     public JTextField textField_email;
     public JTextField textField_name;
     public JTextField textField_address;
@@ -56,7 +55,7 @@ public class Edit extends JFrame {
         panel.setBackground(new Color(0, 38, 77));
         contentPane.add(panel, BorderLayout.NORTH);
 
-        JLabel lblNewLabel = new JLabel("Edit Employee");
+        JLabel lblNewLabel = new JLabel("Sửa nhân viên");
         lblNewLabel.setForeground(new Color(255, 255, 255));
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
         panel.add(lblNewLabel);
@@ -94,7 +93,7 @@ public class Edit extends JFrame {
         panel_3.add(textField_id, gbc_textField_id);
         textField_id.setColumns(10);
 
-        JLabel lbl_Phone = new JLabel("Phone");
+        JLabel lbl_Phone = new JLabel("Số điện thoại");
         lbl_Phone.setForeground(new Color(0, 0, 0));
         GridBagConstraints gbc_lbl_Phone = new GridBagConstraints();
         gbc_lbl_Phone.insets = new Insets(0, 0, 5, 5);
@@ -128,7 +127,7 @@ public class Edit extends JFrame {
         gbc_textField_username.gridy = 2;
         panel_3.add(textField_username, gbc_textField_username);
 
-        JLabel lbl_Gender = new JLabel("Gender");
+        JLabel lbl_Gender = new JLabel("Giới tính");
         lbl_Gender.setForeground(new Color(0, 0, 0));
         GridBagConstraints gbc_lbl_Gender = new GridBagConstraints();
         gbc_lbl_Gender.insets = new Insets(0, 0, 5, 5);
@@ -137,7 +136,7 @@ public class Edit extends JFrame {
         panel_3.add(lbl_Gender, gbc_lbl_Gender);
 
         comboBox_gender = new JComboBox();
-        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
+        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -145,25 +144,24 @@ public class Edit extends JFrame {
         gbc_comboBox_role.gridy = 2;
         panel_3.add(comboBox_gender, gbc_comboBox_role);
 
+        JLabel lbl_Email = new JLabel("Email");
+        lbl_Email.setForeground(new Color(0, 0, 0));
+        GridBagConstraints gbc_lbl_Email = new GridBagConstraints();
+        gbc_lbl_Email.insets = new Insets(0, 0, 5, 5);
+        gbc_lbl_Email.gridx = 0;
+        gbc_lbl_Email.gridy = 3;
+        panel_3.add(lbl_Email, gbc_lbl_Email);
 
-        JLabel lbl_Password = new JLabel("Password");
-        lbl_Password.setForeground(new Color(0, 0, 0));
-        GridBagConstraints gbc_lbl_Password = new GridBagConstraints();
-        gbc_lbl_Password.insets = new Insets(0, 0, 5, 5);
-        gbc_lbl_Password.gridx = 0;
-        gbc_lbl_Password.gridy = 3;
-        panel_3.add(lbl_Password, gbc_lbl_Password);
+        textField_email = new JTextField();
+        textField_email.setColumns(10);
+        GridBagConstraints gbc_textField_email = new GridBagConstraints();
+        gbc_textField_email.insets = new Insets(0, 0, 5, 5);
+        gbc_textField_email.fill = GridBagConstraints.BOTH;
+        gbc_textField_email.gridx = 1;
+        gbc_textField_email.gridy = 3;
+        panel_3.add(textField_email, gbc_textField_email);
 
-        textField_password = new JTextField();
-        textField_password.setColumns(10);
-        GridBagConstraints gbc_textField_password = new GridBagConstraints();
-        gbc_textField_password.insets = new Insets(0, 0, 5, 5);
-        gbc_textField_password.fill = GridBagConstraints.BOTH;
-        gbc_textField_password.gridx = 1;
-        gbc_textField_password.gridy = 3;
-        panel_3.add(textField_password, gbc_textField_password);
-
-        JLabel lbl_Role = new JLabel("Role");
+        JLabel lbl_Role = new JLabel("Chức vụ");
         lbl_Role.setForeground(new Color(0, 0, 0));
         GridBagConstraints gbc_lbl_Role = new GridBagConstraints();
         gbc_lbl_Role.insets = new Insets(0, 0, 5, 5);
@@ -184,24 +182,24 @@ public class Edit extends JFrame {
             }
         }
 
-        JLabel lbl_Email = new JLabel("Email");
-        lbl_Email.setForeground(new Color(0, 0, 0));
-        GridBagConstraints gbc_lbl_Email = new GridBagConstraints();
-        gbc_lbl_Email.insets = new Insets(0, 0, 5, 5);
-        gbc_lbl_Email.gridx = 0;
-        gbc_lbl_Email.gridy = 4;
-        panel_3.add(lbl_Email, gbc_lbl_Email);
+        JLabel lbl_Name = new JLabel("Tên nhân viên");
+        lbl_Name.setForeground(new Color(0, 0, 0));
+        GridBagConstraints gbc_lbl_Name = new GridBagConstraints();
+        gbc_lbl_Name.insets = new Insets(0, 0, 5, 5);
+        gbc_lbl_Name.gridx = 0;
+        gbc_lbl_Name.gridy = 4;
+        panel_3.add(lbl_Name, gbc_lbl_Name);
 
-        textField_email = new JTextField();
-        textField_email.setColumns(10);
-        GridBagConstraints gbc_textField_email = new GridBagConstraints();
-        gbc_textField_email.insets = new Insets(0, 0, 5, 5);
-        gbc_textField_email.fill = GridBagConstraints.BOTH;
-        gbc_textField_email.gridx = 1;
-        gbc_textField_email.gridy = 4;
-        panel_3.add(textField_email, gbc_textField_email);
+        textField_name = new JTextField();
+        textField_name.setColumns(10);
+        GridBagConstraints gbc_textField_name = new GridBagConstraints();
+        gbc_textField_name.insets = new Insets(0, 0, 5, 5);
+        gbc_textField_name.fill = GridBagConstraints.BOTH;
+        gbc_textField_name.gridx = 1;
+        gbc_textField_name.gridy = 4;
+        panel_3.add(textField_name, gbc_textField_name);
 
-        JLabel lbl_Address = new JLabel("Address");
+        JLabel lbl_Address = new JLabel("Địa chỉ");
         lbl_Address.setForeground(new Color(0, 0, 0));
         GridBagConstraints gbc_lbl_Address = new GridBagConstraints();
         gbc_lbl_Address.insets = new Insets(0, 0, 5, 5);
@@ -218,24 +216,7 @@ public class Edit extends JFrame {
         panel_3.add(textField_address, gbc_textField_address);
         textField_address.setColumns(10);
 
-        JLabel lbl_Name = new JLabel("Name");
-        lbl_Name.setForeground(new Color(0, 0, 0));
-        GridBagConstraints gbc_lbl_Name = new GridBagConstraints();
-        gbc_lbl_Name.insets = new Insets(0, 0, 5, 5);
-        gbc_lbl_Name.gridx = 0;
-        gbc_lbl_Name.gridy = 5;
-        panel_3.add(lbl_Name, gbc_lbl_Name);
-
-        textField_name = new JTextField();
-        textField_name.setColumns(10);
-        GridBagConstraints gbc_textField_name = new GridBagConstraints();
-        gbc_textField_name.insets = new Insets(0, 0, 5, 5);
-        gbc_textField_name.fill = GridBagConstraints.BOTH;
-        gbc_textField_name.gridx = 1;
-        gbc_textField_name.gridy = 5;
-        panel_3.add(textField_name, gbc_textField_name);
-
-        JLabel lbl_Image = new JLabel("Image");
+        JLabel lbl_Image = new JLabel("Hình ảnh");
         lbl_Image.setForeground(new Color(0, 0, 0));
         GridBagConstraints gbc_lbl_Image = new GridBagConstraints();
         gbc_lbl_Image.insets = new Insets(0, 0, 5, 5);
@@ -258,7 +239,7 @@ public class Edit extends JFrame {
         lbl_img.setHorizontalAlignment(SwingConstants.CENTER);
         panel_image.add(lbl_img);
 
-        JButton btn_upload = new JButton("Upload Image");
+        JButton btn_upload = new JButton("Tải hình ảnh");
         GridBagConstraints gbc_btn_upload = new GridBagConstraints();
         gbc_btn_upload.fill = GridBagConstraints.BOTH;
         gbc_btn_upload.insets = new Insets(0, 0, 5, 5);
@@ -292,7 +273,7 @@ public class Edit extends JFrame {
         panel_Model.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Button List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         contentPane.add(panel_Model, BorderLayout.SOUTH);
 
-        JButton btnAdd = new JButton("Edit");
+        JButton btnAdd = new JButton("Sửa");
         btnAdd.setPreferredSize(new Dimension(100,30));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -301,7 +282,7 @@ public class Edit extends JFrame {
         });
         panel_Model.add(btnAdd);
 
-        JButton btnCancel = new JButton("Cancel");
+        JButton btnCancel = new JButton("Hủy");
         btnCancel.setPreferredSize(new Dimension(100,30));
         panel_Model.add(btnCancel);
         btnCancel.addActionListener(new ActionListener() {
@@ -321,7 +302,6 @@ public class Edit extends JFrame {
     public void updateEmployee() {
         int id = Integer.parseInt(textField_id.getText()+"");
         String username = textField_username.getText()+"";
-        String password = textField_password.getText()+"";
         String email = textField_email.getText()+"";
         String name = textField_name.getText()+"";
         String phone = textField_phone.getText()+"";
@@ -334,11 +314,12 @@ public class Edit extends JFrame {
             imagePath = Employees.getInstance().getImage();
         }
 
-        int gender = genderCombobox.equals("Male") ? 1 : 0;
-        UserModel userModel = new UserModel(id,username, password, email, name, phone, address, gender, imagePath , roleID, UserStatus.ACTIVE);
+        int gender = genderCombobox.equals("Nam") ? 1 : 0;
+        UserModel userModel = new UserModel(id,username, "User12345", email, name, phone, address, gender, imagePath , roleID, UserStatus.ACTIVE);
         int updatedRows = userBus.updateModel(userModel);
         if(updatedRows > 0) {
             JOptionPane.showMessageDialog(null, "Update thành công");
+
         }else {
             JOptionPane.showMessageDialog(null, "Update thất bại");
         }

@@ -15,11 +15,11 @@ public class ImageRender extends DefaultTableCellRenderer {
             // Tạo hình ảnh từ chuỗi string
             ImageIcon originalIcon = new ImageIcon((String) value);
 
-            // Thay đổi kích thước của Image thành 70x70 pixels
+            // Thay đổi kích thước của Image thành 50x50 pixels
             Image originalImage = originalIcon.getImage();
-            Image resizedImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            Image resizedImage = originalImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 
-            // Tạo ImageIcon mới với kích thước 70x70
+            // Tạo ImageIcon mới với kích thước 50x50
             ImageIcon resizedIcon = new ImageIcon(resizedImage);
 
             // Đặt alignment để căn giữa biểu tượng trong JLabel
