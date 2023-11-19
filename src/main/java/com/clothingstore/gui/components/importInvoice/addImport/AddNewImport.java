@@ -72,20 +72,21 @@ public class AddNewImport extends JPanel {
             footerBottomPanel.add(new NoProduct());
         }
     
-        // Revalidate and repaint the components to update the UI
         revalidate();
         repaint();
     }
     
 
     private void setBackground() {
-        contentPanel.setBackground(Color.WHITE);
-        footerBottomPanel.setBackground(Color.WHITE);
-        footerTopPanel.setBackground(Color.WHITE);
-        footerTopPanel.setBackground(Color.WHITE);
-        headerPanel.setBackground(Color.WHITE);
-        listImportItemPanel.setBackground(Color.WHITE);
-        groupButton.setBackground(Color.WHITE);
+        contentPanel.setBackground(new Color(179, 209, 255));
+        footerBottomPanel.setBackground(new Color(179, 209, 255));
+        footerTopPanel.setBackground(new Color(179, 209, 255));
+        footerTopPanel.setBackground(new Color(179, 209, 255));
+        headerPanel.setBackground(new Color(179, 209, 255));
+        listImportItemPanel.setBackground(new Color(179, 209, 255));
+        groupButton.setBackground(new Color(179, 209, 255));
+
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
     }
 
     private void handleEvent() {
@@ -287,7 +288,7 @@ public class AddNewImport extends JPanel {
         setLayout(new BorderLayout());
 
         titleLabel.setText("Add Import");
-        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 300, 20));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 200, 20));
         headerPanel.add(titleLabel);
 
         refreshImportButton.setText("Refresh Import");
