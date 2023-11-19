@@ -21,6 +21,7 @@ public class HomePage extends JFrame {
   private static HomePage instance;
   public Authentication authentication;
   UserModel currentUser;
+  Menu menu;
 
   public static HomePage getInstance() {
     if (instance == null) {
@@ -61,6 +62,7 @@ public class HomePage extends JFrame {
       default:
         break;
     }
+    // menu = Menu.getInstance(MenuData.getDataMenu(currentUser.getRoleId()));
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
@@ -145,4 +147,14 @@ public class HomePage extends JFrame {
       repaint();
     }
   };
+
+  public void closeHomePage() {
+    this.removeAll();
+    this.reUI();
+    this.revalidate();
+    this.repaint();
+    dispose();
+    instance = null;
+    Menu.getInstance(null).closeMenuPanel();
+  }
 }

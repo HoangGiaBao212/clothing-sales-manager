@@ -3,6 +3,7 @@ package com.clothingstore.gui.models;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.admin.employees.Employees;
@@ -21,6 +22,8 @@ import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
 import com.clothingstore.models.UserModel;
+import java.util.ArrayList;
+import java.util.List;
 
 import services.Authentication;
 
