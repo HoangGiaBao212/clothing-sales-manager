@@ -318,8 +318,6 @@ public class AddNewImport extends JPanel {
         containerIdProduct.add(idProductTextField);
         footerTopPanel.add(containerIdProduct);
 
-        // footerTopPanel.add(addNewProductButton);
-
         footerPanel.add(footerTopPanel);
 
         footerBottomPanel.setLayout(new BoxLayout(footerBottomPanel, BoxLayout.Y_AXIS));

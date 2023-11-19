@@ -11,7 +11,7 @@ import javax.swing.*;
 import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PointTransactionBUS;
-import com.clothingstore.gui.admin.Dashboard.Card;
+import com.clothingstore.gui.admin.dashboard.Card;
 import com.clothingstore.gui.components.customerList.Invoice;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
