@@ -515,7 +515,7 @@ public class Employees extends JPanel {
         int column = table.getColumnModel().getColumnIndex("Reset");
 
         if (table.columnAtPoint(e.getPoint()) == column) {
-          int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đặt lại mật khẩu mặc định?");
+          int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đặt lại mật khẩu mặc định không?");
           if(choice == 0) {
             int row = table.rowAtPoint(e.getPoint());
             int id = (int) table.getValueAt(row, 0);

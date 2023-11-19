@@ -343,6 +343,7 @@ public class Add extends JFrame {
         newEmployee.setAddress(address);
         newEmployee.setImage(imagePath);
 
+        // success
         int newUserID = UserBUS.getInstance().addModel(newEmployee);
         if(newUserID == 1) {
             JOptionPane.showMessageDialog(null, "Thêm thành công");

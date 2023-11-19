@@ -22,7 +22,7 @@ public class ImageRender extends DefaultTableCellRenderer {
             // Tạo ImageIcon mới với kích thước 50x50
             ImageIcon resizedIcon = new ImageIcon(resizedImage);
 
-            // Đặt alignment để căn giữa biểu tượng trong JLabel
+            // Đặt alignment để căn giữa biểu tượng trong Jlabel
             label.setIcon(resizedIcon);
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
