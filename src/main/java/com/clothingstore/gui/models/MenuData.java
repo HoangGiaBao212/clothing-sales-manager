@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.admin.roleManagement.RoleManagement;
 import com.clothingstore.gui.components.HomePage;
+import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.ProductsHeader;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.importInvoice.addImport.AddNewImport;
@@ -16,6 +18,7 @@ import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.employee.Invoice;
+import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
 import com.clothingstore.models.UserModel;
 
@@ -27,7 +30,7 @@ public class MenuData {
     private ArrayList<MenuItemData> menuItemData;
     private String icon;
     public Authentication authentication;
-    static UserModel currentUser = Authentication.getCurrentUser();
+    private UserModel currentUser = Authentication.getCurrentUser();
 
     public MenuData() {
 
@@ -56,17 +59,18 @@ public class MenuData {
         return icon;
     }
 
-    public static ArrayList<MenuData> getDataMenu() {
+    public ArrayList<MenuData> getDataMenu() {
         ArrayList<MenuData> data;
+        MenuData menuData = new MenuData();
         switch (currentUser.getRoleId()) {
             case 1:
-                data = MenuData.getDataAdmin();
+                data = menuData.getDataAdmin();
                 break;
             case 2:
-                data = MenuData.getDataManager();
+                data = menuData.getDataManager();
                 break;
             case 3:
-                data = MenuData.getDataEmployee();
+                data = menuData.getDataEmployee();
                 break;
             default:
                 throw new IllegalArgumentException("User role is not supported");
@@ -74,50 +78,18 @@ public class MenuData {
         return data;
     }
 
-    public static ArrayList<MenuData> getDataEmployee() {
+    public ArrayList<MenuData> getDataEmployee() {
         ArrayList<MenuData> data = new ArrayList<>();
 
         data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
-        data.add(new MenuData("Khách hàng",null,CustomerAction(),"customer"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+        data.add(new MenuData("Khách hàng", null, CustomerAction(), "customer"));
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
 
         return data;
     }
 
-    public static ArrayList<MenuData> getDataAdmin() {
-        ArrayList<MenuData> data = new ArrayList<>();
-
-        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
-        data.add(new MenuData(
-                "Quản lý nhập hàng",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
-                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
-
-                    }
-                },
-                null, "import"));
-        data.add(new MenuData(
-                "Quản lý nhân viên",
-                new ArrayList<MenuItemData>() {
-                    // {
-                    //     add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
-                    //     add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
-
-                    // }
-                },
-                EmployeeAction(), "employee"));
-        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
-        data.add(new MenuData("Thống kê",null,RevenueAction(), "revenue"));
-        data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
-        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-        return data;
-    }
-
-    public static ArrayList<MenuData> getDataManager() {
+    public ArrayList<MenuData> getDataAdmin() {
         ArrayList<MenuData> data = new ArrayList<>();
 
         data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
@@ -132,12 +104,44 @@ public class MenuData {
                     }
                 },
                 null, "import"));
-        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
+        data.add(new MenuData(
+                "Quản lý nhân viên",
+                new ArrayList<MenuItemData>() {
+                    // {
+                    // add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
+                    // add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
+
+                    // }
+                },
+                EmployeeAction(), "employee"));
+        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
+        data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
+        data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
         return data;
     }
 
-    private static ActionListener ProductAction() {
+    public ArrayList<MenuData> getDataManager() {
+        ArrayList<MenuData> data = new ArrayList<>();
+
+        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+        data.add(new MenuData(
+                "Quản lý nhập hàng",
+                new ArrayList<MenuItemData>() {
+                    {
+                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
+                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
+
+                    }
+                },
+                null, "import"));
+        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
+        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
+        return data;
+    }
+
+    private ActionListener ProductAction() {
         return e -> {
             HomePage.getInstance().Remove();
             if (currentUser.getRoleId() == 3)
@@ -148,7 +152,7 @@ public class MenuData {
         };
     }
 
-    private static ActionListener InvoiceHistoryAction() {
+    private ActionListener InvoiceHistoryAction() {
         return e -> {
             HistoryList.getInstance().setVisible(true);
             HomePage.getInstance().Remove();
@@ -157,7 +161,7 @@ public class MenuData {
         };
     }
 
-    private static ActionListener ImportAction() {
+    private ActionListener ImportAction() {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
@@ -171,29 +175,29 @@ public class MenuData {
         };
     }
 
-    private static ActionListener CustomerAction() {
+    private ActionListener CustomerAction() {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(Customers.getInstance());
         };
     }
 
-    private static ActionListener EmployeeAction() {
+    private ActionListener EmployeeAction() {
         return e -> {
-            HomePage.getInstance().Remove();           
+            HomePage.getInstance().Remove();
             HomePage.getInstance().Add(Employees.getInstance());
-         
+
         };
     }
 
-    private static ActionListener RoleAction() {
+    private ActionListener RoleAction() {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(RoleManagement.getInstance());
         };
     }
 
-    private static ActionListener RevenueAction() {
+    private ActionListener RevenueAction() {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(Revenue.getInstance());
@@ -201,7 +205,7 @@ public class MenuData {
 
     }
 
-    private static ActionListener LogoutAction() {
+    private ActionListener LogoutAction() {
         return e -> {
             int option = JOptionPane.showConfirmDialog(
                     null,
@@ -212,8 +216,15 @@ public class MenuData {
                 Authentication.logout();
                 HomePage.getInstance().dispose();
                 HomePage.getInstance().setVisible(false);
+                HomePage.setInstance(null);
+                Products.setInstance(null);
+                Navigation.setInstance(null);
+                Invoice.setInstance(null);
+                Menu.setInstance(null);
+                ProductsHeader.setInstance(null);
                 Login.getInstance().setVisible(true);
             }
         };
     }
+
 }

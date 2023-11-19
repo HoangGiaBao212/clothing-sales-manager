@@ -10,6 +10,7 @@ import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
+import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
@@ -25,6 +26,10 @@ public class Invoice extends JPanel {
       instance = new Invoice();
     }
     return instance;
+  }
+
+  public static void setInstance(Invoice newInstance) {
+    instance = newInstance;
   }
 
   public Invoice() {

@@ -34,6 +34,14 @@ public class Menu extends JPanel {
         return instance;
     }
 
+    public static Menu getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Menu instance) {
+        Menu.instance = instance;
+    }
+
     public Menu(ArrayList<MenuData> data) {
         initComponents(data);
     }
@@ -45,9 +53,9 @@ public class Menu extends JPanel {
         RoleUser = new JLabel();
         Icon = new JLabel();
         SettingButton = new JButton();
-        setPreferredSize(new Dimension(0,150));
+        setPreferredSize(new Dimension(0, 150));
         setLayout(new BorderLayout());
-        
+
         Panel.setBackground(new Color(0, 26, 51));
         Panel.setLayout(new GridLayout(10, 1, 10, 5));
 
@@ -60,10 +68,11 @@ public class Menu extends JPanel {
             menuButton.setFont(new Font("Segoe UI", 0, 13));
             menuButton.setPreferredSize(new Dimension(50, 50));
             menuButton.setBackground(new Color(153, 153, 255));
-            menuButton.setBorder(BorderFactory.createEmptyBorder(5,32,5,5));
+            menuButton.setBorder(BorderFactory.createEmptyBorder(5, 32, 5, 5));
             menuButton.setBorderPainted(false);
             menuButton.setOpaque(true);
-            menuButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/"+menuData.getIcon()+".png")));
+            menuButton.setIcon(
+                    new ImageIcon(getClass().getResource("/resources/icons/menu/" + menuData.getIcon() + ".png")));
             menuButton.setHorizontalAlignment(SwingConstants.LEFT);
 
             JPopupMenu popupMenu = new JPopupMenu();
@@ -93,8 +102,8 @@ public class Menu extends JPanel {
         }
         add(Panel, BorderLayout.CENTER);
 
-        Header.setPreferredSize(new Dimension(90,90));
-        Header.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        Header.setPreferredSize(new Dimension(90, 90));
+        Header.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
         Header.setLayout(new BorderLayout());
         Header.setBackground(new Color(102, 102, 255));
 
@@ -119,20 +128,21 @@ public class Menu extends JPanel {
         SettingButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/setting.png")));
         SettingButton.setBorder(null);
         SettingButton.setBackground(new Color(102, 102, 255));
-        SettingButton.setPreferredSize(new Dimension(20,20));
+        SettingButton.setPreferredSize(new Dimension(20, 20));
         SettingButton.addActionListener(SettingAction);
         panel.add(SettingButton, BorderLayout.EAST);
 
         Header.add(panel, BorderLayout.NORTH);
         add(Header, BorderLayout.NORTH);
     }
+
     private ActionListener SettingAction = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-             FrameSetting frameSetting = new FrameSetting(currentUser);
-             frameSetting.setVisible(true);
+            FrameSetting frameSetting = new FrameSetting(currentUser);
+            frameSetting.setVisible(true);
         }
-        
+
     };
 }

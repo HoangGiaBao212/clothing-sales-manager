@@ -16,7 +16,7 @@ public class NavData {
   private ActionListener actionListener;
   private static boolean isExpanding = true;
   private static int menuWidth;
-  private static ArrayList<MenuData> menuData = MenuData.getDataMenu();
+  private static ArrayList<MenuData> menuData = new MenuData().getDataMenu();
   private static Menu menu = Menu.getInstance(menuData);
 
   public NavData(String name, ActionListener actionListener) {
@@ -97,7 +97,15 @@ public class NavData {
     };
   }
 
+  public static void resetStaticFields() {
+    menu = null;
+  }
+
   public static ActionListener MenuAction() {
+    if (menu == null) {
+      menuData = new MenuData().getDataMenu();
+      menu = Menu.getInstance(menuData);
+    }
     menuWidth = menu.getWidth();
     return new ActionListener() {
       @Override

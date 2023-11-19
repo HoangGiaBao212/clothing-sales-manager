@@ -1,6 +1,7 @@
 
 package com.clothingstore.gui.employee;
 
+import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.models.NavData;
 
 import java.awt.*;
@@ -22,6 +23,10 @@ public class Navigation extends javax.swing.JPanel {
     }
     return instance;
   }
+
+   public static void setInstance(Navigation newInstance) {
+        instance = newInstance;
+    }
 
   public Navigation() {
     initComponents();
