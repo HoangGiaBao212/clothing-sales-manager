@@ -3,8 +3,11 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
@@ -28,11 +31,15 @@ import services.Validation;
 
 public class EditProduct extends JFrame {
 
+    private ProductModel productModel;
     List<SizeModel> sizeModels = SizeBUS.getInstance().getAllModels();
+    List<SizeItemModel> sizeItemModels;
 
     public EditProduct(ProductModel productModel) {
+        this.productModel = productModel;
+        sizeItemModels = SizeItemBUS.getInstance().getSizeItemsByProductId(productModel.getId());
         this.setBackground(Color.RED);
-        initComponents(productModel);
+        initComponents();
         setSize(900, 500);
         setResizable(false);
         setTitle("Sửa sản phẩm");
@@ -41,7 +48,7 @@ public class EditProduct extends JFrame {
         setVisible(true);
     }
 
-    public void initComponents(ProductModel productModel) {
+    public void initComponents() {
         jLabelName = new JLabel("Tên");
         jLabelPrice = new JLabel("Giá bán");
         jLabelGender = new JLabel("Giới tính");
@@ -52,8 +59,8 @@ public class EditProduct extends JFrame {
         String[] genders = { "Nam", "Nữ" };
         comboBoxCategory = new JComboBox<>();
         comboBoxGender = new JComboBox<>(genders);
-        buttonCancel = new JButton("Cancel");
-        buttonSave = new JButton("Save");
+        buttonCancel = new JButton("Hủy");
+        buttonSave = new JButton("Lưu thay đổi");
         jLabelTitle = new JLabel("Sửa Sản Phẩm");
         jLabelTitle.setFont(new Font("Arial", Font.BOLD, 20));
         jLabelTitle.setSize(910, 100);
@@ -100,12 +107,15 @@ public class EditProduct extends JFrame {
         jTextFieldName.setPreferredSize(new java.awt.Dimension(300, 40));
         jTextFieldName.setText(productModel.getName());
         jTextFieldName.setBorder(null);
+        jTextFieldName.addFocusListener(editText);
 
         jTextFieldPrice.setPreferredSize(new java.awt.Dimension(300, 40));
         jTextFieldPrice.setText(String.valueOf(productModel.getPrice()));
         jTextFieldPrice.setBorder(null);
+        jTextFieldPrice.addFocusListener(editText);
 
         comboBoxGender.setPreferredSize(new java.awt.Dimension(300, 40));
+        comboBoxGender.addFocusListener(editText);
         comboBoxGender.addActionListener(e -> {
             String selectedGender = (String) comboBoxGender.getSelectedItem();
             selectedGenderId = switch (selectedGender) {
@@ -125,6 +135,7 @@ public class EditProduct extends JFrame {
         }
 
         comboBoxCategory.setPreferredSize(new java.awt.Dimension(300, 40));
+        comboBoxCategory.addFocusListener(editText);
         updateCategoryComboBox();
         comboBoxCategory.addActionListener(new ActionListener() {
             @Override
@@ -166,9 +177,13 @@ public class EditProduct extends JFrame {
         }
 
         Map<Integer, Integer> sizeIdToQuantityMap = new HashMap<>();
-        List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance().getSizeItemsByProductId(productModel.getId());
         for (SizeItemModel sizeItemModel : sizeItemModels) {
             sizeIdToQuantityMap.put(sizeItemModel.getSizeId(), sizeItemModel.getQuantity());
+
+            // In ra để kiểm tra giá trị
+            System.out.println("ProId: " + sizeItemModel.getProductId());
+            System.out.println("SizeId: " + sizeItemModel.getSizeId());
+            System.out.println("Quantity: " + sizeItemModel.getQuantity());
         }
 
         // Hiển thị thông tin trên giao diện
@@ -176,24 +191,16 @@ public class EditProduct extends JFrame {
             JLabel label = new JLabel("Size " + sizeNames[i]);
             JTextField textField = new JTextField();
             textField.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
-            sizeToTextFieldMap.put(sizeNames[i], textField);
+            sizeToTextFieldMap.put("Size " + sizeNames[i], textField);
 
             // Kiểm tra xem có thông tin số lượng cho size này không
             if (sizeIdToQuantityMap.containsKey(sizeIds[i])) {
                 // Nếu có, đặt giá trị số lượng vào textField
                 textField.setText(String.valueOf(sizeIdToQuantityMap.get(sizeIds[i])));
+                System.out.println(sizeIdToQuantityMap.get(sizeIds[i]));
             }
+            textField.addFocusListener(editText);
 
-            textField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Xử lý giá trị từ ô nhập liệu
-                    // String inputText = textField.getText();
-                    // System.out.println(sizeNames[i] + ": " + inputText);
-                    // Bạn có thể lưu giá trị này vào cơ sở dữ liệu ở đây hoặc thực hiện các xử lý
-                    // khác
-                }
-            });
             panel.add(label);
             panel.add(textField);
         }
@@ -254,6 +261,7 @@ public class EditProduct extends JFrame {
         add(jPanelImage, BorderLayout.WEST);
         add(jPanelInforProduct, BorderLayout.CENTER);
         pack();
+
     }
 
     private MouseListener actionUploadImage = new MouseListener() {
@@ -366,59 +374,106 @@ public class EditProduct extends JFrame {
 
     };
 
+    private FocusListener editText = new FocusListener() {
+        private String originalText;
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            originalText = ((JTextField) e.getComponent()).getText();
+            if (showMessage) {
+                int option = JOptionPane.showConfirmDialog(null, "Có phải bạn muốn sửa thông tin?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    allowEdit = true;
+                } else {
+                    allowEdit = false;
+                }
+                showMessage = false;
+            }
+            if (allowEdit) {
+                ((JTextField) e.getComponent()).setEditable(true);
+            } else {
+                ((JTextField) e.getComponent()).setEditable(false);
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            String newText = ((JTextField) e.getComponent()).getText();
+
+            if (!originalText.equals(newText)) {
+                edit = true;
+            }
+            showMessage = true;
+        }
+    };
+
     private ActionListener saveButtonAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            sizeSValue = sizeToTextFieldMap.get("Size S").getText();
-            sizeMValue = sizeToTextFieldMap.get("Size M").getText();
-            sizeLValue = sizeToTextFieldMap.get("Size L").getText();
-            sizeXLValue = sizeToTextFieldMap.get("Size XL").getText();
-            sizeXXLValue = sizeToTextFieldMap.get("Size XXL").getText();
-
-            jTextFieldName.setBorder(null);
-            jTextFieldPrice.setBorder(null);
-            System.out.println("click");
-            System.out.println("Name: " + jTextFieldName.getText());
-            System.out.println("Price: " + jTextFieldPrice.getText());
-            System.out.println("Selected Gender ID: " + selectedGenderId);
-            System.out.println("Selected Category ID: " + selectedCategoryId);
-            System.out.println("image: " + imagePath);
-            if (jTextFieldName.getText().trim().isEmpty() || jTextFieldPrice.getText().trim().isEmpty()
-                    || selectedGenderId == -1 || selectedCategoryId == -1
-                    || jTextFieldName.getText().equals(" Product Name *")
-                    || jTextFieldPrice.getText().equals(" Price *") || imagePath == null) {
-                JOptionPane.showMessageDialog(null, "Please fill in all required fields.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                if (Validation.isValidPrice(jTextFieldName.getText())) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid Name Product!", "Error",
+            if (edit == true) {
+                jTextFieldName.setBorder(null);
+                jTextFieldPrice.setBorder(null);
+                sizeSValue = sizeToTextFieldMap.get("Size S").getText();
+                System.out.println(sizeSValue);
+                sizeMValue = sizeToTextFieldMap.get("Size M").getText();
+                sizeLValue = sizeToTextFieldMap.get("Size L").getText();
+                sizeXLValue = sizeToTextFieldMap.get("Size XL").getText();
+                sizeXXLValue = sizeToTextFieldMap.get("Size XXL").getText();
+                if (jTextFieldName.getText().trim().isEmpty() || jTextFieldPrice.getText().trim().isEmpty()
+                        || imagePath == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Thông báo",
                             JOptionPane.ERROR_MESSAGE);
-                    jTextFieldName.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    jTextFieldName.setText(null);
-                } else if (!Validation.isValidPrice(jTextFieldPrice.getText())) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid Price!", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    jTextFieldPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    jTextFieldPrice.setText(null);
                 } else {
-                    // productModel = new ProductModel();
-                    // productModel.setName(jTextFieldName.getText());
-                    // productModel.setGender(selectedGenderId);
-                    // productModel.setCategoryId(selectedCategoryId);
-                    // productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
-                    // productModel.setStatus(0);
-                    // productModel.setImage(imagePath);
-                    // int resuilt = ProductBUS.getInstance().addModel(productModel);
-                    // if (resuilt == 1) {
-                    // JOptionPane.showMessageDialog(null, "Product added successfully", "Success",
-                    // JOptionPane.INFORMATION_MESSAGE);
-                    // dispose();
-                    // } else {
-                    // JOptionPane.showMessageDialog(null, "An error occurred. Please try again.",
-                    // "Error",
-                    // JOptionPane.ERROR_MESSAGE);
-                    // }
+                    if (Validation.isValidPrice(jTextFieldName.getText())) {
+                        JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống!", "Lỗi",
+                                JOptionPane.ERROR_MESSAGE);
+                        jTextFieldName.setBorder(BorderFactory.createLineBorder(Color.RED));
+                        jTextFieldName.setText(null);
+                    } else if (!Validation.isValidPrice(jTextFieldPrice.getText())) {
+                        JOptionPane.showMessageDialog(null, "Giá bán không hợp lệ!", "Lỗi",
+                                JOptionPane.ERROR_MESSAGE);
+                        jTextFieldPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
+                        jTextFieldPrice.setText(null);
+                    } else {
+                        productModel.setName(jTextFieldName.getText());
+                        productModel.setGender(selectedGenderId);
+                        productModel.setCategoryId(selectedCategoryId);
+                        productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
+                        productModel.setImage(imagePath);
+
+                        for (SizeItemModel sizeItemModel : sizeItemModels) {
+                            if (sizeItemModel.getSizeId() == 1) {
+                                sizeItemModel.setQuantity(Integer.parseInt(sizeSValue));
+                            } else if (sizeItemModel.getSizeId() == 2) {
+                                sizeItemModel.setQuantity(Integer.parseInt(sizeMValue));
+                            } else if (sizeItemModel.getSizeId() == 3) {
+                                sizeItemModel.setQuantity(Integer.parseInt(sizeLValue));
+                            } else if (sizeItemModel.getSizeId() == 1) {
+                                sizeItemModel.setQuantity(Integer.parseInt(sizeXLValue));
+                            } else {
+                                sizeItemModel.setQuantity(Integer.parseInt(sizeXXLValue));
+                            }
+                            SizeItemBUS.getInstance().updateModel(sizeItemModel);
+                        }
+                        int resuilt = ProductBUS.getInstance().updateModel(productModel);
+                        if (resuilt == 1) {
+                            JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công", "Thông báo",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            ProductBUS.getInstance().refreshData();
+                            SizeItemBUS.getInstance().refreshData();
+                            dispose();
+                            HomePage.getInstance();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "An error occurred. Please try again.",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
 
@@ -453,5 +508,8 @@ public class EditProduct extends JFrame {
     private String sizeLValue;
     private String sizeXLValue;
     private String sizeXXLValue;
+    private boolean showMessage = true;
+    private boolean allowEdit = false;
+    private boolean edit = false;
 
 }

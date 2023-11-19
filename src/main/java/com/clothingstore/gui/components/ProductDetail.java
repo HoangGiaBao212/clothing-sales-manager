@@ -52,7 +52,8 @@ public class ProductDetail extends JFrame {
   SizeModel sizeModel = null;
 
   private void initComponents(ProductModel productModel) {
-    this.productModel = productModel;;
+    this.productModel = productModel;
+    ;
     List<SizeItemModel> sizeItemModels = new ArrayList<>();
     List<SizeModel> sizeModels = new ArrayList<>();
 
@@ -312,6 +313,8 @@ public class ProductDetail extends JFrame {
       if (choice == JOptionPane.YES_OPTION) {
         productModel.setStatus(0);
         ProductBUS.getInstance().updateModel(productModel);
+        ProductBUS.getInstance().refreshData();
+        HomePage.getInstance();
         setVisible(false);
       }
     }
@@ -327,6 +330,7 @@ public class ProductDetail extends JFrame {
       if (choice == JOptionPane.YES_OPTION) {
         productModel.setStatus(1);
         ProductBUS.getInstance().updateModel(productModel);
+        ProductBUS.getInstance().refreshData();
         setVisible(false);
       }
     }
