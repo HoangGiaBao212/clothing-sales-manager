@@ -324,7 +324,7 @@ public class Edit extends JFrame {
         int updatedRows = userBus.updateModel(userModel);
         if (updatedRows > 0) {
             JOptionPane.showMessageDialog(null, "Update thành công");
-
+            setVisible(false);
         } else {
             JOptionPane.showMessageDialog(null, "Update thất bại");
         }

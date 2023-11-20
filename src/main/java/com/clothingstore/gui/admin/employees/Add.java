@@ -338,6 +338,7 @@ public class Add extends JFrame {
         if (newUserID == 1) {
             JOptionPane.showMessageDialog(null, "Thêm thành công");
             clearForm();
+            setVisible(false);
         }
 
     }
