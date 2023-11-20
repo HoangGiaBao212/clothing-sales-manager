@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.rolePermissionManagement;
+package com.clothingstore.gui.admin.userPermissionManagement;
 
 
 import java.awt.*;
@@ -9,29 +9,29 @@ import javax.swing.*;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.UserModel;
 
-public class RolePermissionManagement extends JPanel {
-  private static RolePermissionManagement instance;
+public class UserPermissionManagement extends JPanel {
+  private static UserPermissionManagement instance;
   List<UserModel> userList = UserBUS.getInstance().getAllModels();
 
-  public static RolePermissionManagement getInstance() {
+  public static UserPermissionManagement getInstance() {
     if (instance == null) {
-      instance = new RolePermissionManagement();
+      instance = new UserPermissionManagement();
     }
     return instance;
   }
 
-  public RolePermissionManagement() {
+  public UserPermissionManagement() {
     initComponents();
   }
 
   private void initComponents() {
     setLayout(new BorderLayout());
     add(UserList.getInstance(), BorderLayout.WEST);
-    add(new EditRolePermission(userList.get(userList.size() - 1)), BorderLayout.CENTER);
+    add(new EditUserPermission(userList.get(userList.size() - 1)), BorderLayout.CENTER);
   }
 
   public void Remove() {
-    Container contentPane = RolePermissionManagement.getInstance();
+    Container contentPane = UserPermissionManagement.getInstance();
     Component centerComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.CENTER);
     contentPane.remove(centerComponent);
     contentPane.revalidate();

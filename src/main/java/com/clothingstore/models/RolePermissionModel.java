@@ -5,18 +5,16 @@ import com.clothingstore.enums.RolePermissionStatus;
 public class RolePermissionModel {
     private int id;
     private int roleId;
-    private int userId;
     private int permissionId;
     private RolePermissionStatus rolePermissionStatus;
 
     public RolePermissionModel() {
     }
 
-    public RolePermissionModel(int id, int roleId, int userId, int permissionId,
+    public RolePermissionModel(int id, int roleId, int permissionId,
             RolePermissionStatus rolePermissionStatus) {
         this.id = id;
         this.roleId = roleId;
-        this.userId = userId;
         this.permissionId = permissionId;
         this.rolePermissionStatus = rolePermissionStatus;
     }
@@ -35,14 +33,6 @@ public class RolePermissionModel {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getPermissionId() {

@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import com.clothingstore.bus.PermissionBUS;
 import com.clothingstore.bus.RoleBUS;
 import com.clothingstore.bus.RolePermissionBUS;
+import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.models.PermissionModel;
 import com.clothingstore.models.RoleModel;
 import com.clothingstore.models.RolePermissionModel;
@@ -184,9 +185,10 @@ public class Add extends JFrame {
         }
 
         RolePermissionModel rolePermission = new RolePermissionModel();
-        rolePermission.setId(rolePermissionBus.getInstance().getNewID());
+        rolePermission.setId(RolePermissionBUS.getInstance().getNewID());
         rolePermission.setRoleId(roleID);
         rolePermission.setPermissionId(permissionID);
+        rolePermission.setRolePermissionStatus(RolePermissionStatus.ACTIVE);
 
         int newRole = rolePermissionBus.addRolePermission(rolePermission);
 

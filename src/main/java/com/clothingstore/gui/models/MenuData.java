@@ -6,11 +6,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.clothingstore.bus.RolePermissionBUS;
-import com.clothingstore.enums.RolePermissionStatus;
+import com.clothingstore.bus.UserPermissionBUS;
+import com.clothingstore.enums.UserPermissionStatus;
 import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.admin.roleManagement.RoleManagement;
-import com.clothingstore.gui.admin.rolePermissionManagement.RolePermissionManagement;
+import com.clothingstore.gui.admin.userPermissionManagement.UserPermissionManagement;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
@@ -24,7 +24,7 @@ import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
-import com.clothingstore.models.RolePermissionModel;
+import com.clothingstore.models.UserPermissionModel;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 
@@ -35,7 +35,7 @@ public class MenuData {
     private String icon;
     public Authentication authentication;
     private UserModel currentUser = Authentication.getCurrentUser();
-    private List<RolePermissionModel> rolePermissionList = new ArrayList<RolePermissionModel>();
+    private List<UserPermissionModel> userPermissionList = new ArrayList<UserPermissionModel>();
 
     public MenuData() {
 
@@ -72,16 +72,16 @@ public class MenuData {
     }
 
     public ArrayList<MenuData> getDataMenuByRolePermission() {
-        rolePermissionList = RolePermissionBUS.getInstance().searchRolePermission("" + currentUser.getId(),
+        userPermissionList = UserPermissionBUS.getInstance().searchModel("" + currentUser.getId(),
                 new String[] { "user_id" });
         ArrayList<MenuData> data = new ArrayList<>();
-        for (RolePermissionModel rolePermissionModel : rolePermissionList) {
-            if (rolePermissionModel.getRolePermissionStatus() == RolePermissionStatus.ACTIVE) {
-                if (rolePermissionModel.getPermissionId() == 1) {
+        for (UserPermissionModel userPermissionModel : userPermissionList) {
+            if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
+                if (userPermissionModel.getPermissionId() == 1) {
                     data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
                 }
 
-                if (rolePermissionModel.getPermissionId() == 2) {
+                if (userPermissionModel.getPermissionId() == 2) {
                     data.add(new MenuData(
                             "Quản lý nhập hàng",
                             new ArrayList<MenuItemData>() {
@@ -93,10 +93,10 @@ public class MenuData {
                             },
                             null, "import"));
                 }
-                if (rolePermissionModel.getPermissionId() == 3) {
+                if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
                 }
-                if (rolePermissionModel.getPermissionId() == 4) {
+                if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
                             "Quản lý nhân viên",
                             new ArrayList<MenuItemData>() {
@@ -109,15 +109,15 @@ public class MenuData {
                             EmployeeAction(), "employee"));
 
                 }
-                if (rolePermissionModel.getPermissionId() == 5) {
+                if (userPermissionModel.getPermissionId() == 5) {
                     data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
 
                 }
-                if (rolePermissionModel.getPermissionId() == 6) {
+                if (userPermissionModel.getPermissionId() == 6) {
                     data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
 
                 }
-                if (rolePermissionModel.getPermissionId() == 7) {
+                if (userPermissionModel.getPermissionId() == 7) {
                     data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
                     data.add(new MenuData("Quản lý phân quyền ", null, RolePermissionAction(), "role"));
                 }
@@ -186,7 +186,7 @@ public class MenuData {
     private ActionListener RolePermissionAction() {
         return e -> {
             HomePage.getInstance().Remove();
-            HomePage.getInstance().Add(RolePermissionManagement.getInstance());
+            HomePage.getInstance().Add(UserPermissionManagement.getInstance());
         };
     }
 

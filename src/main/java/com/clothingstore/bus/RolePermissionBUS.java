@@ -103,11 +103,6 @@ public class RolePermissionBUS {
                         return true;
                     }
                 }
-                case "user_id" -> {
-                    if (Integer.parseInt(value) == rolePermission.getUserId()) {
-                        return true;
-                    }
-                }
                 case "permission_id" -> {
                     if (Integer.parseInt(value) == rolePermission.getPermissionId()) {
                         return true;

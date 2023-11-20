@@ -45,6 +45,14 @@ CREATE TABLE
     `role_permissions` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `role_id` INT,
+        `permission_id` INT,
+        `status` ENUM ('active', 'inactive') NOT NULL DEFAULT "inactive",
+        PRIMARY KEY (`id`)
+    );
+
+CREATE TABLE 
+    `user_permissions` (
+        `id` INT NOT NULL AUTO_INCREMENT,
         `user_id` INT,
         `permission_id` INT,
         `status` ENUM ('active', 'inactive') NOT NULL DEFAULT "inactive",
@@ -198,7 +206,7 @@ ALTER TABLE `role_permissions`
 ADD
     FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 
-ALTER TABLE `role_permissions`
+ALTER TABLE `user_permissions`
 ADD
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 

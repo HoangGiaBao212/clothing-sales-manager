@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.rolePermissionManagement;
+package com.clothingstore.gui.admin.userPermissionManagement;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -20,11 +20,11 @@ public class User extends JPanel {
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        EditRolePermission customerDetail = new EditRolePermission(userModel);
-        RolePermissionManagement.getInstance().Remove();
-        RolePermissionManagement.getInstance().add(customerDetail, BorderLayout.CENTER);
-        RolePermissionManagement.getInstance().revalidate();
-        RolePermissionManagement.getInstance().repaint();
+        EditUserPermission customerDetail = new EditUserPermission(userModel);
+        UserPermissionManagement.getInstance().Remove();
+        UserPermissionManagement.getInstance().add(customerDetail, BorderLayout.CENTER);
+        UserPermissionManagement.getInstance().revalidate();
+        UserPermissionManagement.getInstance().repaint();
       }
     });
   }

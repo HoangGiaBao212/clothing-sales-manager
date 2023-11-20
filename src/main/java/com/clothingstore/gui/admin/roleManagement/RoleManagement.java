@@ -3,11 +3,14 @@ package com.clothingstore.gui.admin.roleManagement;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.clothingstore.bus.PermissionBUS;
 import com.clothingstore.bus.RolePermissionBUS;
+import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.models.PermissionModel;
 import com.clothingstore.models.RolePermissionModel;
 import javax.swing.border.MatteBorder;
@@ -325,11 +328,17 @@ public class RoleManagement extends JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+        Set<String> addedPermissions = new HashSet<>();
+
         for (RolePermissionModel role : rolePermissionBUS.getAllModels()) {
             if (role.getRoleId() == 1) {
                 for (PermissionModel permission : permissionBUS.getAllModels()) {
-                    if (role.getPermissionId() == permission.getId()) {
-                        model_tableAdmin.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                    if (role.getPermissionId() == permission.getId()
+                            && role.getRolePermissionStatus() == RolePermissionStatus.ACTIVE) {
+                        if (!addedPermissions.contains(permission.getPermissionName())) {
+                            model_tableAdmin.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                            addedPermissions.add(permission.getPermissionName());
+                        }
                     }
                 }
             }
@@ -386,11 +395,17 @@ public class RoleManagement extends JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+        Set<String> addedPermissions = new HashSet<>();
+
         for (RolePermissionModel role : rolePermissionBUS.getAllModels()) {
             if (role.getRoleId() == 2) {
                 for (PermissionModel permission : permissionBUS.getAllModels()) {
-                    if (role.getPermissionId() == permission.getId()) {
-                        model_tableManager.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                    if (role.getPermissionId() == permission.getId()
+                            && role.getRolePermissionStatus() == RolePermissionStatus.ACTIVE) {
+                        if (!addedPermissions.contains(permission.getPermissionName())) {
+                            model_tableManager.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                            addedPermissions.add(permission.getPermissionName());
+                        }
                     }
                 }
             }
@@ -406,11 +421,17 @@ public class RoleManagement extends JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+        Set<String> addedPermissions = new HashSet<>();
+
         for (RolePermissionModel role : rolePermissionBUS.getAllModels()) {
             if (role.getRoleId() == 3) {
                 for (PermissionModel permission : permissionBUS.getAllModels()) {
-                    if (role.getPermissionId() == permission.getId()) {
-                        model_tableEmployee.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                    if (role.getPermissionId() == permission.getId()
+                            && role.getRolePermissionStatus() == RolePermissionStatus.ACTIVE) {
+                        if (!addedPermissions.contains(permission.getPermissionName())) {
+                            model_tableEmployee.addRow(new Object[] { role.getId(), permission.getPermissionName() });
+                            addedPermissions.add(permission.getPermissionName());
+                        }
                     }
                 }
             }
@@ -436,7 +457,7 @@ public class RoleManagement extends JPanel {
 
     public void showUpdateInfo(int id) {
         Edit editRole = new Edit();
-        RolePermissionModel rolePermissionModel = rolePermissionBUS.getInstance().getRolePermissionById(id);
+        RolePermissionModel rolePermissionModel = RolePermissionBUS.getInstance().getRolePermissionById(id);
         rolePermissionBUS.refreshData();
 
         editRole.textField_id.setText(String.valueOf(rolePermissionModel.getId()));

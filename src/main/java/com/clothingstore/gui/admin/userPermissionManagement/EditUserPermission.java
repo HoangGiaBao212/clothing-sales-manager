@@ -1,20 +1,19 @@
-package com.clothingstore.gui.admin.rolePermissionManagement;
+package com.clothingstore.gui.admin.userPermissionManagement;
 
 import javax.swing.*;
 
 import com.clothingstore.bus.PermissionBUS;
-import com.clothingstore.bus.PointBUS;
-import com.clothingstore.bus.RolePermissionBUS;
-import com.clothingstore.enums.RolePermissionStatus;
+import com.clothingstore.bus.UserPermissionBUS;
+import com.clothingstore.enums.UserPermissionStatus;
 import com.clothingstore.models.PermissionModel;
-import com.clothingstore.models.RolePermissionModel;
+import com.clothingstore.models.UserPermissionModel;
 import com.clothingstore.models.UserModel;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class EditRolePermission extends JPanel {
+public class EditUserPermission extends JPanel {
 
     private JPanel mainPanel;
     private JLabel NamePanel;
@@ -23,67 +22,66 @@ public class EditRolePermission extends JPanel {
     private JScrollPane Scroll;
     private JPanel Product;
     private JPanel HeaderProducts;
-    private JButton updateRolePerButton;
+    private JButton updateUserPerButton;
 
     private String name;
     private String value;
 
     private UserModel userModel;
-    private List<RolePermissionModel> rolePermissionList;
+    private List<UserPermissionModel> userPermissionList;
     private List<JCheckBox> checkBoxList;
 
-    public EditRolePermission(UserModel userModel) {
+    public EditUserPermission(UserModel userModel) {
         this.userModel = userModel;
-        rolePermissionList = RolePermissionBUS.getInstance().searchRolePermission(String.valueOf(userModel.getId()),
+        userPermissionList = UserPermissionBUS.getInstance().searchModel(String.valueOf(userModel.getId()),
                 new String[] { "user_id" });
         initComponents();
         handleEvent();
     }
 
     private void handleEvent() {
-        updateRolePerButton.addActionListener(e -> updateRolePermission());
+        updateUserPerButton.addActionListener(e -> updateUserPermission());
     }
 
-    private void updateRolePermission() {
+    private void updateUserPermission() {
         int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật quyền không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     
         if (option == JOptionPane.YES_OPTION) {
             for (int i = 0; i < checkBoxList.size(); i++) {
                 JCheckBox checkBox = checkBoxList.get(i);
-                RolePermissionModel rolePermissionModel = rolePermissionList.get(i);
+                UserPermissionModel userPermissionModel = userPermissionList.get(i);
     
                 if (checkBox.isSelected()) {
-                    rolePermissionModel.setRolePermissionStatus(RolePermissionStatus.ACTIVE);
+                    userPermissionModel.setStatus(UserPermissionStatus.ACTIVE);
                 } else {
-                    rolePermissionModel.setRolePermissionStatus(RolePermissionStatus.INACTIVE);
+                    userPermissionModel.setStatus(UserPermissionStatus.INACTIVE);
                 }
-                RolePermissionBUS.getInstance().updateRolePermission(rolePermissionModel);
+                UserPermissionBUS.getInstance().updateModel(userPermissionModel);
             }
-    
             JOptionPane.showMessageDialog(this, "Cập nhật quyền thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
 
-    public EditRolePermission(String name, String value) {
+    public EditUserPermission(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    public ArrayList<EditRolePermission> getData() {
-        ArrayList<EditRolePermission> data = new ArrayList<EditRolePermission>() {
+    public ArrayList<EditUserPermission> getData() {
+        ArrayList<EditUserPermission> data = new ArrayList<EditUserPermission>() {
             {
-                add(new EditRolePermission("Mã nhân viên", String.valueOf(userModel.getId())));
-                add(new EditRolePermission("Tên nhân viên", userModel.getName()));
-                add(new EditRolePermission("Số điện thoại", userModel.getPhone()));
-                add(new EditRolePermission("Email", userModel.getEmail()));
+                add(new EditUserPermission("Mã nhân viên", String.valueOf(userModel.getId())));
+                add(new EditUserPermission("Tên nhân viên", userModel.getName()));
+                add(new EditUserPermission("Số điện thoại", userModel.getPhone()));
+                add(new EditUserPermission("Email", userModel.getEmail()));
             }
         };
         return data;
     }
 
     public void initComponents() {
-        updateRolePerButton = new JButton("Update role permissions");
+        updateUserPerButton = new JButton("Update user permissions");
         NamePanel = new JLabel();
         Info = new JPanel();
         Products = new JPanel();
@@ -110,7 +108,7 @@ public class EditRolePermission extends JPanel {
 
         add(NamePanel, BorderLayout.NORTH);
 
-        for (EditRolePermission UserDetail : getData()) {
+        for (EditUserPermission UserDetail : getData()) {
             JPanel panel = new JPanel();
             panel.setBackground(Color.WHITE);
             panel.setPreferredSize(new Dimension(60, 60));
@@ -137,17 +135,17 @@ public class EditRolePermission extends JPanel {
         idUser.setFont(new Font("Segoe UI", Font.BOLD, 20));
         HeaderProducts.add(idUser, BorderLayout.NORTH);
         Products.add(HeaderProducts, BorderLayout.NORTH);
-        Product.setLayout(new GridLayout(rolePermissionList.size(), 1));
-        for (RolePermissionModel rolePermissionModel : rolePermissionList) {
+        Product.setLayout(new GridLayout(userPermissionList.size(), 1));
+        for (UserPermissionModel userPermissionModel : userPermissionList) {
             PermissionModel permissionModel = PermissionBUS.getInstance()
-                    .getModelById(rolePermissionModel.getPermissionId());
+                    .getModelById(userPermissionModel.getPermissionId());
             JCheckBox checkBox = new JCheckBox("" + permissionModel.getPermissionName());
-            checkBox.setSelected(rolePermissionModel.getRolePermissionStatus() == RolePermissionStatus.ACTIVE);
+            checkBox.setSelected(userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE);
             checkBoxList.add(checkBox);
             Product.add(checkBox);
         }
         Products.add(Product, BorderLayout.CENTER);
-        Products.add(updateRolePerButton, BorderLayout.SOUTH);
+        Products.add(updateUserPerButton, BorderLayout.SOUTH);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 10);

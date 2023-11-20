@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.rolePermissionManagement;
+package com.clothingstore.gui.admin.userPermissionManagement;
 
 import java.awt.*;
 import java.awt.event.*;

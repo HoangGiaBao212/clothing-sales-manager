@@ -184,7 +184,7 @@ public class Edit extends JFrame {
 			}
 		}
 		
-		RolePermissionModel rolePermission = new RolePermissionModel(id,roleID,Authentication.getCurrentUser().getId(),permissionID,RolePermissionStatus.INACTIVE);
+		RolePermissionModel rolePermission = new RolePermissionModel(id,roleID,permissionID,RolePermissionStatus.INACTIVE);
 		int updatedRows = rolePermissionBus.updateRolePermission(rolePermission);
 		if(updatedRows > 0) {
 			JOptionPane.showMessageDialog(null, "Update thành công");
