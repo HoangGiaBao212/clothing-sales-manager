@@ -56,7 +56,7 @@ public class Menu extends JPanel {
     setLayout(new BorderLayout());
 
     Panel.setBackground(new Color(0, 26, 51));
-    Panel.setLayout(new GridLayout(10, 1, 10, 5));
+    Panel.setLayout(new GridLayout(0, 1, 10, 5));
 
     for (MenuData menuData : data) {
 

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.clothingstore.bus.UserPermissionBUS;
 import com.clothingstore.enums.UserPermissionStatus;
+import com.clothingstore.gui.admin.dashboard.Dashboard;
 import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.admin.roleManagement.RoleManagement;
 import com.clothingstore.gui.admin.userPermissionManagement.UserPermissionManagement;
@@ -80,7 +81,6 @@ public class MenuData {
             if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
                 if (userPermissionModel.getPermissionId() == 1) {
                     data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-                    data.add(new MenuData("Thống kê", null, StatisticAction(), "revenue"));
                 }
 
                 if (userPermissionModel.getPermissionId() == 2) {
@@ -97,6 +97,7 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+                    data.add(new MenuData("Thống kê Ngày", null, StatisticAction(), "revenue"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
@@ -120,6 +121,7 @@ public class MenuData {
 
                 }
                 if (userPermissionModel.getPermissionId() == 7) {
+                    data.add(new MenuData("DashBoard", null, DashboardAction(), "role"));
                     data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
                     data.add(new MenuData("Quản lý phân quyền ", null, RolePermissionAction(), "role"));
                 }
@@ -203,6 +205,13 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(new Statistic());
+        };
+
+    }
+    private ActionListener DashboardAction() {
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(Dashboard.getInstance());
         };
 
     }
