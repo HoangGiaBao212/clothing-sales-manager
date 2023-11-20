@@ -59,9 +59,13 @@ public class AddNewImport extends JPanel {
 
     public AddNewImport() {
         initComponents();
-        handleEvent();
-        setBackground();
+        initData();
+        setupEventHandlers();
+        setPanelBackground();
         updateStatusTable();
+    }
+
+    private void initData() {
     }
 
     private void updateStatusTable() {
@@ -69,19 +73,22 @@ public class AddNewImport extends JPanel {
             footerBottomPanel.removeAll();
             footerBottomPanel.repaint();
             footerBottomPanel.add(new ImportItemAddHeader());
+            footerPanel.add(listImportItemScrollPane);
+            footerPanel.add(groupButton);
         } else {
             listImportItemPanel.removeAll();
             listImportItemPanel.repaint();
             footerBottomPanel.removeAll();
             footerBottomPanel.repaint();
             footerBottomPanel.add(new NoProduct());
+            footerPanel.remove(listImportItemScrollPane);
+            footerPanel.remove(groupButton);
         }
-
         revalidate();
         repaint();
     }
 
-    private void setBackground() {
+    private void setPanelBackground() {
         contentPanel.setBackground(new Color(179, 209, 255));
         footerBottomPanel.setBackground(new Color(179, 209, 255));
         footerTopPanel.setBackground(new Color(179, 209, 255));
@@ -94,7 +101,7 @@ public class AddNewImport extends JPanel {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
     }
 
-    private void handleEvent() {
+    private void setupEventHandlers() {
         idProductTextField.addActionListener(e -> addNewItemProduct());
         saveButton.addActionListener(e -> addNewImport());
         addNewProductButton.addActionListener(e -> addNewProduct());
@@ -127,19 +134,23 @@ public class AddNewImport extends JPanel {
         new AddNewProduct();
     }
 
-    private boolean isNumeric(String str) {
-        try {
-            int value = Integer.parseInt(str);
-            return value > 0;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     private void addNewImport() {
         if (importItemList.size() <= 0) {
-            JOptionPane.showMessageDialog(null, "Import Item List is empty");
+            JOptionPane.showMessageDialog(null, "Import Item List is empty",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
+        }
+
+        for (ImportItemsModel importItemsModel : importItemList) {
+            if (importItemsModel.getPrice() <= 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A product with an id of " + importItemsModel.getProduct_id() + " has a price of 0",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
 
         int totalPrice = 0;
@@ -193,14 +204,16 @@ public class AddNewImport extends JPanel {
                     }
                 }
             }
-            // nameEmpLabel.setText("");
             sizeItemList.clear();
             importItemList.clear();
+            JOptionPane.showMessageDialog(null, "Create import successfully");
+            updateStatusTable();
             listImportItemPanel.removeAll();
             listImportItemPanel.repaint();
-            JOptionPane.showMessageDialog(null, "Create import successfully");
         } else {
-            JOptionPane.showMessageDialog(null, "Create import canceled");
+            JOptionPane.showMessageDialog(null, "Create import canceled",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -211,12 +224,16 @@ public class AddNewImport extends JPanel {
 
             if (productModel == null) {
                 SwingUtilities.invokeLater(
-                        () -> JOptionPane.showMessageDialog(idProductTextField, "No model found for id: " + idProduct));
+                        () -> JOptionPane.showMessageDialog(idProductTextField, "No model found for id: " + idProduct,
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE));
             } else {
                 Boolean check = true;
                 for (ImportItemsModel importItemModel : importItemList) {
                     if (importItemModel.getProduct_id() == idProduct) {
-                        JOptionPane.showMessageDialog(idProductTextField, "Product is already imported");
+                        JOptionPane.showMessageDialog(idProductTextField, "Product is already imported",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
                         check = false;
                         break;
                     }
@@ -238,7 +255,9 @@ public class AddNewImport extends JPanel {
             }
         } catch (NumberFormatException e) {
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(idProductTextField,
-                    "Invalid idProduct. Please enter a valid integer."));
+                    "Invalid idProduct. Please enter a valid integer.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE));
         }
     }
 
@@ -256,7 +275,6 @@ public class AddNewImport extends JPanel {
     }
 
     private void initComponents() {
-
         headerPanel = new JPanel();
         titleLabel = new JLabel();
         refreshImportButton = new JButton();
@@ -280,11 +298,10 @@ public class AddNewImport extends JPanel {
         listImportItemPanel = new JPanel();
         listImportItemPanel.setLayout(new BoxLayout(listImportItemPanel, BoxLayout.Y_AXIS));
         userModel = Authentication.getCurrentUser();
-
         setLayout(new BorderLayout());
 
         titleLabel.setText("Add Import");
-        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 200, 20));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
         headerPanel.add(titleLabel);
 
         refreshImportButton.setText("Refresh Import");
@@ -305,15 +322,15 @@ public class AddNewImport extends JPanel {
         footerPanel.setLayout(new BoxLayout(footerPanel, BoxLayout.Y_AXIS));
 
         idEmpLabel.setText("Id Employee: " + userModel.getId());
-        idEmpLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        idEmpLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         footerTopPanel.add(idEmpLabel);
         nameEmpLabel.setText("Employee name: " + userModel.getName());
-        nameEmpLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        nameEmpLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         footerTopPanel.add(nameEmpLabel);
         containerIdProduct = new JPanel();
         containerIdProduct.setLayout(new FlowLayout());
         idProductLabel.setText("Enter product id and press enter");
-        idProductLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        idProductLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         containerIdProduct.add(idProductLabel);
         containerIdProduct.add(idProductTextField);
         footerTopPanel.add(containerIdProduct);
@@ -331,10 +348,10 @@ public class AddNewImport extends JPanel {
         footerBottomPanel.add(listImportItemScrollPane);
 
         footerPanel.add(footerBottomPanel);
-        footerPanel.add(listImportItemScrollPane);
+        // footerPanel.add(listImportItemScrollPane);
         groupButton.add(cancelImportButton);
         groupButton.add(saveButton);
-        footerPanel.add(groupButton);
+        // footerPanel.add(groupButton);
 
         add(footerPanel, BorderLayout.CENTER);
     }
@@ -353,18 +370,6 @@ public class AddNewImport extends JPanel {
 
     public static void setSizeItemList(java.util.List<SizeItemModel> sizeItemList) {
         AddNewImport.sizeItemList = sizeItemList;
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Clothing Store Application");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setLocationRelativeTo(null);
-
-        AddNewImport addNewImportPanel = new AddNewImport();
-        frame.add(addNewImportPanel);
-
-        frame.setVisible(true);
     }
 
     public void updateSequenceNumbers(int deletedIndex) {
