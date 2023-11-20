@@ -9,11 +9,9 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
-import com.clothingstore.models.SizeItemModel;
 
 public class Invoice extends JPanel {
   private static Invoice instance;
