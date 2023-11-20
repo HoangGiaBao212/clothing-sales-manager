@@ -23,6 +23,7 @@ public class FrameSetting extends JFrame {
 
   public FrameSetting(UserModel userModel) {
     genderID = userModel.getGender();
+    passWord = userModel.getPassword();
     this.userModel = userModel;
     user.add(userModel.getName());
     user.add(null);
@@ -194,8 +195,11 @@ public class FrameSetting extends JFrame {
           JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
               JOptionPane.INFORMATION_MESSAGE);
         } else {
-          int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-          if (option == JOptionPane.YES_OPTION) {
+          String input = JOptionPane.showInputDialog(null, "Nhập mật khẩu");
+          // int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận",
+          // JOptionPane.YES_NO_OPTION);
+          Boolean resuilt = PasswordUtils.checkPassword(input, passWord);
+          if (resuilt) {
             userModel.setGender(selectedGenderId);
             int result = UserBUS.getInstance().updateModel(userModel);
             if (result == 1) {
@@ -204,6 +208,8 @@ public class FrameSetting extends JFrame {
               UserBUS.getInstance().refreshData();
               dispose();
             }
+          } else {
+            JOptionPane.showMessageDialog(null, "Mật khẩu không đúng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
           }
         }
       } else {
@@ -224,4 +230,5 @@ public class FrameSetting extends JFrame {
   private boolean checkValidation = true;
   private int selectedGenderId;
   private int genderID;
+  private String passWord;
 }
