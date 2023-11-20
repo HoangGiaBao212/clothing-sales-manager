@@ -21,6 +21,7 @@ import com.clothingstore.gui.components.importInvoice.addImport.AddNewImport;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.gui.components.statistical.Revenue;
+import com.clothingstore.gui.components.statistical.Statistic;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
@@ -79,6 +80,7 @@ public class MenuData {
             if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
                 if (userPermissionModel.getPermissionId() == 1) {
                     data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+                    data.add(new MenuData("Thống kê", null, StatisticAction(), "revenue"));
                 }
 
                 if (userPermissionModel.getPermissionId() == 2) {
@@ -194,6 +196,13 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(Revenue.getInstance());
+        };
+
+    }
+    private ActionListener StatisticAction() {
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(new Statistic());
         };
 
     }
