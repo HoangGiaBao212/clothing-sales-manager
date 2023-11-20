@@ -67,19 +67,6 @@ public class MenuData {
     public ArrayList<MenuData> getDataMenu() {
         ArrayList<MenuData> data;
         MenuData menuData = new MenuData();
-        // switch (currentUser.getRoleId()) {
-        // case 1:
-        // data = menuData.getDataAdmin();
-        // break;
-        // case 2:
-        // data = menuData.getDataManager();
-        // break;
-        // case 3:
-        // data = menuData.getDataEmployee();
-        // break;
-        // default:
-        // throw new IllegalArgumentException("User role is not supported");
-        // }
         data = menuData.getDataMenuByRolePermission();
         return data;
     }
@@ -137,11 +124,6 @@ public class MenuData {
             }
         }
         data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-        // data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        // data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-        // data.add(new MenuData("Khách hàng", null, CustomerAction(), "customer"));
-        // data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-
         return data;
     }
 
@@ -264,7 +246,7 @@ public class MenuData {
         };
     }
 
-      private ActionListener RolePermissionAction() {
+    private ActionListener RolePermissionAction() {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(RolePermissionManagement.getInstance());

@@ -24,11 +24,11 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   private static RolePermissionModel createRolePermissionModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
+    int roleId = rs.getInt("role_id");
     int userId = rs.getInt("user_id");
     int permissionId = rs.getInt("permission_id");
-    int roleId = rs.getInt("role_id"); // Thêm đoạn này
     RolePermissionStatus status = RolePermissionStatus.valueOf(rs.getString("status").toUpperCase());
-    return new RolePermissionModel(id, userId, permissionId, roleId, status);
+    return new RolePermissionModel(id, roleId, userId, permissionId, status);
   }
 
   @Override
