@@ -3,9 +3,6 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
-import javax.management.relation.Role;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -16,9 +13,6 @@ import com.clothingstore.bus.RoleBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.RoleModel;
 import com.clothingstore.models.UserModel;
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
-
-import services.PasswordUtils;
 
 public class Add extends JFrame {
 
@@ -135,7 +129,7 @@ public class Add extends JFrame {
         panel_3.add(lbl_gender, gbc_lbl_gender);
 
         comboBox_gender = new JComboBox();
-        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
+        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -168,7 +162,7 @@ public class Add extends JFrame {
 
         comboBox_role = new JComboBox();
         for (RoleModel role : roleBus.getAllModels()) {
-            if(role.getId() > 1) {
+            if (role.getId() > 1) {
                 comboBox_role.addItem(role.getName());
             }
         }
@@ -261,8 +255,6 @@ public class Add extends JFrame {
             }
         });
 
-
-
         JPanel panel_Model = new JPanel();
         panel_Model.setPreferredSize(new Dimension(500, 100));
         panel_Model.setBorder(new TitledBorder(null, "Các chức năng",
@@ -319,16 +311,14 @@ public class Add extends JFrame {
     }
 
     public void addEmployee() {
-        String username = textField_username.getText()+"";
-        String email = textField_email.getText()+"";
-        String name = textField_name.getText()+"";
-        String phone = textField_phone.getText()+"";
-        String genderCombobox = comboBox_gender.getSelectedItem()+"";
-        String role = comboBox_role.getSelectedItem()+"";
+        String username = textField_username.getText() + "";
+        String email = textField_email.getText() + "";
+        String name = textField_name.getText() + "";
+        String phone = textField_phone.getText() + "";
+        String genderCombobox = comboBox_gender.getSelectedItem() + "";
+        String role = comboBox_role.getSelectedItem() + "";
         int roleID = role.toLowerCase().equals("manager") ? 2 : 3;
-        String address = textField_address.getText()+"";
-
-
+        String address = textField_address.getText() + "";
 
         int gender = genderCombobox.equals("Nam") ? 1 : 0;
 
@@ -345,12 +335,11 @@ public class Add extends JFrame {
 
         // success
         int newUserID = UserBUS.getInstance().addModel(newEmployee);
-        if(newUserID == 1) {
+        if (newUserID == 1) {
             JOptionPane.showMessageDialog(null, "Thêm thành công");
             clearForm();
         }
 
     }
-
 
 }

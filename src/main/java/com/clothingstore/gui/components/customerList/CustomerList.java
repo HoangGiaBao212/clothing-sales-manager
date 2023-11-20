@@ -61,7 +61,7 @@ public class CustomerList extends JPanel {
     ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
     ButtonMenu.setBackground(color);
     ButtonMenu.setBorder(null);
-    ButtonMenu.addActionListener(NavData.MenuAction());
+    ButtonMenu.addActionListener(new NavData().MenuAction());
     NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
 
     Header.add(NameHeader, BorderLayout.NORTH);
@@ -70,7 +70,6 @@ public class CustomerList extends JPanel {
     Panel.setLayout(new BorderLayout());
     Panel.setBackground(color);
 
-    //TODO: Add actionListener on buttonSearch.
     ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png"))); // NOI18N
     ButtonSearch.setBorder(null);
     ButtonSearch.setBackground(Color.WHITE);

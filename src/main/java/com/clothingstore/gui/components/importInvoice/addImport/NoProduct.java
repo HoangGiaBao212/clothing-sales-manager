@@ -27,6 +27,5 @@ public class NoProduct extends JPanel {
         contentPanel.setBackground(new Color(179, 209, 255)); 
 
         setPreferredSize(new Dimension(200, 150));
-        noProductLabel.setForeground(Color.WHITE);
     }
 }

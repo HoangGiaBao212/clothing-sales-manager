@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AddImport extends JFrame {
 
-    String[] title = {"Employee Name", "Employee Id"};
+    String[] title = { "Employee Name", "Employee Id" };
 
     List<ImportItemsModel> importList = new ArrayList<>();
 
@@ -49,7 +49,6 @@ public class AddImport extends JFrame {
         setSize(800, 500);
         setPreferredSize(new Dimension(800, 500));
 
-
         // employee info panel
         EmployeeInfo.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -62,21 +61,21 @@ public class AddImport extends JFrame {
         EmployeeInfo.add(NameFrame, c);
 
         c.gridy = 1;
-        c.ipady= 3;
+        c.ipady = 3;
         c.gridwidth = 1;
-        c.ipadx=15;
+        c.ipadx = 15;
         EmployeeInfo.add(EmployeeNameLabel, c);
-        
+
         c.gridx = 1;
-        EmployeeName.setPreferredSize(new Dimension(130,25));
+        EmployeeName.setPreferredSize(new Dimension(130, 25));
         EmployeeInfo.add(EmployeeName, c);
 
         c.gridy = 2;
         c.gridx = 0;
         EmployeeInfo.add(EmployeeIdLabel, c);
-        
+
         c.gridx = 1;
-        EmployeeId.setPreferredSize(new Dimension(130,25));
+        EmployeeId.setPreferredSize(new Dimension(130, 25));
         EmployeeInfo.add(EmployeeId, c);
 
         Header.setLayout(new BorderLayout());
@@ -88,11 +87,11 @@ public class AddImport extends JFrame {
         JPanel Panel = new JPanel();
         Panel.setLayout(new GridBagLayout());
 
-        ValueSearch.setPreferredSize(new Dimension(130,25));
+        ValueSearch.setPreferredSize(new Dimension(130, 25));
         Panel.add(ValueSearch);
 
         ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
-        ButtonSearch.setPreferredSize(new Dimension(25,25));
+        ButtonSearch.setPreferredSize(new Dimension(25, 25));
         ButtonSearch.addActionListener(SearchProductAction);
         Panel.add(ButtonSearch);
 
@@ -107,23 +106,24 @@ public class AddImport extends JFrame {
         Panel2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         gbc.insets.left = 15;
 
-        NameProduct.setPreferredSize(new Dimension(190,25));
+        NameProduct.setPreferredSize(new Dimension(190, 25));
         Panel2.add(NameProduct, gbc);
 
-        IdProduct.setPreferredSize(new Dimension(90,25));
+        IdProduct.setPreferredSize(new Dimension(90, 25));
         Panel2.add(IdProduct, gbc);
 
-        // Size.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL", "XXL"}));
+        // Size.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL",
+        // "XXL"}));
 
-        Quantity.setPreferredSize(new Dimension(50,25));
+        Quantity.setPreferredSize(new Dimension(50, 25));
 
         ButtonSave.addActionListener(SaveProductAction);
-        Header.add(Panel2,BorderLayout.SOUTH);
+        Header.add(Panel2, BorderLayout.SOUTH);
 
         // products
-        Products.setLayout(new GridLayout(5,1));
+        Products.setLayout(new GridLayout(5, 1));
         HeaderInvoice EmployeeInfoHeader = new HeaderInvoice();
-        EmployeeInfoHeader.setPreferredSize(new Dimension(30,60));
+        EmployeeInfoHeader.setPreferredSize(new Dimension(30, 60));
         Products.add(EmployeeInfoHeader);
 
         Scroll.setViewportView(Products);
@@ -131,8 +131,9 @@ public class AddImport extends JFrame {
 
         add(Header, BorderLayout.NORTH);
         add(Content, BorderLayout.CENTER);
-        
+
     }
+
     private JPanel Content;
     private JPanel Header;
     private JPanel EmployeeInfo;
@@ -159,23 +160,22 @@ public class AddImport extends JFrame {
             ImportItemsModel importItemsModel = new ImportItemsModel(1, importModel.getId(), 5, 1, 1, 45.6);
 
             Product product = new Product(importItemsModel, 1);
-            product.setPreferredSize(new Dimension(30,40));
+            product.setPreferredSize(new Dimension(30, 40));
             Products.add(product);
             importList.add(importItemsModel);
             revalidate();
             repaint();
-            System.out.println(importList.get(0).getQuantity());
         }
-        
+
     };
     private ActionListener SearchProductAction = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            List<ProductModel> list = ProductBUS.getInstance().searchModel(ValueSearch.getText(), new String[]{"id","name"});
+            List<ProductModel> list = ProductBUS.getInstance().searchModel(ValueSearch.getText(),
+                    new String[] { "id", "name" });
             ProductModel productModel = list.get(0);
         }
-        
     };
 
     public static void main(String[] args) {

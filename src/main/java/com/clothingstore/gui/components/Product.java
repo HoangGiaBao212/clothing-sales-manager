@@ -3,15 +3,8 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-
-import com.clothingstore.gui.utilities.ImageUtil;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
 

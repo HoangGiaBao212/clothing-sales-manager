@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import com.clothingstore.gui.components.HomePage;
-import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceDetail;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.models.OrderModel;
@@ -30,10 +29,8 @@ public class Invoice extends JPanel {
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-          HomePage.getInstance().Remove();
-          InvoiceHistory.getInstance().removeAll();
-          InvoiceHistory.getInstance().add(new InvoiceDetail(orderModel), BorderLayout.CENTER);
-          HomePage.getInstance().Add(InvoiceHistory.getInstance());
+        HomePage.getInstance().Remove();
+        HomePage.getInstance().Add(new InvoiceDetail(orderModel));
       }
     });
   }

@@ -19,13 +19,18 @@ public class ProductsHeader extends JPanel {
 
   private static ProductsHeader instance;
 
-  static UserModel currentUser = Authentication.getCurrentUser();
+  UserModel currentUser = Authentication.getCurrentUser();
 
   public static ProductsHeader getInstance() {
     if (instance == null) {
       instance = new ProductsHeader();
+
     }
     return instance;
+  }
+
+  public static void setInstance(ProductsHeader instance) {
+    ProductsHeader.instance = instance;
   }
 
   public ProductsHeader() {
@@ -108,12 +113,12 @@ public class ProductsHeader extends JPanel {
     ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
     ButtonMenu.setBackground(color);
     ButtonMenu.setBorder(null);
-    ButtonMenu.addActionListener(NavData.MenuAction());
+    ButtonMenu.addActionListener(new NavData().MenuAction());
 
     if (currentUser.getRoleId() != 3) {
-      add(ButtonMenu, BorderLayout.WEST);
       Panel.add(ButtonAdd, new AbsoluteConstraints(440, 10, 80, 30));
     }
+    add(ButtonMenu, BorderLayout.WEST);
 
     add(Panel, BorderLayout.LINE_END);
   }

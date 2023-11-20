@@ -20,13 +20,17 @@ public class Products extends JPanel {
   Boolean Visible = false;
   private static Products instance;
 
-  int currentColumn = 1 ;
+  int currentColumn = 1;
 
   public static Products getInstance() {
     if (instance == null) {
       instance = new Products();
     }
     return instance;
+  }
+
+  public static void setInstance(Products newInstance) {
+    instance = newInstance;
   }
 
   public Products() {
@@ -67,21 +71,19 @@ public class Products extends JPanel {
     add(Scroll, BorderLayout.CENTER);
   }
 
-  private JPanel Products;
+  private static JPanel Products;
   private JScrollPane Scroll;
 
   public void showProductsFromResult(List<ProductModel> productModels) {
-    revalidate();
-    repaint();
     Products.removeAll();
     for (ProductModel products : productModels) {
       if (products.getStatus() == 1) {
         Product product = new Product(products);
         product.setBackground(new Color(170, 205, 239));
         Products.add(product);
-        revalidate();
-        repaint();
       }
     }
+    revalidate();
+    repaint();
   }
 }

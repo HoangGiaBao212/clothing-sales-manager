@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.Dashboard;
+package com.clothingstore.gui.admin.dashboard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Dashboard extends JPanel {
         mainPanel.add(Content.getInstance(), BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
 
-        ArrayList<MenuData> data = MenuData.getDataAdmin();
+        ArrayList<MenuData> data = new MenuData().getDataAdmin();
         Menu.getInstance(data).setPreferredSize(new Dimension(150,150));
         add(Menu.getInstance(data), BorderLayout.WEST);
     }

@@ -8,7 +8,6 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.CategoryBUS;
-import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeBUS;
 import com.clothingstore.bus.SizeItemBUS;
@@ -69,7 +68,6 @@ public class ProductDetail extends JFrame {
         totalProduct += sizeItemModel.getQuantity();
       }
     }
-    System.out.println(sizeItemModels.size());
 
     Name = new JTextField();
     Price = new JLabel();
@@ -268,13 +266,12 @@ public class ProductDetail extends JFrame {
         new EditProduct(productModel);
       }
     });
-    getContentPane().add(buttonEdit, new AbsoluteConstraints(250, 250, -1, -1));
 
     if (currentUser.getRoleId() == 3) {
-      ButtonAdd.setText("Add To Cart");
+      ButtonAdd.setText("Thêm vào giỏ");
       ButtonAdd.setPreferredSize(new Dimension(94, 28));
       ButtonAdd.addActionListener(AddToCartAction);
-      getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 250, -1, -1));
+      getContentPane().add(ButtonAdd, new AbsoluteConstraints(550, 250, -1, -1));
 
       getContentPane().add(Spinner, new AbsoluteConstraints(320, 165, 60, 20));
 
@@ -285,6 +282,7 @@ public class ProductDetail extends JFrame {
       Total.setForeground(new Color(102, 102, 102));
       getContentPane().add(Total, new AbsoluteConstraints(460, 165, 170, 17));
       sizeS.doClick();
+      getContentPane().add(buttonEdit, new AbsoluteConstraints(250, 250, -1, -1));
       getContentPane().add(Remaining, new AbsoluteConstraints(320, 165, 170, 17));
 
       if (productModel.getStatus() != 0) {

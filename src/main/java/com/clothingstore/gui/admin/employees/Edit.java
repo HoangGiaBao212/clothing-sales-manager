@@ -3,8 +3,6 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -36,9 +34,10 @@ public class Edit extends JFrame {
     private String imagePath;
     private boolean isImageChanged = false;
 
-    public Edit(){
+    public Edit() {
         initComponents();
     }
+
     public void initComponents() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 647, 577);
@@ -51,7 +50,7 @@ public class Edit extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(500,50));
+        panel.setPreferredSize(new Dimension(500, 50));
         panel.setBackground(new Color(0, 38, 77));
         contentPane.add(panel, BorderLayout.NORTH);
 
@@ -66,13 +65,15 @@ public class Edit extends JFrame {
 
         JPanel panel_3 = new JPanel();
         panel_3.setForeground(new Color(255, 255, 255));
-        panel_3.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Employee information", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+        panel_3.setBorder(new TitledBorder(
+                new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+                "Employee information", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
         panel_1.add(panel_3);
         GridBagLayout gbl_panel_3 = new GridBagLayout();
-        gbl_panel_3.columnWidths = new int[]{78, 180, 0, 75, 166, 0, 0, 0};
-        gbl_panel_3.rowHeights = new int[]{0, 43, 37, 39, 36, 41, 51, 0, 0};
-        gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-        gbl_panel_3.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_3.columnWidths = new int[] { 78, 180, 0, 75, 166, 0, 0, 0 };
+        gbl_panel_3.rowHeights = new int[] { 0, 43, 37, 39, 36, 41, 51, 0, 0 };
+        gbl_panel_3.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+        gbl_panel_3.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
         panel_3.setLayout(gbl_panel_3);
 
         JLabel lbl_ID = new JLabel("ID");
@@ -136,7 +137,7 @@ public class Edit extends JFrame {
         panel_3.add(lbl_Gender, gbc_lbl_Gender);
 
         comboBox_gender = new JComboBox();
-        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
+        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -169,7 +170,7 @@ public class Edit extends JFrame {
         gbc_lbl_Role.gridy = 3;
         panel_3.add(lbl_Role, gbc_lbl_Role);
 
-        comboBox_role= new JComboBox();
+        comboBox_role = new JComboBox();
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;
@@ -177,7 +178,7 @@ public class Edit extends JFrame {
         gbc_comboBox_1.gridy = 3;
         panel_3.add(comboBox_role, gbc_comboBox_1);
         for (RoleModel role : roleBus.getAllModels()) {
-            if(role.getId() > 1) {
+            if (role.getId() > 1) {
                 comboBox_role.addItem(role.getName());
             }
         }
@@ -269,12 +270,14 @@ public class Edit extends JFrame {
         });
 
         JPanel panel_Model = new JPanel();
-        panel_Model.setPreferredSize(new Dimension(500,100));
-        panel_Model.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Button List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel_Model.setPreferredSize(new Dimension(500, 100));
+        panel_Model.setBorder(new TitledBorder(
+                new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+                "Button List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         contentPane.add(panel_Model, BorderLayout.SOUTH);
 
         JButton btnAdd = new JButton("Sửa");
-        btnAdd.setPreferredSize(new Dimension(100,30));
+        btnAdd.setPreferredSize(new Dimension(100, 30));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateEmployee();
@@ -283,11 +286,11 @@ public class Edit extends JFrame {
         panel_Model.add(btnAdd);
 
         JButton btnCancel = new JButton("Hủy");
-        btnCancel.setPreferredSize(new Dimension(100,30));
+        btnCancel.setPreferredSize(new Dimension(100, 30));
         panel_Model.add(btnCancel);
         btnCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Window window = SwingUtilities.getWindowAncestor((Component)e.getSource());
+                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
                 if (window != null) {
                     window.dispose();
                 }
@@ -300,28 +303,29 @@ public class Edit extends JFrame {
     }
 
     public void updateEmployee() {
-        int id = Integer.parseInt(textField_id.getText()+"");
-        String username = textField_username.getText()+"";
-        String email = textField_email.getText()+"";
-        String name = textField_name.getText()+"";
-        String phone = textField_phone.getText()+"";
-        String genderCombobox = comboBox_gender.getSelectedItem()+"";
-        String role = comboBox_role.getSelectedItem()+"";
+        int id = Integer.parseInt(textField_id.getText() + "");
+        String username = textField_username.getText() + "";
+        String email = textField_email.getText() + "";
+        String name = textField_name.getText() + "";
+        String phone = textField_phone.getText() + "";
+        String genderCombobox = comboBox_gender.getSelectedItem() + "";
+        String role = comboBox_role.getSelectedItem() + "";
         int roleID = role.toLowerCase().equals("manager") ? 2 : 3;
-        String address = textField_address.getText()+"";
+        String address = textField_address.getText() + "";
 
-        if(imagePath == null) {
+        if (imagePath == null) {
             imagePath = Employees.getInstance().getImage();
         }
 
         int gender = genderCombobox.equals("Nam") ? 1 : 0;
-        UserModel userModel = new UserModel(id,username, "User12345", email, name, phone, address, gender, imagePath , roleID, UserStatus.ACTIVE);
+        UserModel userModel = new UserModel(id, username, "User12345", email, name, phone, address, gender, imagePath,
+                roleID, UserStatus.ACTIVE);
         // success
         int updatedRows = userBus.updateModel(userModel);
-        if(updatedRows > 0) {
+        if (updatedRows > 0) {
             JOptionPane.showMessageDialog(null, "Update thành công");
 
-        }else {
+        } else {
             JOptionPane.showMessageDialog(null, "Update thất bại");
         }
     }

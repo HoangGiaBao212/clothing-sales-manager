@@ -25,6 +25,10 @@ public class Invoice extends JPanel {
     return instance;
   }
 
+  public static void setInstance(Invoice newInstance) {
+    instance = newInstance;
+  }
+
   public Invoice() {
     initComponents();
     backupOrderItemsList = new ArrayList<>(orderItemList);

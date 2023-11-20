@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
@@ -179,25 +177,16 @@ public class EditProduct extends JFrame {
         Map<Integer, Integer> sizeIdToQuantityMap = new HashMap<>();
         for (SizeItemModel sizeItemModel : sizeItemModels) {
             sizeIdToQuantityMap.put(sizeItemModel.getSizeId(), sizeItemModel.getQuantity());
-
-            // In ra để kiểm tra giá trị
-            System.out.println("ProId: " + sizeItemModel.getProductId());
-            System.out.println("SizeId: " + sizeItemModel.getSizeId());
-            System.out.println("Quantity: " + sizeItemModel.getQuantity());
         }
 
-        // Hiển thị thông tin trên giao diện
         for (int i = 0; i < sizeNames.length; i++) {
             JLabel label = new JLabel("Size " + sizeNames[i]);
             JTextField textField = new JTextField();
             textField.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
             sizeToTextFieldMap.put("Size " + sizeNames[i], textField);
 
-            // Kiểm tra xem có thông tin số lượng cho size này không
             if (sizeIdToQuantityMap.containsKey(sizeIds[i])) {
-                // Nếu có, đặt giá trị số lượng vào textField
                 textField.setText(String.valueOf(sizeIdToQuantityMap.get(sizeIds[i])));
-                System.out.println(sizeIdToQuantityMap.get(sizeIds[i]));
             }
             textField.addFocusListener(editText);
 
@@ -283,33 +272,26 @@ public class EditProduct extends JFrame {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 imagePath = selectedFile.getAbsolutePath();
-
-                // Tạo ImageIcon từ đường dẫn ảnh
                 ImageIcon originalIcon = new ImageIcon(imagePath);
-
-                // Giảm kích thước ảnh nếu cần thiết
-                int maxImageWidth = 400; // Đặt kích thước tối đa mong muốn
+                int maxImageWidth = 400;
                 int maxImageHeight = 300;
 
                 int originalWidth = originalIcon.getIconWidth();
                 int originalHeight = originalIcon.getIconHeight();
 
                 if (originalWidth > maxImageWidth || originalHeight > maxImageHeight) {
-                    // Tính toán tỷ lệ giảm kích thước
                     double scale = Math.min((double) maxImageWidth / originalWidth,
                             (double) maxImageHeight / originalHeight);
 
-                    // Tạo ảnh mới với kích thước giảm
                     Image scaledImage = originalIcon.getImage().getScaledInstance((int) (originalWidth * scale),
                             (int) (originalHeight * scale), Image.SCALE_SMOOTH);
 
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
                     iconUploadLabel.setIcon(scaledIcon);
-
                 } else {
-                    // Nếu ảnh không cần giảm kích thước, hiển thị nguyên bản
                     iconUploadLabel.setIcon(originalIcon);
                 }
+                edit = true;
                 cancelUpload.addMouseListener(actionCancelImage);
                 northPanel.add(cancelUpload);
                 jPanelImage.add(northPanel, BorderLayout.NORTH);
@@ -415,7 +397,6 @@ public class EditProduct extends JFrame {
                 jTextFieldName.setBorder(null);
                 jTextFieldPrice.setBorder(null);
                 sizeSValue = sizeToTextFieldMap.get("Size S").getText();
-                System.out.println(sizeSValue);
                 sizeMValue = sizeToTextFieldMap.get("Size M").getText();
                 sizeLValue = sizeToTextFieldMap.get("Size L").getText();
                 sizeXLValue = sizeToTextFieldMap.get("Size XL").getText();
