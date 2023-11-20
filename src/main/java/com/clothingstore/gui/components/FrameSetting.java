@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+
+import services.PasswordUtils;
 import services.Validation;
 
 import javax.swing.*;
@@ -23,7 +25,7 @@ public class FrameSetting extends JFrame {
     genderID = userModel.getGender();
     this.userModel = userModel;
     user.add(userModel.getName());
-    user.add(userModel.getPassword());
+    user.add(null);
     user.add(userModel.getEmail());
     user.add(userModel.getPhone());
     user.add(String.valueOf(userModel.getGender()));
@@ -102,8 +104,10 @@ public class FrameSetting extends JFrame {
             } else if (index == 1) {
               checkValidation = Validation.isValidPassword(value[index]);
               if (checkValidation) {
-                userModel.setPassword(value[index]);
+                userModel.setPassword(PasswordUtils.hashPassword(value[index]));
               }
+              if (Value.getText() == null || Value.getText().trim().isEmpty())
+                checkValidation = true;
             } else if (index == 2) {
               checkValidation = Validation.isValidEmail(value[index]);
               if (checkValidation) {
@@ -190,8 +194,7 @@ public class FrameSetting extends JFrame {
           JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
               JOptionPane.INFORMATION_MESSAGE);
         } else {
-          int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận",
-              JOptionPane.YES_NO_OPTION);
+          int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận", JOptionPane.YES_NO_OPTION);
           if (option == JOptionPane.YES_OPTION) {
             userModel.setGender(selectedGenderId);
             int result = UserBUS.getInstance().updateModel(userModel);
@@ -204,8 +207,7 @@ public class FrameSetting extends JFrame {
           }
         }
       } else {
-        JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ", "Thông báo",
-            JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
       }
     }
   };
@@ -219,7 +221,7 @@ public class FrameSetting extends JFrame {
   private JButton ButtonSave;
   private JComboBox<String> comboBoxGender;
   private boolean edit = false;
-  private boolean checkValidation;
+  private boolean checkValidation = true;
   private int selectedGenderId;
   private int genderID;
 }
