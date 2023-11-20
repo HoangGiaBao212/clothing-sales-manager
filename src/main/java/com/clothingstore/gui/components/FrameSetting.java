@@ -6,16 +6,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import services.Validation;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.UserBUS;
+import com.clothingstore.dao.UserDAO;
+import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
 
 public class FrameSetting extends JFrame {
-  UserModel userModel;
+  UserModel userModel = new UserModel();
   String[] name = { "Name", "Password", "Email", "Phone", "Gender", "Address", "Status" };
   String[] value = { "", "", "", "", "", "", "" };
+  String[] genders = { "Gender *", "Male", "Female" };
   ArrayList<String> user = new ArrayList<>() ;
   private boolean dataChanged;
 
@@ -34,20 +39,21 @@ public class FrameSetting extends JFrame {
     setLocationRelativeTo(null);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
-  public void updateUserData(UserModel userModel){
+  public void updateUserData(UserModel user) {
+    user.setName(value[0]);
+    user.setPassword(value[1]);
+    user.setEmail(value[2]);
+    user.setPhone(value[3]);
     
-    userModel.setName(value[0]);
-    userModel.setPassword(value[1]);
-    userModel.setEmail(value[2]);
-    userModel.setPhone(value[3]);
-    try{
-    userModel.setGender(Integer.valueOf(value[4]));
-    }catch(NumberFormatException e){
+    try {
+        user.setGender(Integer.parseInt(value[4]));
+    } catch (NumberFormatException e) {
+        // Handle the case where value[4] is not a valid integer
         System.out.println("Invalid gender value: " + value[4]);
     }
-    userModel.setAddress(value[5]);
-    userModel.setUserStatus(null);
     
+    user.setAddress(value[5]);
+    user.setUserStatus(null);
   }
   public void initComponents() {
     Scroll = new JScrollPane();
@@ -57,10 +63,35 @@ public class FrameSetting extends JFrame {
     Buttons = new JPanel();
     ButtonBack = new JButton("Thoát");
     ButtonSave = new JButton("Lưu");
-
+    jTextFieldName = new JTextField();
+    jTextFieldPassword = new JTextField();
+    jTextFieldEmail = new JTextField();
+    jTextFieldPhone = new JTextField();
+    jTextFieldAddress = new JTextField();
+    //
+    comboBoxGender = new JComboBox<>(genders);
+    comboBoxGender.setPreferredSize(new java.awt.Dimension(300, 40));
+    comboBoxGender.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String selectedGender = (String) comboBoxGender.getSelectedItem();
+            if ("Male".equals(selectedGender)) {
+                selectedGenderId = 1;
+            } else if ("Female".equals(selectedGender)) {
+                selectedGenderId = 0;
+            } else {
+                selectedGenderId = -1;
+            }
+        }
+    });
+    jPanelInfor = new JPanel();
+    jPanelInfor.setLayout(new BoxLayout(jPanelInfor, BoxLayout.Y_AXIS));
+    jPanelInfor.add(comboBoxGender);
+    jPanelInfor.add(Box.createVerticalStrut(10));
     setSize(800, 500);
     setPreferredSize(new Dimension(800, 500));
     setLayout(new BorderLayout());
+    //
 
     add(NameLabel, BorderLayout.NORTH);
 
@@ -121,18 +152,16 @@ public class FrameSetting extends JFrame {
     Buttons.add(ButtonBack);
     Buttons.add(ButtonSave);
     add(Buttons, BorderLayout.SOUTH);
-
+    //
+    ButtonSave.addActionListener(SaveAction);
+    ButtonBack.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        dispose();
+    }
+    });
   }
-
-  private JScrollPane Scroll;
-  private JPanel Panel;
-  private JPanel Content;
-  private JLabel NameLabel;
-  private JPanel Buttons;
-  private JButton ButtonBack;
-  private JButton ButtonSave;
-
-
+  
   public static void main(String[] args) {
     FrameSetting frameSetting = new FrameSetting(UserBUS.getInstance().getModelById(1));
     frameSetting.setVisible(true);
@@ -142,17 +171,36 @@ public class FrameSetting extends JFrame {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-      for (int i = 0; i< 7; i++) {
+      for (int i = 0; i< 1; i++) {
         System.out.println(value[i]);
-        if(dataChanged){
-        updateUserData(userModel);
-      } else{
-        dispose();
-      }
-      }
-    }
-    
-  };
-
+      
+         }
+        
+        }
+      
+    };
   
+ 
+  private JScrollPane Scroll;
+  private JPanel Panel;
+  private JPanel Content;
+  private JLabel NameLabel;
+  private JPanel Buttons;
+  private JButton ButtonBack;
+  private JButton ButtonSave;
+  //
+  private JTextField jTextFieldName;
+  private JTextField jTextFieldPassword;
+  private JTextField jTextFieldEmail;
+  private JTextField jTextFieldPhone;
+  private JTextField jTextFieldAddress;
+  private JComboBox comboBoxGender;
+  private int selectedGenderId = -1;
+  private JPanel jPanelInfor;
+  //
 }
+
+
+
+
+
