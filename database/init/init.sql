@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@clothingstore
+-- Active: 1700452364000@@127.0.0.1@3306@clothingstore
 
 DROP DATABASE IF EXISTS clothingstore;
 
@@ -45,7 +45,9 @@ CREATE TABLE
     `role_permissions` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `role_id` INT,
+        `user_id` INT,
         `permission_id` INT,
+        `status` ENUM ('active', 'inactive') NOT NULL DEFAULT "inactive",
         PRIMARY KEY (`id`)
     );
 
@@ -195,6 +197,10 @@ ADD
 ALTER TABLE `role_permissions`
 ADD
     FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+ALTER TABLE `role_permissions`
+ADD
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `role_permissions`
 ADD

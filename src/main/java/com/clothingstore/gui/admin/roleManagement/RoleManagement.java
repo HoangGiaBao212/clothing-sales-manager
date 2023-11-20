@@ -425,7 +425,7 @@ public class RoleManagement extends JPanel {
 
     public void deleteRole(int id) {
         try {
-            int deletedRow = RolePermissionBUS.getInstance().deleteModel(id);
+            int deletedRow = RolePermissionBUS.getInstance().deleteRolePermission(id);
             if (deletedRow > 0) {
                 JOptionPane.showMessageDialog(null, "Xóa role thành công");
             }
@@ -436,7 +436,7 @@ public class RoleManagement extends JPanel {
 
     public void showUpdateInfo(int id) {
         Edit editRole = new Edit();
-        RolePermissionModel rolePermissionModel = rolePermissionBUS.getInstance().getModelById(id);
+        RolePermissionModel rolePermissionModel = rolePermissionBUS.getInstance().getRolePermissionById(id);
         rolePermissionBUS.refreshData();
 
         editRole.textField_id.setText(String.valueOf(rolePermissionModel.getId()));

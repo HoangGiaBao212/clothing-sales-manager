@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.interfaces.IDAO;
 import com.clothingstore.models.RolePermissionModel;
 
@@ -23,16 +24,17 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   private static RolePermissionModel createRolePermissionModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
-    int roleId = rs.getInt("role_id");
+    int userId = rs.getInt("user_id");
     int permissionId = rs.getInt("permission_id");
-    return new RolePermissionModel(id, roleId, permissionId);
+    int roleId = rs.getInt("role_id"); // Thêm đoạn này
+    RolePermissionStatus status = RolePermissionStatus.valueOf(rs.getString("status").toUpperCase());
+    return new RolePermissionModel(id, userId, permissionId, roleId, status);
   }
 
   @Override
   public ArrayList<RolePermissionModel> readDatabase() {
     ArrayList<RolePermissionModel> rolePermissionList = new ArrayList<>();
-    try (
-        ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM role_permissions")) {
+    try (ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM role_permissions")) {
       while (rs.next()) {
         RolePermissionModel rolePermissionModel = createRolePermissionModelFromResultSet(rs);
         rolePermissionList.add(rolePermissionModel);
@@ -45,12 +47,13 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int insert(RolePermissionModel rolePermission) {
-    if (rolePermission == null) {
-      throw new IllegalArgumentException("The rolePermission cannot be null");
-    }
-
-    String insertSql = "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
-    Object[] args = { rolePermission.getRoleId(), rolePermission.getPermissionId() };
+    String insertSql = "INSERT INTO role_permissions (user_id, permission_id, role_id, status) VALUES (?, ?, ?, ?)";
+    Object[] args = {
+        rolePermission.getUserId(),
+        rolePermission.getPermissionId(),
+        rolePermission.getRoleId(), // Thêm giá trị role_id
+        rolePermission.getRolePermissionStatus().toString().toUpperCase()
+    };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
     } catch (SQLException e) {
@@ -61,8 +64,14 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int update(RolePermissionModel rolePermission) {
-	  String updateSql = "UPDATE role_permissions SET permission_id = ?, role_id = ? WHERE id = ?";
-    Object[] args = { rolePermission.getPermissionId(), rolePermission.getRoleId() ,rolePermission.getId()};
+    String updateSql = "UPDATE role_permissions SET user_id = ?, permission_id = ?, role_id = ?, status = ? WHERE id = ?";
+    Object[] args = {
+        rolePermission.getUserId(),
+        rolePermission.getPermissionId(),
+        rolePermission.getRoleId(), // Thêm giá trị role_id
+        rolePermission.getRolePermissionStatus().toString().toUpperCase(),
+        rolePermission.getId()
+    };
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);
     } catch (SQLException e) {
@@ -72,9 +81,9 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
   }
 
   @Override
-  public int delete(int roleId) {
+  public int delete(int id) {
     String deleteSql = "DELETE FROM role_permissions WHERE id = ?";
-    Object[] args = { roleId };
+    Object[] args = { id };
     try {
       return DatabaseConnection.executeUpdate(deleteSql, args);
     } catch (SQLException e) {
@@ -92,19 +101,17 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
       String query;
       if (columnNames == null || columnNames.length == 0) {
-        // Search all columns
-        query = "SELECT * FROM role_permissions WHERE CONCAT(role_id, permission_id) LIKE ?";
+        query = "SELECT * FROM role_permissions WHERE CONCAT(id, user_id, permission_id, status) LIKE ?";
+      } else if (columnNames.length == 1) {
+        String column = columnNames[0];
+        query = "SELECT * FROM role_permissions WHERE " + column + " LIKE ?";
       } else {
-        // Search specific columns in role_permissions table
-        query = "SELECT * FROM role_permissions WHERE CONCAT(" +
-            String.join(", ", columnNames) +
+        query = "SELECT id, user_id, permission_id, status FROM role_permissions WHERE CONCAT("
+            + String.join(", ", columnNames) +
             ") LIKE ?";
       }
 
-      try (
-          PreparedStatement pst = DatabaseConnection.getPreparedStatement(
-              query,
-              "%" + condition + "%")) {
+      try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {
         try (ResultSet rs = pst.executeQuery()) {
           List<RolePermissionModel> rolePermissionList = new ArrayList<>();
           while (rs.next()) {
@@ -123,5 +130,19 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
       e.printStackTrace();
       return Collections.emptyList();
     }
+  }
+
+  public RolePermissionModel getRolePermissionById(int id) {
+    String query = "SELECT * FROM role_permissions WHERE id = ?";
+    Object[] args = { id };
+    try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, args);
+        ResultSet rs = pst.executeQuery()) {
+      if (rs.next()) {
+        return createRolePermissionModelFromResultSet(rs);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

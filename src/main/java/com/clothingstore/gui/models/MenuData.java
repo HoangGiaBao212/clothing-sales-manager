@@ -2,9 +2,15 @@ package com.clothingstore.gui.models;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
+
+import com.clothingstore.bus.RolePermissionBUS;
+import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.admin.roleManagement.RoleManagement;
+import com.clothingstore.gui.admin.rolePermissionManagement.RolePermissionManagement;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
@@ -18,6 +24,7 @@ import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
+import com.clothingstore.models.RolePermissionModel;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 
@@ -28,6 +35,7 @@ public class MenuData {
     private String icon;
     public Authentication authentication;
     private UserModel currentUser = Authentication.getCurrentUser();
+    private List<RolePermissionModel> rolePermissionList = new ArrayList<RolePermissionModel>();
 
     public MenuData() {
 
@@ -59,19 +67,81 @@ public class MenuData {
     public ArrayList<MenuData> getDataMenu() {
         ArrayList<MenuData> data;
         MenuData menuData = new MenuData();
-        switch (currentUser.getRoleId()) {
-            case 1:
-                data = menuData.getDataAdmin();
-                break;
-            case 2:
-                data = menuData.getDataManager();
-                break;
-            case 3:
-                data = menuData.getDataEmployee();
-                break;
-            default:
-                throw new IllegalArgumentException("User role is not supported");
+        // switch (currentUser.getRoleId()) {
+        // case 1:
+        // data = menuData.getDataAdmin();
+        // break;
+        // case 2:
+        // data = menuData.getDataManager();
+        // break;
+        // case 3:
+        // data = menuData.getDataEmployee();
+        // break;
+        // default:
+        // throw new IllegalArgumentException("User role is not supported");
+        // }
+        data = menuData.getDataMenuByRolePermission();
+        return data;
+    }
+
+    public ArrayList<MenuData> getDataMenuByRolePermission() {
+        rolePermissionList = RolePermissionBUS.getInstance().searchRolePermission("" + currentUser.getId(),
+                new String[] { "user_id" });
+        ArrayList<MenuData> data = new ArrayList<>();
+        for (RolePermissionModel rolePermissionModel : rolePermissionList) {
+            if (rolePermissionModel.getRolePermissionStatus() == RolePermissionStatus.ACTIVE) {
+                if (rolePermissionModel.getPermissionId() == 1) {
+                    data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+                }
+
+                if (rolePermissionModel.getPermissionId() == 2) {
+                    data.add(new MenuData(
+                            "Quản lý nhập hàng",
+                            new ArrayList<MenuItemData>() {
+                                {
+                                    add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
+                                    add(new MenuItemData("Thêm hóa đơn", ImportAction()));
+
+                                }
+                            },
+                            null, "import"));
+                }
+                if (rolePermissionModel.getPermissionId() == 3) {
+                    data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+                }
+                if (rolePermissionModel.getPermissionId() == 4) {
+                    data.add(new MenuData(
+                            "Quản lý nhân viên",
+                            new ArrayList<MenuItemData>() {
+                                // {
+                                // add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
+                                // add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
+
+                                // }
+                            },
+                            EmployeeAction(), "employee"));
+
+                }
+                if (rolePermissionModel.getPermissionId() == 5) {
+                    data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
+
+                }
+                if (rolePermissionModel.getPermissionId() == 6) {
+                    data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
+
+                }
+                if (rolePermissionModel.getPermissionId() == 7) {
+                    data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
+                    data.add(new MenuData("Quản lý phân quyền ", null, RolePermissionAction(), "role"));
+                }
+            }
         }
+        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
+        // data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+        // data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+        // data.add(new MenuData("Khách hàng", null, CustomerAction(), "customer"));
+        // data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
+
         return data;
     }
 
@@ -191,6 +261,13 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(RoleManagement.getInstance());
+        };
+    }
+
+      private ActionListener RolePermissionAction() {
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(RolePermissionManagement.getInstance());
         };
     }
 

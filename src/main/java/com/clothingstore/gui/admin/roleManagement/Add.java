@@ -188,7 +188,7 @@ public class Add extends JFrame {
         rolePermission.setRoleId(roleID);
         rolePermission.setPermissionId(permissionID);
 
-        int newRole = rolePermissionBus.addModel(rolePermission);
+        int newRole = rolePermissionBus.addRolePermission(rolePermission);
 
     }
 
