@@ -1,7 +1,5 @@
 package com.clothingstore.gui.components;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,12 +9,7 @@ import java.util.ArrayList;
 import services.Validation;
 
 import javax.swing.*;
-
-import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.bus.UserBUS;
-import com.clothingstore.dao.UserDAO;
-import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
 
 public class FrameSetting extends JFrame {
@@ -192,22 +185,27 @@ public class FrameSetting extends JFrame {
   private ActionListener SaveAction = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent arg0) {
-      if (edit == false && genderID == selectedGenderId) {
-        JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
-            JOptionPane.INFORMATION_MESSAGE);
-      } else {
-        int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận",
-            JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-          userModel.setGender(selectedGenderId);
-          int result = UserBUS.getInstance().updateModel(userModel);
-          if (result == 1) {
-            JOptionPane.showMessageDialog(null, "Sửa thông tin tài khoản thành công", "Thông báo",
-                JOptionPane.INFORMATION_MESSAGE);
-            UserBUS.getInstance().refreshData();
-            dispose();
+      if (checkValidation) {
+        if (edit == false && genderID == selectedGenderId) {
+          JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
+              JOptionPane.INFORMATION_MESSAGE);
+        } else {
+          int option = JOptionPane.showConfirmDialog(null, "Lưu thay đổi?", "Xác nhận",
+              JOptionPane.YES_NO_OPTION);
+          if (option == JOptionPane.YES_OPTION) {
+            userModel.setGender(selectedGenderId);
+            int result = UserBUS.getInstance().updateModel(userModel);
+            if (result == 1) {
+              JOptionPane.showMessageDialog(null, "Sửa thông tin tài khoản thành công", "Thông báo",
+                  JOptionPane.INFORMATION_MESSAGE);
+              UserBUS.getInstance().refreshData();
+              dispose();
+            }
           }
         }
+      } else {
+        JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ", "Thông báo",
+            JOptionPane.INFORMATION_MESSAGE);
       }
     }
   };
@@ -224,5 +222,4 @@ public class FrameSetting extends JFrame {
   private boolean checkValidation;
   private int selectedGenderId;
   private int genderID;
-  //
 }
