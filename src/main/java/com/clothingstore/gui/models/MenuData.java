@@ -127,69 +127,6 @@ public class MenuData {
         return data;
     }
 
-    public ArrayList<MenuData> getDataEmployee() {
-        ArrayList<MenuData> data = new ArrayList<>();
-
-        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-        data.add(new MenuData("Khách hàng", null, CustomerAction(), "customer"));
-        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-
-        return data;
-    }
-
-    public ArrayList<MenuData> getDataAdmin() {
-        ArrayList<MenuData> data = new ArrayList<>();
-
-        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-        data.add(new MenuData(
-                "Quản lý nhập hàng",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
-                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
-
-                    }
-                },
-                null, "import"));
-        data.add(new MenuData(
-                "Quản lý nhân viên",
-                new ArrayList<MenuItemData>() {
-                    // {
-                    // add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
-                    // add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
-
-                    // }
-                },
-                EmployeeAction(), "employee"));
-        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
-        data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
-        data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
-        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-        return data;
-    }
-
-    public ArrayList<MenuData> getDataManager() {
-        ArrayList<MenuData> data = new ArrayList<>();
-
-        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
-        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-        data.add(new MenuData(
-                "Quản lý nhập hàng",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
-                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
-
-                    }
-                },
-                null, "import"));
-        data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
-        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
-        return data;
-    }
-
     private ActionListener ProductAction() {
         return e -> {
             HomePage.getInstance().Remove();
