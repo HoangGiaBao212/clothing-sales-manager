@@ -91,8 +91,8 @@ public class MenuData {
                             "Quản lý nhập hàng",
                             new ArrayList<MenuItemData>() {
                                 {
-                                    add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
-                                    add(new MenuItemData("Thêm hóa đơn", ImportAction()));
+                                    add(new MenuItemData("Danh sách hóa đơn nhập", ImportAction()));
+                                    add(new MenuItemData("Thêm hóa đơn nhập", ImportAction()));
 
                                 }
                             },

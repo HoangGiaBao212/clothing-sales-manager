@@ -43,6 +43,35 @@ public class InvoiceList extends JPanel {
 
   public InvoiceList() {
     initComponents();
+    handleEvent();
+  }
+
+  private void handleEvent() {
+            ButtonSearch.addActionListener(e -> {
+            String searchValue = SearchValue.getText();
+            if (searchValue == null || searchValue.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                Invoices.removeAll();
+                for (OrderModel orderModel : orderList) {
+                    if (orderModel.getId() == Integer.parseInt(searchValue)) {
+                        Invoice invoice = new Invoice(orderModel);
+                        Invoices.add(invoice);
+                    }
+                }
+                if (Invoices.getComponentCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue, "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    for (OrderModel orderModel : orderList) {
+                        Invoice invoice = new Invoice(orderModel);
+                        Invoices.add(invoice);
+                    }
+                }
+
+                Scroll.setViewportView(Invoices);
+            }
+        });
   }
 
   private void initComponents() {

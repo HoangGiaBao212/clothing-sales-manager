@@ -15,13 +15,13 @@ import com.toedter.calendar.JDateChooser;
 
 public class ImportList extends JPanel {
 
-    private JButton ButtonMenu;
-    private JButton ButtonSearch;
-    private JPanel Header;
+    private JButton menuButton;
+    private JButton searchButton;
+    private JPanel headerPanel;
     private JPanel invoices;
-    private JPanel NameHeader;
-    private JLabel NamePanel;
-    private JTextField SearchValue;
+    private JPanel nameheaderPanel;
+    private JLabel namePanel;
+    private JTextField searchValueTextField;
     private JPanel Panel;
     private JScrollPane Scroll;
     private JDateChooser startDate;
@@ -89,20 +89,68 @@ public class ImportList extends JPanel {
         JTextField editorEndDate = (JTextField) endDate.getDateEditor();
         editorEndDate.setEditable(false);
 
+        searchButton.addActionListener(e -> {
+            String searchValue = searchValueTextField.getText();
+            if (searchValue == null || searchValue.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                invoices.removeAll();
+                for (ImportModel importModel : importList) {
+                    if (importModel.getId() == Integer.parseInt(searchValue)) {
+                        ImportInvoice invoice = new ImportInvoice();
+                        invoice.setImportModel(importModel);
+                        invoices.add(invoice);
+                    }
+                }
+                if (invoices.getComponentCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue, "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    for (ImportModel importModel : importList) {
+                        ImportInvoice invoice = new ImportInvoice();
+                        invoice.setImportModel(importModel);
+                        invoices.add(invoice);
+                    }
+                }
+
+                Scroll.setViewportView(invoices);
+            }
+        });
+
+        searchValueTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (searchValueTextField.getText().equals("Tìm theo mã hóa đơn nhập")) {
+                    searchValueTextField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchValueTextField.getText().isEmpty()) {
+                    searchValueTextField.setText("Tìm theo mã hóa đơn nhập");
+                }
+            }
+        });
     }
 
     private void initData() {
+
+    }
+
+    private void updateImportList(String value){
+        
     }
 
     private void initComponents() {
 
-        Header = new JPanel();
-        NameHeader = new JPanel();
-        NamePanel = new JLabel();
-        ButtonMenu = new JButton();
+        headerPanel = new JPanel();
+        nameheaderPanel = new JPanel();
+        namePanel = new JLabel();
+        menuButton = new JButton();
         Panel = new JPanel();
-        ButtonSearch = new JButton();
-        SearchValue = new JTextField();
+        searchButton = new JButton();
+        searchValueTextField = new JTextField();
         invoices = new JPanel();
         Scroll = new JScrollPane();
         fillPanel = new JPanel();
@@ -119,57 +167,42 @@ public class ImportList extends JPanel {
         setPreferredSize(new Dimension(400, 170));
         setBackground(color);
 
-        Header.setLayout(new BorderLayout());
-        Header.setPreferredSize(new Dimension(400, 95));
-        Header.setBackground(color);
+        headerPanel.setLayout(new BorderLayout());
+        headerPanel.setPreferredSize(new Dimension(400, 95));
+        headerPanel.setBackground(color);
 
-        NameHeader.setLayout(new BorderLayout());
+        nameheaderPanel.setLayout(new BorderLayout());
 
-        NamePanel.setFont(new Font("Segoe UI", 1, 18));
-        NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
-        NamePanel.setText("Hoạt Động");
-        NameHeader.setBackground(color);
-        NameHeader.add(NamePanel, BorderLayout.CENTER);
+        namePanel.setFont(new Font("Segoe UI", 1, 18));
+        namePanel.setHorizontalAlignment(SwingConstants.CENTER);
+        namePanel.setText("Hoạt Động");
+        nameheaderPanel.setBackground(color);
+        nameheaderPanel.add(namePanel, BorderLayout.CENTER);
 
-        ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
-        ButtonMenu.setBackground(color);
-        ButtonMenu.setBorder(null);
-        ButtonMenu.addActionListener(new NavData().MenuAction());
-        NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
+        menuButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+        menuButton.setBackground(color);
+        menuButton.setBorder(null);
+        menuButton.addActionListener(new NavData().MenuAction());
+        nameheaderPanel.add(menuButton, BorderLayout.LINE_START);
 
-        Header.add(NameHeader, BorderLayout.NORTH);
+        headerPanel.add(nameheaderPanel, BorderLayout.NORTH);
 
         Panel.setBorder(BorderFactory.createEmptyBorder(4, 4, 7, 1));
         Panel.setLayout(new BorderLayout());
         Panel.setBackground(color);
 
-        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
-        ButtonSearch.setBorder(null);
-        ButtonSearch.setBackground(Color.WHITE);
-        Panel.add(ButtonSearch, BorderLayout.WEST);
+        searchButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
+        searchButton.setBorder(null);
+        searchButton.setBackground(Color.WHITE);
+        Panel.add(searchButton, BorderLayout.WEST);
 
-        SearchValue.setBackground(new Color(242, 242, 242));
-        SearchValue.setFont(new Font("Segoe UI", 0, 14)); 
-        SearchValue.setText("Tìm theo mã hóa đơn");
-        SearchValue.setBackground(Color.WHITE);
-        SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
-        SearchValue.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (SearchValue.getText().equals("Tìm theo mã hóa đơn")) {
-                    SearchValue.setText("");
-                }
-            }
+        searchValueTextField.setBackground(new Color(242, 242, 242));
+        searchValueTextField.setFont(new Font("Segoe UI", 0, 14));
+        searchValueTextField.setText("Tìm theo mã hóa đơn nhập");
+        searchValueTextField.setBackground(Color.WHITE);
+        searchValueTextField.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (SearchValue.getText().isEmpty()) {
-                    SearchValue.setText("Tìm theo mã hóa đơn");
-                }
-            }
-        });
-
-        Panel.add(SearchValue, BorderLayout.CENTER);
+        Panel.add(searchValueTextField, BorderLayout.CENTER);
 
         fillPanel.setBackground(color);
         fillPanel.add(startDate, BorderLayout.WEST);
@@ -178,9 +211,9 @@ public class ImportList extends JPanel {
         fillPanel.add(removeFilterButton, BorderLayout.EAST);
         Panel.add(fillPanel, BorderLayout.SOUTH);
 
-        Header.add(Panel, BorderLayout.SOUTH);
+        headerPanel.add(Panel, BorderLayout.SOUTH);
 
-        add(Header, BorderLayout.PAGE_START);
+        add(headerPanel, BorderLayout.PAGE_START);
 
         invoices.setLayout(new GridLayout(0, 1));
         invoices.setBackground(color);
