@@ -13,6 +13,7 @@ import javax.swing.border.EtchedBorder;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.enums.UserStatus;
+import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.UserModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -43,6 +44,12 @@ public class Employees extends JPanel {
   private ProductBUS productBUS = ProductBUS.getInstance();
   private boolean comboBoxSelected = false;
   private JLabel test;
+  private JButton btnSearch;
+  private String imagePath_2;
+  private JButton btnMenu;
+  private Container panel_1;
+
+  Color color = new Color(0, 38, 77);
 
   public static Employees getInstance() {
     if (instance == null) {
@@ -51,8 +58,7 @@ public class Employees extends JPanel {
     return instance;
   }
 
-  private JButton btnSearch;
-  private String imagePath_2;
+
 
   public Employees() {
     initComponents();
@@ -78,11 +84,19 @@ public class Employees extends JPanel {
     employeePanel.add(topPanel, BorderLayout.NORTH);
     topPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
-    lbl_title = new JLabel("      Home/Employees");
-    lbl_title.setForeground(new Color(255, 255, 255));
-    lbl_title.setFont(new Font("Arial Black", Font.BOLD, 17));
-    lbl_title.setPreferredSize(new Dimension(20, 30));
-    topPanel.add(lbl_title);
+    panel_1 = new JPanel();
+    panel_1.setBackground(new Color(0, 38, 77));
+    topPanel.add(panel_1);
+    panel_1.setLayout(new BorderLayout(0, 0));
+    
+    btnMenu = new JButton();
+    btnMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+    btnMenu.setPreferredSize(new Dimension(70,30));
+    btnMenu.setBorder(null);
+    btnMenu.setBackground(color);
+    btnMenu.addActionListener(new NavData().MenuAction());
+    panel_1.add(btnMenu, BorderLayout.WEST);
+
 
     titleLabel = new JLabel("  Quản lý nhân viên");
     titleLabel.setForeground(new Color(255, 255, 255));
