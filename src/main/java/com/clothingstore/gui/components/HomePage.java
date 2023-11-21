@@ -66,21 +66,7 @@ public class HomePage extends JFrame {
   }
 
   public ArrayList<MenuData> getDataMenu() {
-    ArrayList<MenuData> data;
-    // switch (currentUser.getRoleId()) {
-    //   case 1:
-    //     data = new MenuData().getDataAdmin();
-    //     break;
-    //   case 2:
-    //     data = new MenuData().getDataManager();
-    //     break;
-    //   case 3:
-    //     data = new MenuData().getDataEmployee();
-    //     break;
-    //   default:
-    //     throw new IllegalArgumentException("User role is not supported");
-    // }
-    return data = new MenuData().getDataMenuByRolePermission();
+    return new MenuData().getDataMenuByRolePermission();
   }
 
   public void Remove() {

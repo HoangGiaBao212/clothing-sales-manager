@@ -166,9 +166,9 @@ public class MenuData {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
 
-            if (e.getActionCommand().equals("Danh sách hóa đơn")) {
+            if (e.getActionCommand().equals("Danh sách hóa đơn nhập")) {
                 homePage.Add(ImportHistory.getInstance());
-            } else if (e.getActionCommand().equals("Thêm hóa đơn")) {
+            } else if (e.getActionCommand().equals("Thêm hóa đơn nhập")) {
                 homePage.Add(AddNewImport.getInstance());
             }
 

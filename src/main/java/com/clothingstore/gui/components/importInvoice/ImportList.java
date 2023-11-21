@@ -149,7 +149,7 @@ public class ImportList extends JPanel {
         Panel.add(ButtonSearch, BorderLayout.WEST);
 
         SearchValue.setBackground(new Color(242, 242, 242));
-        SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
+        SearchValue.setFont(new Font("Segoe UI", 0, 14)); 
         SearchValue.setText("Tìm theo mã hóa đơn");
         SearchValue.setBackground(Color.WHITE);
         SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
