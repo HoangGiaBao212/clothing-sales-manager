@@ -13,7 +13,7 @@ import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.OrderModel;
 import com.toedter.calendar.JDateChooser;
 
-public class HistoryList extends JPanel {
+public class InvoiceList extends JPanel {
 
   private JButton ButtonMenu;
   private JButton ButtonSearch;
@@ -30,18 +30,18 @@ public class HistoryList extends JPanel {
   private JButton filterButton;
   private JButton removeFilterButton;
 
-  private static HistoryList instance;
+  private static InvoiceList instance;
   Date currentDate = new Date();
   List<OrderModel> orderList;
 
-  public static HistoryList getInstance() {
+  public static InvoiceList getInstance() {
     if (instance == null) {
-      instance = new HistoryList();
+      instance = new InvoiceList();
     }
     return instance;
   }
 
-  public HistoryList() {
+  public InvoiceList() {
     initComponents();
   }
 

@@ -15,6 +15,7 @@ public class ImportInvoice extends JPanel {
     private JLabel priceLabel;
     private JLabel dateLabel;
     private JLabel timeHourLabel;
+    Color color = new Color(255,255,255);
 
     public ImportInvoice() {
         initComponents();
@@ -43,7 +44,7 @@ public class ImportInvoice extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(40, 60));
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-        setBackground(new Color(204, 224, 255));
+        setBackground(color);
 
         JLabel icon = new JLabel();
         icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/coin.png")));
@@ -52,12 +53,12 @@ public class ImportInvoice extends JPanel {
 
         JPanel detail = new JPanel();
         detail.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        detail.setBackground(new Color(204, 224, 255));
+        detail.setBackground(color);
         detail.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 0));
-        panel.setBackground(new Color(204, 224, 255));
+        panel.setBackground(color);
 
         priceLabel = new JLabel();
         priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -76,7 +77,7 @@ public class ImportInvoice extends JPanel {
         JPanel time = new JPanel();
         time.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         time.setLayout(new GridLayout(2, 1));
-        time.setBackground(new Color(204, 224, 255));
+        time.setBackground(color);
 
         dateLabel = new JLabel();
         dateLabel.setFont(new Font("Segoe UI", 0, 13));

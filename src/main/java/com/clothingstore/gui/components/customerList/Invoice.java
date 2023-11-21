@@ -3,34 +3,41 @@ package com.clothingstore.gui.components.customerList;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.util.List;
 import javax.swing.*;
 
+import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceDetail;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
+import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
   private Color background;
+  private int quantity = 0;
 
   public Invoice() {
     background = new Color(153, 179, 255);
-    initComponents("ID", "Date", "Product Total", "Total Money");
+    initComponents("Mã hóa đơn", "Ngày tạo", "Số sản phẩm", "Tổng tiền");
   }
 
   public Invoice(OrderModel orderModel) { // dành cho data
+    List<OrderItemModel> orderItemList = OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"});
     background = Color.WHITE;
+
+    for(OrderItemModel orderItemModel : orderItemList)
+      quantity += orderItemModel.getQuantity();
     String id = String.valueOf(orderModel.getId());
     String date = String.valueOf(orderModel.getOrderDate());
-    String productTotal = String.valueOf(orderModel.getCustomerId());
+    String productTotal = String.valueOf(quantity);
     String totalPrice = String.valueOf(orderModel.getTotalPrice());
     initComponents(id, date, productTotal, totalPrice);
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         HomePage.getInstance().Remove();
-        HomePage.getInstance().Add(new InvoiceDetail(orderModel));
+        HomePage.getInstance().Add(new InvoiceDetail(orderModel, 1));
       }
     });
   }

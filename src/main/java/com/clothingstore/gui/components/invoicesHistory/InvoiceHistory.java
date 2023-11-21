@@ -26,7 +26,7 @@ public class InvoiceHistory extends JPanel {
 
     private void initComponents() {
         setLayout(new BorderLayout());
-        add(HistoryList.getInstance(), BorderLayout.WEST);
+        add(InvoiceList.getInstance(), BorderLayout.WEST);
         add(new InvoiceDetail(orderList.get(orderList.size()-1)), BorderLayout.CENTER);
     }
 

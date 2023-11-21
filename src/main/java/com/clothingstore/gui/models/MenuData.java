@@ -19,7 +19,7 @@ import com.clothingstore.gui.components.ProductsHeader;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.importInvoice.addImport.AddNewImport;
-import com.clothingstore.gui.components.invoicesHistory.HistoryList;
+import com.clothingstore.gui.components.invoicesHistory.InvoiceList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.components.statistical.Statistic;
@@ -100,7 +100,7 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-                    data.add(new MenuData("Thống kê Ngày", null, StatisticAction(), "revenue"));
+                    data.add(new MenuData("Báo cáo", null, StatisticAction(), "revenue"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
@@ -154,7 +154,7 @@ public class MenuData {
 
     private ActionListener InvoiceHistoryAction() {
         return e -> {
-            HistoryList.getInstance().setVisible(true);
+            InvoiceList.getInstance().setVisible(true);
             HomePage.getInstance().Remove();
             HomePage.getInstance().Add(InvoiceHistory.getInstance());
 

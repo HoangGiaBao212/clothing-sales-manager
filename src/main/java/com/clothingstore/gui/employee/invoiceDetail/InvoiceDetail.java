@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import com.clothingstore.models.PointTransactionModel;
 import com.clothingstore.models.SizeItemModel;
 import services.Authentication;
 import services.PDFWriter;
+import services.Validation;
 
 public class InvoiceDetail extends JFrame {
   private double totalInvoice = 0;
@@ -133,6 +135,7 @@ public class InvoiceDetail extends JFrame {
     Point.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.####################");
         if (Point.isSelected()) {
           Discount.setText("" + point);
           Total.setText(totalInvoice - point + "");
@@ -140,7 +143,7 @@ public class InvoiceDetail extends JFrame {
           revalidate();
           repaint();
           Discount.setText("" + 0);
-          Total.setText(totalInvoice + "");
+          Total.setText(decimalFormat.format(totalInvoice) + "");
         }
       }
     });
@@ -205,10 +208,11 @@ public class InvoiceDetail extends JFrame {
     Total.setEditable(false);
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
+    DecimalFormat decimalFormat = new DecimalFormat("0.####################");
     for (OrderItemModel orderItemModel : orderList) {
       totalInvoice = totalInvoice + orderItemModel.getPrice() * orderItemModel.getQuantity();
     }
-    TotalInvoice.setText("" + String.valueOf(totalInvoice));
+    TotalInvoice.setText("" + decimalFormat.format(totalInvoice));
     TotalInvoice.setEditable(false);
 
     Discount.setFont(new Font("Segoe UI", 0, 14));
@@ -247,10 +251,10 @@ public class InvoiceDetail extends JFrame {
 
     if (!Discount.getText().isBlank() || !Discount.getText().isEmpty()) {
       finalPrice = totalInvoice - Double.parseDouble(Discount.getText());
-      Total.setText("" + finalPrice);
+      Total.setText("" + decimalFormat.format(finalPrice));
     } else {
       finalPrice = totalInvoice;
-      Total.setText("" + finalPrice);
+      Total.setText("" + decimalFormat.format(finalPrice));
     }
 
     ButtonPay.addActionListener(new ActionListener() {
@@ -377,6 +381,9 @@ public class InvoiceDetail extends JFrame {
         PointTransactionBUS.getInstance().refreshData();
 
         String str = Discount.getText();
+        if (str.isEmpty() || str.isBlank()) {
+          str = "0";
+        }
         double number = Double.parseDouble(str);
         int integerValue = (int) number;
         revalidate();
@@ -535,10 +542,12 @@ public class InvoiceDetail extends JFrame {
   public ActionListener WalkInCusOnCheck = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent arg0) {
+
       if (WalkInCus.isSelected()) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.####################");
         Point.setSelected(false);
         Discount.setText("" + 0);
-        Total.setText(totalInvoice + "");
+        Total.setText(decimalFormat.format(totalInvoice) + "");
         RegularCus.setSelected(false);
         UsePoint.setVisible(false);
         CustomerInfo.setVisible(false);
@@ -598,6 +607,13 @@ public class InvoiceDetail extends JFrame {
     public void focusLost(FocusEvent e) {
       revalidate();
       repaint();
+      if (Phone.getText().equals("0000000000") || Validation.isValidPhoneNumber(Phone.getText().toString())) {
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(jf, "Số điện thoại không hợp lệ, vui lòng thử lại");
+        Phone.setText("");
+        return;
+      }
       boolean isPointCheckboxSelected = Point.isSelected();
       CustomerBUS.getInstance().refreshData();
       CustomerModel customerModel = null;

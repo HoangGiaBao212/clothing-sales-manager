@@ -13,12 +13,14 @@ import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PointTransactionBUS;
 import com.clothingstore.gui.admin.dashboard.Card;
 import com.clothingstore.gui.components.customerList.Invoice;
+import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.PointTransactionModel;
 
 public class Revenue extends JPanel {
     private static Revenue instance;
+    Color color = new Color(179, 209, 255);
 
     public static Revenue getInstance() {
         if (instance == null) {
@@ -32,11 +34,13 @@ public class Revenue extends JPanel {
     }
 
     private void initComponents(){
-        NamePanel = new JLabel("Revenue Statistics");
+        NamePanel = new JLabel("Thống kê doanh thu 7 ngày");
         ChartPanel = new JPanel();
         Scroll = new JScrollPane();
         CardPanel = new JPanel();
         Invoice = new JPanel();
+        Panel = new JPanel();
+        ButtonMenu = new JButton();
         setLayout(new BorderLayout());
         setBackground(Color.gray);
 
@@ -50,29 +54,33 @@ public class Revenue extends JPanel {
         CardPanel.setBorder(BorderFactory.createEmptyBorder(15,5,15,5));
         CardPanel.setPreferredSize(new Dimension(90,150));
 
-        Card card1 = new Card("cart.png", "Total Order",getTotalOrderCurrentMonth(), new Color(0, 230, 230), getPercentTotalOrder());
+        Card card1 = new Card("cart.png", "Tổng hóa đơn",getTotalOrderCurrentMonth(), new Color(0, 230, 230), getPercentTotalOrder());
         CardPanel.add(card1);
 
-        Card card2 = new Card("coin.png", "Total Revenue",getTotalRevenueCurrentMonth(), new Color(255, 77, 77), getPercentTotalRevenue());
+        Card card2 = new Card("coin.png", "Doanh thu",getTotalRevenueCurrentMonth(), new Color(255, 77, 77), getPercentTotalRevenue());
         CardPanel.add(card2);
 
-        Card card3 = new Card("clothing.png", "Products Sold",getTotalProductSoldCurrentMonth(), new Color(255, 128, 0), getPercentTotalProductSold());
+        Card card3 = new Card("clothing.png", "Sản phẩm bán ra",getTotalProductSoldCurrentMonth(), new Color(255, 128, 0), getPercentTotalProductSold());
         CardPanel.add(card3);
 
-        Card card4 = new Card("coin.png", "Points Earned",getTotalPointsUsedCurrentMonth(), new Color(153, 51, 255), getPercentTotalPointsUsed());
+        Card card4 = new Card("coin.png", "Điểm tích lũy",getTotalPointsUsedCurrentMonth(), new Color(153, 51, 255), getPercentTotalPointsUsed());
         CardPanel.add(card4);
+
+        Panel.setLayout(new BorderLayout());
+        CardPanel.setBackground(color);
+        Panel.add(CardPanel, BorderLayout.CENTER);
+
+        ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+        ButtonMenu.setBorder(null);
+        ButtonMenu.setBackground(color);
+        ButtonMenu.addActionListener(new NavData().MenuAction());
+        ButtonMenu.setVerticalAlignment(SwingConstants.TOP);
+        Panel.add(ButtonMenu, BorderLayout.WEST);
 
         Invoice.setLayout(new GridLayout(10,1));
         Invoice invoiceHeader = new Invoice();
         Invoice.add(invoiceHeader);
 
-//        for(int i = 0; i< 10; i++){
-//            Invoice invoice = new Invoice("001","002","5","3000.000");
-//            invoice.setPreferredSize(new Dimension(35,35));
-//            Invoice.add(invoice);
-//        }
-
-//        LocalDate now = LocalDate.of(2023, 10, 16);
         LocalDate now = LocalDate.now();
         for(OrderModel order : OrderBUS.getInstance().getAllModels()) {
             LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -88,7 +96,7 @@ public class Revenue extends JPanel {
         NamePanel.setFont(new Font("Segoe UI", 1, 17));
         ChartPanel.add(NamePanel, BorderLayout.NORTH);
 
-        add(CardPanel, BorderLayout.NORTH);
+        add(Panel, BorderLayout.NORTH);
         add(ChartPanel, BorderLayout.WEST);
         add(Scroll, BorderLayout.CENTER);
     }
@@ -246,4 +254,6 @@ public class Revenue extends JPanel {
     private JPanel ChartPanel;
     private JScrollPane Scroll;
     private JPanel Invoice;
+    private JPanel Panel;
+    private JButton ButtonMenu;
 }

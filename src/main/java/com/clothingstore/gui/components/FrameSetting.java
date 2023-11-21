@@ -32,6 +32,7 @@ public class FrameSetting extends JFrame {
     user.add(String.valueOf(userModel.getGender()));
     user.add(userModel.getAddress());
     this.setPreferredSize(new Dimension(300, 400));
+    this.setSize(new Dimension(400, 600));
     initComponents();
     setVisible(true);
     setLocationRelativeTo(null);

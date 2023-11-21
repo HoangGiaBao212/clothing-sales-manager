@@ -39,7 +39,7 @@ public class HeaderInvoice extends JPanel {
 
     QuantityText.setFont(new Font("Segoe UI", 3, 13));
     QuantityText.setHorizontalAlignment(SwingConstants.CENTER);
-    QuantityText.setText("Quantity");
+    QuantityText.setText("Số lượng");
     Panel1.add(QuantityText, BorderLayout.CENTER);
 
     add(Panel1);
@@ -63,7 +63,7 @@ public class HeaderInvoice extends JPanel {
 
     PriceText.setFont(new Font("Segoe UI", 3, 13));
     PriceText.setHorizontalAlignment(SwingConstants.CENTER);
-    PriceText.setText("Price");
+    PriceText.setText("Giá");
     Panel3.add(PriceText, BorderLayout.CENTER);
 
     add(Panel3);
@@ -75,7 +75,7 @@ public class HeaderInvoice extends JPanel {
 
     AmountText.setFont(new Font("Segoe UI", 3, 13));
     AmountText.setHorizontalAlignment(SwingConstants.CENTER);
-    AmountText.setText("Amount");
+    AmountText.setText("Tổng tiền");
     Panel4.add(AmountText, BorderLayout.CENTER);
 
     add(Panel4);
