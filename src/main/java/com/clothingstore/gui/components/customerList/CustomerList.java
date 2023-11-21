@@ -54,7 +54,7 @@ public class CustomerList extends JPanel {
 
     NamePanel.setFont(new Font("Segoe UI", 1, 18)); // NOI18N
     NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
-    NamePanel.setText("Customer List");
+    NamePanel.setText("Danh sách khách hàng");
     NameHeader.setBackground(color);
     NameHeader.add(NamePanel, BorderLayout.CENTER);
 

@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
@@ -62,7 +63,7 @@ public class Invoice extends JPanel {
     Date = new JLabel();
     TimeHour = new JLabel();
 
-    Color color = new Color(204, 224, 255);
+    Color color = new Color(255, 255, 255);
 
     setLayout(new BorderLayout());
     setPreferredSize(new Dimension(40, 60));
@@ -96,9 +97,16 @@ public class Invoice extends JPanel {
     CustomerInfo.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
     CustomerInfo.setLayout(new GridLayout(2, 0));
     CustomerInfo.setBackground(color);
+    CustomerModel customer = CustomerBUS.getInstance().getModelById(orderModel.getCustomerId());
 
-    CustomerName.setText("" + CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName());
-    CustomerName.setFont(new Font("Segoe UI", 0, 14));
+    if(customer.getId() == 1){
+      CustomerName.setText("Khách hàng*");
+      CustomerName.setFont(new Font("Segoe UI", 3, 14));
+    }
+    else {
+      CustomerName.setText(customer.getCustomerName());
+      CustomerName.setFont(new Font("Segoe UI", 0, 14));
+    }
     CustomerInfo.add(CustomerName);
 
     Detail.add(CustomerInfo, BorderLayout.CENTER);

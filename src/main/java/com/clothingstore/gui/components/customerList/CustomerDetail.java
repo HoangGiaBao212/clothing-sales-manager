@@ -4,9 +4,11 @@ import javax.swing.*;
 
 import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.PointBUS;
+import com.clothingstore.bus.PointTransactionBUS;
 import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.PointModel;
+import com.clothingstore.models.PointTransactionModel;
 
 import java.awt.*;
 import java.util.*;
@@ -30,15 +32,17 @@ public class CustomerDetail extends JPanel {
         this.name = name;
         this.value = value;
     }
-
+    
     public  ArrayList<CustomerDetail> getData() {
+
+        PointTransactionModel point = PointTransactionBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
         ArrayList<CustomerDetail> data = new ArrayList<CustomerDetail>() {{
             add(new CustomerDetail("Mã khách hàng",String.valueOf(customerModel.getId())));
             add(new CustomerDetail("Tên khách hàng", customerModel.getCustomerName()));
             add(new CustomerDetail("Số điện thoại", customerModel.getPhone()));
             add(new CustomerDetail("Email",customerModel.getEmail() ));
-            add(new CustomerDetail("Điểm tích lũy", String.valueOf(4)));
-            add(new CustomerDetail("Điểm đã dùng", String.valueOf(5)));
+            add(new CustomerDetail("Điểm tích lũy", String.valueOf(point.getPointsEarned())));
+            add(new CustomerDetail("Điểm đã dùng", String.valueOf(point.getPointsUsed())));
             add(new CustomerDetail("Tổng số hóa đơn", String.valueOf(OrderBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).size())));
         }};
         return data;

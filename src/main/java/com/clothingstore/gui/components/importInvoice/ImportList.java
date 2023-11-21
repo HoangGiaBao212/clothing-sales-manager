@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportBUS;
+import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.ImportModel;
 
 public class ImportList extends JPanel {
@@ -29,7 +30,7 @@ public class ImportList extends JPanel {
         Header = new JPanel();
         NameHeader = new JPanel();
         NamePanel = new JLabel();
-        ButtonBack = new JButton();
+        ButtonMenu = new JButton();
         Panel = new JPanel();
         ButtonSearch = new JButton();
         SearchValue = new JTextField();
@@ -51,14 +52,15 @@ public class ImportList extends JPanel {
 
         NamePanel.setFont(new Font("Segoe UI", 1, 18));
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
-        NamePanel.setText("Import Invoice");
+        NamePanel.setText("Hóa đơn nhập hàng");
         NameHeader.setBackground(color);
         NameHeader.add(NamePanel, BorderLayout.CENTER);
 
-        ButtonBack.setBackground(new Color(242, 242, 242));
-        ButtonBack.setIcon(new ImageIcon(getClass().getResource("/resources/icons/back.png")));
-        ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
-        NameHeader.add(ButtonBack, BorderLayout.LINE_START);
+        ButtonMenu.setBackground(color);
+        ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+        ButtonMenu.setBorder(null);
+        ButtonMenu.addActionListener(new NavData().MenuAction());
+        NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -102,7 +104,7 @@ public class ImportList extends JPanel {
         
     }
 
-    private JButton ButtonBack;
+    private JButton ButtonMenu;
     private JButton ButtonSearch;
     private JPanel Header;
     private JPanel invoices;

@@ -38,7 +38,7 @@ public class Customer extends JPanel {
     Id = new JLabel();
     Phone = new JLabel();
 
-    Color color = new Color(204, 224, 255);
+    Color color = new Color(255, 255, 255);
 
     setLayout(new BorderLayout());
     setPreferredSize(new Dimension(40, 60));

@@ -7,6 +7,7 @@ import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
+import com.clothingstore.models.OrderItemModel;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -19,6 +20,8 @@ public class ImportDetail extends JPanel {
   private String value;
   private ImportModel importModel;
   private List<ImportItemsModel> importItemsList;
+  private int productQuantity = 0;
+
 
   static DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
@@ -35,12 +38,14 @@ public class ImportDetail extends JPanel {
   }
 
   public ArrayList<ImportDetail> getData() {
+    for(ImportItemsModel importItemsModel : importItemsList)
+      productQuantity += importItemsModel.getQuantity();
     ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {
       {
-        add(new ImportDetail("Id Invoice", "" + importModel.getId()));
-        add(new ImportDetail("Date", "" + importModel.getImportDate()));
-        add(new ImportDetail("Products", "" + importItemsList.size()));
-        add(new ImportDetail("Total", "" + decimalFormat.format(importModel.getTotalPrice())));
+        add(new ImportDetail("Mã hóa đơn", "" + importModel.getId()));
+        add(new ImportDetail("Ngày tạo", "" + importModel.getImportDate()));
+        add(new ImportDetail("Só sản phẩm", String.valueOf(productQuantity)));
+        add(new ImportDetail("Tổng", "" + decimalFormat.format(importModel.getTotalPrice())));
       }
     };
     return data;
@@ -64,7 +69,7 @@ public class ImportDetail extends JPanel {
 
     Info.setLayout(new GridLayout(0, 1));
 
-    NamePanel.setText("-- Detail --");
+    NamePanel.setText("-- Chi Tiết Hóa Đơn --");
     NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
     NamePanel.setVerticalAlignment(SwingConstants.CENTER);
     NamePanel.setFont(new Font("Segoe UI", 1, 17));
