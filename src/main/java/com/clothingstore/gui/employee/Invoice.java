@@ -3,6 +3,7 @@ package com.clothingstore.gui.employee;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -156,6 +157,7 @@ public class Invoice extends JPanel {
     OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
     boolean found = false;
+    DecimalFormat decimalFormat = new DecimalFormat("0.####################");
 
     for (OrderItemModel item : orderItemList) {
       if (item.getProductId() == orderItemModel.getProductId() && item.getSizeId() == orderItemModel.getSizeId()) {
@@ -173,7 +175,7 @@ public class Invoice extends JPanel {
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
       Invoices.add(invoiceProduct);
       totalPrice += orderItemModel.getPrice() * orderItemModel.getQuantity();
-      Value.setText(" " + totalPrice);
+      Value.setText(" " + decimalFormat.format(totalPrice));
       revalidate();
       repaint();
     }
@@ -200,7 +202,7 @@ public class Invoice extends JPanel {
                 && invoiceProduct.getSizeId() == size && invoiceProduct.getQuantity() == quantity) {
               Invoices.remove(invoiceProduct);
               totalPrice = totalPrice - (productModel.getPrice() * quantity);
-              Value.setText(" " + totalPrice);
+              Value.setText(" " + String.valueOf(totalPrice));
               break;
             }
           }
@@ -240,11 +242,12 @@ public class Invoice extends JPanel {
   private void updateCart() {
     Invoices.removeAll();
     totalPrice = 0;
+    DecimalFormat decimalFormat = new DecimalFormat("\"0.####################\"");
     for (OrderItemModel orderItem : orderItemList) {
       ProductModel productModel = ProductBUS.getInstance().getModelById(orderItem.getProductId());
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, orderItem.getSizeId(), orderItem.getQuantity());
       totalPrice += orderItem.getPrice() * orderItem.getQuantity();
-      Value.setText(" " + totalPrice);
+      Value.setText(" " + decimalFormat.format(totalPrice));
       Invoices.add(invoiceProduct);
     }
 
