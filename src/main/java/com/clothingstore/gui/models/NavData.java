@@ -154,10 +154,7 @@ public class NavData {
   }
 
   public ActionListener MenuAction() {
-    if (menu == null) {
-      menuData = new MenuData().getDataMenu();
-      menu = Menu.getInstance(menuData);
-    }
+    
     menuWidth = menu.getWidth();
     return new ActionListener() {
       @Override
