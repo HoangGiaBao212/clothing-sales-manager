@@ -56,12 +56,12 @@ public class HomePage extends JFrame {
         break;
       case 3:
         add(Products.getInstance(), BorderLayout.CENTER);
-        add(Navigation.getInstance(), BorderLayout.SOUTH);
         add(Invoice.getInstance(), BorderLayout.EAST);
         break;
       default:
         break;
     }
+    add(Navigation.getInstance(), BorderLayout.SOUTH);
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
@@ -73,8 +73,14 @@ public class HomePage extends JFrame {
     Container contentPane = HomePage.getInstance().getContentPane();
     Component centerComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.CENTER);
     Component eastComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.EAST);
+    Component southComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.SOUTH);
     if (centerComponent != null) {
       contentPane.remove(centerComponent);
+      contentPane.revalidate();
+      contentPane.repaint();
+    }
+    if (southComponent != null) {
+      contentPane.remove(southComponent);
       contentPane.revalidate();
       contentPane.repaint();
     }

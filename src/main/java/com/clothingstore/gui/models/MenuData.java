@@ -1,5 +1,6 @@
 package com.clothingstore.gui.models;
 
+import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class MenuData {
                 new String[] { "user_id" });
         ArrayList<MenuData> data = new ArrayList<>();
         if (currentUser.getRoleId() == 1)
-            data.add(new MenuData("DashBoard", null, DashboardAction(), "role"));
+            data.add(new MenuData("DashBoard", null, DashboardAction(), "dashboard"));
         for (UserPermissionModel userPermissionModel : userPermissionList) {
             if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
                 if (userPermissionModel.getPermissionId() == 1) {
@@ -100,7 +101,7 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-                    data.add(new MenuData("Báo cáo", null, StatisticAction(), "revenue"));
+                    data.add(new MenuData("Báo cáo ngày", null, StatisticAction(), "revenue"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
@@ -120,7 +121,7 @@ public class MenuData {
 
                 }
                 if (userPermissionModel.getPermissionId() == 6) {
-                    data.add(new MenuData("Thống kê", null, RevenueAction(), "revenue"));
+                    data.add(new MenuData("Báo cáo tháng", null, RevenueAction(), "revenue"));
 
                 }
                 if (userPermissionModel.getPermissionId() == 7) {
@@ -148,6 +149,7 @@ public class MenuData {
                 HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
             else
                 HomePage.getInstance().Add(Products.getInstance());
+            HomePage.getInstance().add(Navigation.getInstance(), BorderLayout.SOUTH);
 
         };
     }

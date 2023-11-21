@@ -67,7 +67,7 @@ public class Menu extends JPanel {
 
       JButton menuButton = new JButton(menuData.getName());
       menuButton.addActionListener(menuData.getActionListener());
-      menuButton.setFont(new Font("Segoe UI", 0, 13));
+      menuButton.setFont(new Font("Segoe UI", 1, 13));
       menuButton.setPreferredSize(new Dimension(50, 50));
       menuButton.setBackground(new Color(153, 153, 255));
       menuButton.setBorder(BorderFactory.createEmptyBorder(5, 32, 5, 5));
