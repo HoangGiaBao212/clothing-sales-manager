@@ -142,7 +142,7 @@ CREATE TABLE
         `id` INT NOT NULL AUTO_INCREMENT,
         `user_id` INT NOT NULL,
         `import_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_price` INT,
+        `total_price` DOUBLE,
         PRIMARY KEY (`id`)
     );
 

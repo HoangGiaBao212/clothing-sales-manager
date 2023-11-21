@@ -74,9 +74,12 @@ public class MenuData {
     }
 
     public ArrayList<MenuData> getDataMenuByRolePermission() {
+
         userPermissionList = UserPermissionBUS.getInstance().searchModel("" + currentUser.getId(),
                 new String[] { "user_id" });
         ArrayList<MenuData> data = new ArrayList<>();
+        if (currentUser.getRoleId() == 1)
+            data.add(new MenuData("DashBoard", null, DashboardAction(), "role"));
         for (UserPermissionModel userPermissionModel : userPermissionList) {
             if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
                 if (userPermissionModel.getPermissionId() == 1) {
@@ -121,9 +124,16 @@ public class MenuData {
 
                 }
                 if (userPermissionModel.getPermissionId() == 7) {
-                    data.add(new MenuData("DashBoard", null, DashboardAction(), "role"));
-                    data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
-                    data.add(new MenuData("Quản lý phân quyền ", null, RolePermissionAction(), "role"));
+                    data.add(new MenuData(
+                            "Quản lý phân quyền",
+                            new ArrayList<MenuItemData>() {
+                                {
+                                    add(new MenuItemData("Phân quyền cho từng chức vụ", RoleAction()));
+                                    add(new MenuItemData("Phân quyền cho từng người dùng", RolePermissionAction()));
+
+                                }
+                            },
+                            null, "role"));
                 }
             }
         }
@@ -201,6 +211,7 @@ public class MenuData {
         };
 
     }
+
     private ActionListener StatisticAction() {
         return e -> {
             HomePage.getInstance().Remove();
@@ -208,6 +219,7 @@ public class MenuData {
         };
 
     }
+
     private ActionListener DashboardAction() {
         return e -> {
             HomePage.getInstance().Remove();
