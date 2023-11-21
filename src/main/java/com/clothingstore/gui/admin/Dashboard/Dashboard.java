@@ -26,8 +26,8 @@ public class Dashboard extends JPanel {
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1130, 628));
-        mainPanel.setBackground(new Color(0, 38, 77));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(1, 20, 1, 5));
+        mainPanel.setBackground(new Color(179, 179, 255));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));
         setLayout(new BorderLayout());
 
         mainPanel.setLayout(new BorderLayout());

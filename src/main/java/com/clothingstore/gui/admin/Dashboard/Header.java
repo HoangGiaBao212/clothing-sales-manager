@@ -2,6 +2,8 @@ package com.clothingstore.gui.admin.dashboard;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.clothingstore.gui.models.NavData;
 public class Header extends JPanel {
 
     private static Header instance;
@@ -25,18 +27,24 @@ public class Header extends JPanel {
         ButtonSearch = new JButton();
         ProfilePanel = new JPanel();
         Profile = new JComboBox<>();
+        ButtonMenu = new JButton();
 
-        Color backgroundColor = new Color(0, 38, 77);
+        Color backgroundColor = new Color(179, 179, 255);
 
-        setBorder(BorderFactory.createEmptyBorder(1, 20, 1, 1));
+        setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(70,75));
         setBackground(backgroundColor);
 
-        NamePanel.setText("DashBoard");
+        NamePanel.setText("   DashBoard");
         NamePanel.setFont(new Font("Segoe UI", 1, 16)); 
-        NamePanel.setForeground(Color.WHITE);
-        add(NamePanel, BorderLayout.LINE_START);
+        add(NamePanel, BorderLayout.CENTER);
+
+        ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+        ButtonMenu.setBackground(backgroundColor);
+        ButtonMenu.setBorder(null);
+        ButtonMenu.addActionListener(new NavData().MenuAction());
+        add(ButtonMenu, BorderLayout.WEST);
 
         Panel.setBorder(BorderFactory.createEmptyBorder(22, 1, 22, 1));
         Panel.setPreferredSize(new Dimension(360, 80));
@@ -74,4 +82,5 @@ public class Header extends JPanel {
     private JPanel SearchPanel;
     private JPanel ProfilePanel;
     private JTextField Value;
+    private JButton ButtonMenu;
 }

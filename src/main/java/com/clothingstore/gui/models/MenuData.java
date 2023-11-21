@@ -97,7 +97,7 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-                    data.add(new MenuData("Thống kê Ngày", null, StatisticAction(), "revenue"));
+                    data.add(new MenuData("Báo cáo", null, StatisticAction(), "revenue"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(

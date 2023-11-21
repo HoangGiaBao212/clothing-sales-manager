@@ -50,7 +50,7 @@ public class Content extends JPanel {
         Scroll2 = new JScrollPane();
         EmployeeList = new JPanel();
 
-        Color backgroundColor = new Color(0, 38, 77);
+        Color backgroundColor = new Color(179, 179, 255);
         setLayout(new BorderLayout());
 
         MainPanel.setLayout(new BorderLayout());

@@ -112,11 +112,6 @@ public class HomePage extends JFrame {
     repaint();
   }
 
-  public void reUI() {
-    initComponent();
-    Container contentPane = HomePage.getInstance().getContentPane();
-  }
-
   WindowStateListener windowStateListener = new WindowStateListener() {
 
     @Override
@@ -148,7 +143,6 @@ public class HomePage extends JFrame {
 
   public void closeHomePage() {
     this.removeAll();
-    this.reUI();
     this.revalidate();
     this.repaint();
     dispose();
