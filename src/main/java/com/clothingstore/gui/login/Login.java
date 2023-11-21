@@ -73,14 +73,14 @@ public class Login extends JFrame {
     jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 36));
     jLabel3.setForeground(new java.awt.Color(255, 255, 255));
     jLabel3.setAlignmentX(Component.CENTER_ALIGNMENT);
-    jLabel3.setText("Login");
+    jLabel3.setText("ĐĂNG NHẬP");
     loginPanel.add(jLabel3);
 
     jLabel4 = new JLabel();
     jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
     jLabel4.setForeground(new java.awt.Color(255, 255, 255));
     jLabel4.setAlignmentX(Component.CENTER_ALIGNMENT);
-    jLabel4.setText("Hello! Let's get started");
+    jLabel4.setText("Xin chào! Hãy bắt đầu");
     loginPanel.add(jLabel4);
 
     loginPanel.add(Box.createVerticalGlue());
@@ -96,7 +96,7 @@ public class Login extends JFrame {
     usernameLabel = new JLabel();
     usernameLabel.setFont(new java.awt.Font("Segoe UI", 0, 13));
     usernameLabel.setForeground(java.awt.Color.BLACK);
-    usernameLabel.setText("Username");
+    usernameLabel.setText("Tên đăng nhập");
     txtusername = new JTextField();
     txtusername.setColumns(20);
     txtusername.setPreferredSize(new Dimension(200, 30));
@@ -113,7 +113,7 @@ public class Login extends JFrame {
     grPassWord.setPreferredSize(new Dimension(200, 0));
     grPassWord.setBackground(new java.awt.Color(173, 216, 230));
     passwordLabel = new JLabel();
-    passwordLabel.setText("Password");
+    passwordLabel.setText("Mật khẩu");
     passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 13));
     passwordLabel.setForeground(java.awt.Color.BLACK);
     passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -132,7 +132,7 @@ public class Login extends JFrame {
       }
     }); // sự kiện khi ấn nút mắt
 
-    loginButton = new JButton("LOGIN");
+    loginButton = new JButton("ĐĂNG NHẬP");
     loginButton.setBackground(new java.awt.Color(255, 255, 255));
     loginButton.setFont(new java.awt.Font("Segoe UI", 0, 16));
     loginButton.setForeground(new java.awt.Color(0, 0, 128));

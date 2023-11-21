@@ -111,7 +111,7 @@ public class AddNewImport extends JPanel {
     private void refreshNewImport() {
         int confirmation = JOptionPane.showConfirmDialog(
                 this,
-                "Do you want to refresh the import?",
+                "Bạn có muốn làm mới phiếu nhập?",
                 "Confirmation",
                 JOptionPane.YES_NO_OPTION);
 
@@ -126,7 +126,7 @@ public class AddNewImport extends JPanel {
             revalidate();
             repaint();
 
-            JOptionPane.showMessageDialog(null, "Import refreshed successfully");
+            JOptionPane.showMessageDialog(null, "Làm mới phiếu nhập thành công");
         }
     }
 
@@ -136,7 +136,7 @@ public class AddNewImport extends JPanel {
 
     private void addNewImport() {
         if (importItemList.size() <= 0) {
-            JOptionPane.showMessageDialog(null, "Import Item List is empty",
+            JOptionPane.showMessageDialog(null, "Danh sách phiếu nhập đang trống",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
@@ -146,7 +146,7 @@ public class AddNewImport extends JPanel {
             if (importItemsModel.getPrice() <= 0) {
                 JOptionPane.showMessageDialog(
                         null,
-                        "A product with an id of " + importItemsModel.getProduct_id() + " has a price of 0",
+                        "Sản phẩm có mã là " + importItemsModel.getProduct_id() + " đang có giá bằng 0",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -160,7 +160,7 @@ public class AddNewImport extends JPanel {
 
         importModel = new ImportModel(0, userModel.getId(), null, totalPrice);
 
-        int confirmation = JOptionPane.showConfirmDialog(null, "Do you want to save this import?", "Confirmation",
+        int confirmation = JOptionPane.showConfirmDialog(null, "Bạn có muốn tạo phiếu nhập?", "Confirmation",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmation == JOptionPane.YES_OPTION) {
@@ -206,12 +206,12 @@ public class AddNewImport extends JPanel {
             }
             sizeItemList.clear();
             importItemList.clear();
-            JOptionPane.showMessageDialog(null, "Create import successfully");
+            JOptionPane.showMessageDialog(null, "Tạo phiếu nhập thành công");
             updateStatusTable();
             listImportItemPanel.removeAll();
             listImportItemPanel.repaint();
         } else {
-            JOptionPane.showMessageDialog(null, "Create import canceled",
+            JOptionPane.showMessageDialog(null, "Tạo phiếu nhập thất bại",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -224,14 +224,14 @@ public class AddNewImport extends JPanel {
 
             if (productModel == null) {
                 SwingUtilities.invokeLater(
-                        () -> JOptionPane.showMessageDialog(idProductTextField, "No model found for id: " + idProduct,
+                        () -> JOptionPane.showMessageDialog(idProductTextField, "Không tìm thấy sản phẩm có mã là: " + idProduct,
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE));
             } else {
                 Boolean check = true;
                 for (ImportItemsModel importItemModel : importItemList) {
                     if (importItemModel.getProduct_id() == idProduct) {
-                        JOptionPane.showMessageDialog(idProductTextField, "Product is already imported",
+                        JOptionPane.showMessageDialog(idProductTextField, "Sản phẩm này đã được thêm!!",
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE);
                         check = false;
@@ -291,7 +291,7 @@ public class AddNewImport extends JPanel {
         addNewProductButton = new JButton();
         footerBottomPanel = new JPanel();
         listImportItemScrollPane = new JScrollPane();
-        saveButton = new JButton("Save");
+        saveButton = new JButton("Lưu");
         groupButton = new JPanel();
         groupButton.setLayout(new FlowLayout());
         groupButton.setPreferredSize(new Dimension(100, -100));
@@ -300,13 +300,13 @@ public class AddNewImport extends JPanel {
         userModel = Authentication.getCurrentUser();
         setLayout(new BorderLayout());
 
-        titleLabel.setText("Add Import");
+        titleLabel.setText("Tạo phiếu nhập");
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
         headerPanel.add(titleLabel);
 
-        refreshImportButton.setText("Refresh Import");
+        refreshImportButton.setText("Làm mới phiếu nhập");
         headerPanel.add(refreshImportButton);
-        addNewProductButton.setText("Add new product");
+        addNewProductButton.setText("Thêm mới sản phẩm");
         headerPanel.add(addNewProductButton);
 
         cancelImportButton.setText("Cancel ");
@@ -321,15 +321,15 @@ public class AddNewImport extends JPanel {
 
         footerPanel.setLayout(new BoxLayout(footerPanel, BoxLayout.Y_AXIS));
 
-        idEmpLabel.setText("Id Employee: " + userModel.getId());
+        idEmpLabel.setText("Mã nhân viên: " + userModel.getId());
         idEmpLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         footerTopPanel.add(idEmpLabel);
-        nameEmpLabel.setText("Employee name: " + userModel.getName());
+        nameEmpLabel.setText("Tên nhân viên: " + userModel.getName());
         nameEmpLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         footerTopPanel.add(nameEmpLabel);
         containerIdProduct = new JPanel();
         containerIdProduct.setLayout(new FlowLayout());
-        idProductLabel.setText("Enter product id and press enter");
+        idProductLabel.setText("Nhập mã sản phẩm và nhấn enter ");
         idProductLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         containerIdProduct.add(idProductLabel);
         containerIdProduct.add(idProductTextField);
@@ -349,7 +349,7 @@ public class AddNewImport extends JPanel {
 
         footerPanel.add(footerBottomPanel);
         // footerPanel.add(listImportItemScrollPane);
-        groupButton.add(cancelImportButton);
+        // groupButton.add(cancelImportButton);
         groupButton.add(saveButton);
         // footerPanel.add(groupButton);
 

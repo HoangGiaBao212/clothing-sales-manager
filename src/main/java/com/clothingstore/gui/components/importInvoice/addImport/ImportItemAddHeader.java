@@ -32,24 +32,24 @@ public class ImportItemAddHeader extends JPanel {
         sttLabel.setText("Stt");
         add(sttLabel);
 
-        idLabel.setText("Id");
+        idLabel.setText("Mã");
         add(idLabel);
 
-        nameLabel.setText("Name");
+        nameLabel.setText("Tên");
         nameLabel.setPreferredSize(new Dimension(100, 20));
         add(nameLabel);
 
-        sizeLabel.setText("Size & Quantity");
+        sizeLabel.setText("Kích cỡ & số lượng");
         sizeLabel.setPreferredSize(new Dimension(100, 20));
         add(sizeLabel);
 
-        priceLabel.setText("Price");
+        priceLabel.setText("Giá");
         add(priceLabel);
 
-        totalPriceLabel.setText("Total price");
+        totalPriceLabel.setText("Tổng giá");
         add(totalPriceLabel);
 
-        deleteLabel.setText("Delete");
+        deleteLabel.setText("Xóa");
         add(deleteLabel);
         setBackground(new Color(153, 179, 255));
         setPreferredSize(new Dimension(100, -100));

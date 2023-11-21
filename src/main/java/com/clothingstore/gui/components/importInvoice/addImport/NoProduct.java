@@ -15,7 +15,7 @@ public class NoProduct extends JPanel {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel iconLabel = new JLabel(scaledIcon);
         iconLabel.setHorizontalAlignment(JLabel.CENTER);
-        JLabel noProductLabel = new JLabel("No products available.");
+        JLabel noProductLabel = new JLabel("Không có sản phẩm nào.");
         noProductLabel.setHorizontalAlignment(JLabel.CENTER);
         Font labelFont = new Font("Arial", Font.BOLD, 16);
         noProductLabel.setFont(labelFont);
