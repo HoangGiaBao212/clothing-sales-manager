@@ -122,4 +122,36 @@ public class ImportDAO implements IDAO<ImportModel> {
     }
   }
 
+ public List<ImportModel> searchDatetoDate(String fromDate, String toDate) {
+    try {
+      String query;
+      if (fromDate == null && toDate == null) {
+        query = "SELECT * FROM imports";
+      } else if (fromDate == null || toDate == null) {
+        throw new IllegalArgumentException("Both fromDate and toDate must be specified.");
+      } else {
+        query = "SELECT * FROM imports WHERE import_date BETWEEN ? AND ?";
+      }
+      try (
+          PreparedStatement pst = (fromDate != null && toDate != null)
+              ? DatabaseConnection.getPreparedStatement(query, fromDate, toDate)
+              : DatabaseConnection.getPreparedStatement(query);
+          ResultSet rs = pst.executeQuery()) {
+        List<ImportModel> importList = new ArrayList<>();
+        while (rs.next()) {
+          ImportModel importModel = createImportModelFromResultSet(rs);
+          importList.add(importModel);
+        }
+
+        if (importList.isEmpty()) {
+          throw new SQLException("No records found for the given date range.");
+        }
+
+        return importList;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return Collections.emptyList();
+    }
+  }
 }

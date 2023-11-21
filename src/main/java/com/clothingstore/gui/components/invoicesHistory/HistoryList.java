@@ -15,6 +15,21 @@ import com.toedter.calendar.JDateChooser;
 
 public class HistoryList extends JPanel {
 
+  private JButton ButtonMenu;
+  private JButton ButtonSearch;
+  private JPanel Header;
+  private JPanel Invoices;
+  private JPanel NameHeader;
+  private JLabel NamePanel;
+  private JTextField SearchValue;
+  private JPanel Panel;
+  private JScrollPane Scroll;
+  private JDateChooser startDate;
+  private JDateChooser endDate;
+  private JPanel fillPanel;
+  private JButton filterButton;
+  private JButton removeFilterButton;
+
   private static HistoryList instance;
   Date currentDate = new Date();
   List<OrderModel> orderList;
@@ -132,7 +147,6 @@ public class HistoryList extends JPanel {
     add(Scroll, BorderLayout.CENTER);
   }
 
-
   public void setStartDate() {
     this.startDate = new JDateChooser();
     startDate.setBounds(40, 75, 150, 30);
@@ -159,6 +173,7 @@ public class HistoryList extends JPanel {
         Date toDate = endDate.getDate();
         checkDate(fromDate, toDate);
         CheckResponsive();
+        Scroll.setViewportView(Invoices);
       }
     });
   }
@@ -179,6 +194,7 @@ public class HistoryList extends JPanel {
           Invoices.add(invoice);
         }
         CheckResponsive();
+        Scroll.setViewportView(Invoices);
       }
     });
   }
@@ -189,6 +205,9 @@ public class HistoryList extends JPanel {
           JOptionPane.ERROR_MESSAGE);
     } else if (toDate == null && fromDate != null) {
       JOptionPane.showMessageDialog(null, "không được để trống ngày kết thúc", "Lỗi",
+          JOptionPane.ERROR_MESSAGE);
+    } else if (fromDate == null && toDate == null) {
+      JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu ngày tháng", "Lỗi",
           JOptionPane.ERROR_MESSAGE);
     } else {
       int result1 = fromDate.compareTo(currentDate);
@@ -222,26 +241,12 @@ public class HistoryList extends JPanel {
     }
   }
 
-  private void CheckResponsive(){
-    if(orderList.size() > 10)
+  private void CheckResponsive() {
+    if (orderList.size() > 10)
       Invoices.setLayout(new GridLayout(0, 1));
-    else 
+    else
       Invoices.setLayout(new GridLayout(10, 1));
 
   }
 
-  private JButton ButtonMenu;
-  private JButton ButtonSearch;
-  private JPanel Header;
-  private JPanel Invoices;
-  private JPanel NameHeader;
-  private JLabel NamePanel;
-  private JTextField SearchValue;
-  private JPanel Panel;
-  private JScrollPane Scroll;
-  private JDateChooser startDate;
-  private JDateChooser endDate;
-  private JPanel fillPanel;
-  private JButton filterButton;
-  private JButton removeFilterButton;
 }

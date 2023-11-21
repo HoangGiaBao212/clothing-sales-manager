@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.clothingstore.dao.ImportDAO;
+import com.clothingstore.dao.OrderDAO;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.ImportModel;
+import com.clothingstore.models.OrderModel;
 
 public class ImportBUS implements IBUS<ImportModel> {
     private final List<ImportModel> importList = new ArrayList<>();
@@ -146,4 +148,10 @@ public class ImportBUS implements IBUS<ImportModel> {
         }
         return results;
     }
+
+    public List<ImportModel> searchDateToDate(String fromDate, String toDate) {
+    List<ImportModel> results = new ArrayList<>();
+    results = ImportDAO.getInstance().searchDatetoDate(fromDate, toDate);
+    return results;
+  }
 }
