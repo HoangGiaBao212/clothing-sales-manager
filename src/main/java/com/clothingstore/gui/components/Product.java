@@ -26,14 +26,32 @@ public class Product extends JPanel {
     header.setBackground(new Color(255, 255, 255));
     header.setLayout(new GridBagLayout());
 
-    ImageIcon icon = new ImageIcon(productModel.getImage());
-    Image image = icon.getImage();
-    Image scaledImage = image.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
-    ImageIcon scaledIcon = new ImageIcon(scaledImage);
-    JLabel imageLabel = new JLabel(scaledIcon);
-    imageLabel.setPreferredSize(new Dimension(180, 178));
-    header.add(imageLabel, new GridBagConstraints());
-    add(header, BorderLayout.CENTER);
+    SwingWorker<ImageIcon, Void> worker = new SwingWorker<>() {
+      @Override
+      protected ImageIcon doInBackground() throws Exception {
+          ImageIcon icon = new ImageIcon(productModel.getImage());
+          Image image = icon.getImage();
+          Image scaledImage = image.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+          return new ImageIcon(scaledImage);
+      }
+
+      @Override
+      protected void done() {
+          try {
+              ImageIcon scaledIcon = get();
+              JLabel imageLabel = new JLabel(scaledIcon);
+              imageLabel.setPreferredSize(new Dimension(180, 178));
+              header.add(imageLabel, new GridBagConstraints());
+              add(header, BorderLayout.CENTER);
+              revalidate();
+              repaint();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
+  };
+
+  worker.execute();
 
     JPanel footer = new JPanel();
     footer.setBackground(new Color(255, 255, 255));
