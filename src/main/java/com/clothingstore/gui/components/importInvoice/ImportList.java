@@ -92,28 +92,42 @@ public class ImportList extends JPanel {
         searchButton.addActionListener(e -> {
             String searchValue = searchValueTextField.getText();
             if (searchValue == null || searchValue.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                invoices.removeAll();
+                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 for (ImportModel importModel : importList) {
-                    if (importModel.getId() == Integer.parseInt(searchValue)) {
-                        ImportInvoice invoice = new ImportInvoice();
-                        invoice.setImportModel(importModel);
-                        invoices.add(invoice);
-                    }
+                    ImportInvoice invoice = new ImportInvoice();
+                    invoice.setImportModel(importModel);
+                    invoices.add(invoice);
                 }
-                if (invoices.getComponentCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue, "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
-                    for (ImportModel importModel : importList) {
-                        ImportInvoice invoice = new ImportInvoice();
-                        invoice.setImportModel(importModel);
-                        invoices.add(invoice);
+            } else {
+                try {
+                    int searchId = Integer.parseInt(searchValue);
+                    if (searchId > 0) {
+                        invoices.removeAll();
+                        for (ImportModel importModel : importList) {
+                            if (importModel.getId() == searchId) {
+                                ImportInvoice invoice = new ImportInvoice();
+                                invoice.setImportModel(importModel);
+                                invoices.add(invoice);
+                            }
+                        }
+                        if (invoices.getComponentCount() == 0) {
+                            JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue,
+                                    "Lỗi",
+                                    JOptionPane.ERROR_MESSAGE);
+                            for (ImportModel importModel : importList) {
+                                ImportInvoice invoice = new ImportInvoice();
+                                invoice.setImportModel(importModel);
+                                invoices.add(invoice);
+                            }
+                        }
+                        Scroll.setViewportView(invoices);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mã sản phẩm phải là số lớn hơn 0", "Lỗi",
+                                JOptionPane.ERROR_MESSAGE);
                     }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Mã sản phẩm không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-
-                Scroll.setViewportView(invoices);
             }
         });
 
@@ -138,8 +152,8 @@ public class ImportList extends JPanel {
 
     }
 
-    private void updateImportList(String value){
-        
+    private void updateImportList(String value) {
+
     }
 
     private void initComponents() {

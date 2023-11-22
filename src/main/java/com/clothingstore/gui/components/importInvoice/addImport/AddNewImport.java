@@ -146,7 +146,7 @@ public class AddNewImport extends JPanel {
             if (importItemsModel.getPrice() <= 0) {
                 JOptionPane.showMessageDialog(
                         null,
-                        "Sản phẩm có mã là " + importItemsModel.getProduct_id() + " đang có giá bằng 0",
+                        "Sản phẩm có mã là " + importItemsModel.getProduct_id() + " phải có giá lớn hơn 0",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -211,7 +211,7 @@ public class AddNewImport extends JPanel {
             listImportItemPanel.removeAll();
             listImportItemPanel.repaint();
         } else {
-            JOptionPane.showMessageDialog(null, "Tạo phiếu nhập thất bại",
+            JOptionPane.showMessageDialog(null, "Đã hủy tạo phiếu nhập",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
