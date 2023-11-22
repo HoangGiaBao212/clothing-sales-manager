@@ -44,7 +44,7 @@ public class ImportDetail extends JPanel {
       {
         add(new ImportDetail("Mã hóa đơn", "" + importModel.getId()));
         add(new ImportDetail("Ngày tạo", String.valueOf(importModel.getImportDate())));
-        add(new ImportDetail("Só sản phẩm", String.valueOf(productQuantity)));
+        add(new ImportDetail("Số sản phẩm", String.valueOf(productQuantity)));
         add(new ImportDetail("Tổng", "" + decimalFormat.format(importModel.getTotalPrice())));
       }
     };
