@@ -31,7 +31,7 @@ public class Header extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(70,75));
+        setPreferredSize(new Dimension(70,50));
         setBackground(backgroundColor);
 
         NamePanel.setText("   DashBoard");
@@ -44,8 +44,8 @@ public class Header extends JPanel {
         ButtonMenu.addActionListener(new NavData().MenuAction());
         add(ButtonMenu, BorderLayout.WEST);
 
-        Panel.setBorder(BorderFactory.createEmptyBorder(22, 1, 22, 1));
-        Panel.setPreferredSize(new Dimension(360, 80));
+        Panel.setBorder(BorderFactory.createEmptyBorder(11, 1, 11, 1));
+        Panel.setPreferredSize(new Dimension(360, 50));
         Panel.setLayout(new GridLayout(1, 2));
         Panel.setBackground(backgroundColor);
 

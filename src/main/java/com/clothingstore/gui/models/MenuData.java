@@ -137,8 +137,8 @@ public class MenuData {
                             "Quản lý phân quyền",
                             new ArrayList<MenuItemData>() {
                                 {
-                                    add(new MenuItemData("Phân quyền cho từng chức vụ", RoleAction()));
-                                    add(new MenuItemData("Phân quyền cho từng người dùng", RolePermissionAction()));
+                                    add(new MenuItemData("Theo chức vụ", RoleAction()));
+                                    add(new MenuItemData("Theo người dùng", RolePermissionAction()));
 
                                 }
                             },

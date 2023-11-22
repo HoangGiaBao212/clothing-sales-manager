@@ -1,9 +1,12 @@
 package com.clothingstore.gui.admin.dashboard;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+
 import javax.swing.*;
 
 public class Card extends JPanel {
+    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 
 
     public Card( String icon, String name, int value, Color color, double percent) {
@@ -49,7 +52,7 @@ public class Card extends JPanel {
         MainPanel.add(Panel);
 
         Value.setFont(new Font("Segoe UI", 3, 16)); // NOI18N
-        Value.setText(value+"");
+        Value.setText(decimalFormat.format(value));
         MainPanel.add(Value);
 
         add(MainPanel, BorderLayout.CENTER);
