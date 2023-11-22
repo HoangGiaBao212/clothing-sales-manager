@@ -605,10 +605,8 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
-      revalidate();
-      repaint();
-      //TODO: Check validation?
-      if (Phone.getText().equals("0000000000")) {
+      if (Phone.getText().equals("0000000000") || !Validation.isValidPhoneNumber(Phone.getText().toString())
+          || Phone.getText().isEmpty() || Phone.getText().isBlank()) {
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(jf, "Số điện thoại không hợp lệ, vui lòng thử lại");
@@ -709,6 +707,10 @@ public class InvoiceDetail extends JFrame {
       fr1.setAlwaysOnTop(true);
       JOptionPane.showMessageDialog(fr1, "Đã thêm 1 khách hàng mới thành công.");
       CustomerBUS.getInstance().refreshData();
+      List<CustomerModel> customerModels = CustomerBUS.getInstance().getAllModels();
+      PointModel pointModel = new PointModel(0, customerModels.get(customerModels.size() - 1).getId(), 0, 0);
+      PointBUS.getInstance().addModel(pointModel);
+      PointBUS.getInstance().refreshData();
       revalidate();
       repaint();
     }
