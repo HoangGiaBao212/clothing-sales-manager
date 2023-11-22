@@ -220,20 +220,23 @@ public class AddNewImport extends JPanel {
     private void addNewItemProduct() {
         try {
             int idProduct = Integer.parseInt(idProductTextField.getText());
+            if (idProduct <= 0) {
+                JOptionPane.showMessageDialog(this, "Id sản phẩm là 1 số lớn hơn 0", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             ProductModel productModel = ProductBUS.getInstance().getModelById(idProduct);
-
+    
             if (productModel == null) {
                 SwingUtilities.invokeLater(
-                        () -> JOptionPane.showMessageDialog(idProductTextField, "Không tìm thấy sản phẩm có mã là: " + idProduct,
+                        () -> JOptionPane.showMessageDialog(this,
+                                "Không tìm thấy sản phẩm có mã là: " + idProduct,
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE));
             } else {
                 Boolean check = true;
                 for (ImportItemsModel importItemModel : importItemList) {
                     if (importItemModel.getProduct_id() == idProduct) {
-                        JOptionPane.showMessageDialog(idProductTextField, "Sản phẩm này đã được thêm!!",
-                                "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sản phẩm này đã được thêm!!", "Error", JOptionPane.ERROR_MESSAGE);
                         check = false;
                         break;
                     }
@@ -251,16 +254,15 @@ public class AddNewImport extends JPanel {
                         updateStatusTable();
                     });
                 }
-
             }
         } catch (NumberFormatException e) {
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(idProductTextField,
-                    "Invalid idProduct. Please enter a valid integer.",
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this,
+                    "Id sản phẩm không hợp lệ, vui lòng nhập id là số",
                     "Error",
                     JOptionPane.ERROR_MESSAGE));
         }
     }
-
+    
     private void updateQuantityImportItem() {
         quantityImportItem = importItemProducts.size() + 1;
     }
