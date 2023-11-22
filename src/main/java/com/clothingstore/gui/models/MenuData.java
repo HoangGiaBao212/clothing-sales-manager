@@ -101,7 +101,6 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
                     data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
-                    data.add(new MenuData("Báo cáo ngày", null, StatisticAction(), "revenue"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
@@ -121,7 +120,16 @@ public class MenuData {
 
                 }
                 if (userPermissionModel.getPermissionId() == 6) {
-                    data.add(new MenuData("Báo cáo tháng", null, RevenueAction(), "revenue"));
+                    data.add(new MenuData(
+                            "Thống kê",
+                            new ArrayList<MenuItemData>() {
+                                {
+                                    add(new MenuItemData("Thống kê ngày", StatisticAction()));
+                                    add(new MenuItemData("Thống kê tháng", RevenueAction()));
+
+                                }
+                            },
+                            null, "revenue"));
 
                 }
                 if (userPermissionModel.getPermissionId() == 7) {

@@ -3,6 +3,8 @@ package com.clothingstore.gui.components.customerList;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.*;
 
@@ -28,8 +30,17 @@ public class Invoice extends JPanel {
 
     for(OrderItemModel orderItemModel : orderItemList)
       quantity += orderItemModel.getQuantity();
+    
+    java.util.Date timestamp = new java.util.Date();
+    try {
+      timestamp = new SimpleDateFormat(String.valueOf(orderModel.getOrderDate())).parse("yyyy-MM-dd HH:mm:ss");
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String date = outputFormat.format(timestamp);
+
     String id = String.valueOf(orderModel.getId());
-    String date = String.valueOf(orderModel.getOrderDate());
     String productTotal = String.valueOf(quantity);
     String totalPrice = String.valueOf(orderModel.getTotalPrice());
     initComponents(id, date, productTotal, totalPrice);

@@ -25,8 +25,6 @@ public class Header extends JPanel {
         SearchPanel = new JPanel();
         Value = new JTextField();
         ButtonSearch = new JButton();
-        ProfilePanel = new JPanel();
-        Profile = new JComboBox<>();
         ButtonMenu = new JButton();
 
         Color backgroundColor = new Color(179, 179, 255);
@@ -62,25 +60,13 @@ public class Header extends JPanel {
         SearchPanel.add(ButtonSearch, BorderLayout.EAST);
         
         Panel.add(SearchPanel);
-        
-        ProfilePanel.setBorder(BorderFactory.createEmptyBorder(1, 35, 1, 20));
-        ProfilePanel.setBackground(backgroundColor);
-        ProfilePanel.setLayout(new BorderLayout());
-
-        // Profile.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Profile.setModel(new DefaultComboBoxModel<>(new Icon[]{(new ImageIcon(getClass().getResource("/resources/icons/search.png")))}));
-        ProfilePanel.add(Profile, BorderLayout.CENTER);
-
-        Panel.add(ProfilePanel);
 
         add(Panel, BorderLayout.EAST);
     }
     private JButton ButtonSearch;
-    private JComboBox<Icon> Profile;
     private JLabel NamePanel;
     private JPanel Panel;
     private JPanel SearchPanel;
-    private JPanel ProfilePanel;
     private JTextField Value;
     private JButton ButtonMenu;
 }

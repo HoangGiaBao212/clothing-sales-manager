@@ -36,7 +36,7 @@ public class Statistic extends JPanel {
     private double totalMoneyCusNew;
     private int productQuantity;
     private int pointUsed;
-    DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 
     public Statistic() {
         this.date = LocalDate.now();
@@ -117,7 +117,7 @@ public class Statistic extends JPanel {
         Detail.setPreferredSize(new Dimension(200,200));
         Detail.setLayout(new GridLayout(0, 2));
         Detail.setBackground(background);
-        Detail.add(new DetailPanel("Tổng số hóa đơn", String.valueOf(decimalFormat.format(invoiceQuantity))));
+        Detail.add(new DetailPanel("Tổng số hóa đơn", String.valueOf(invoiceQuantity)));
 
         if(String.valueOf((totalMoney/invoiceQuantity)).equals("NaN"))
             Detail.add(new DetailPanel("Trung bình mỗi hóa đơn", "0"));
@@ -270,7 +270,7 @@ public class Statistic extends JPanel {
                 g.setColor(Color.black);
                     g.drawRect(x, y, barWidth, barHeight);
 
-                String valueText = String.valueOf(monthlyRevenue[i]);
+                String valueText = String.valueOf(decimalFormat.format(monthlyRevenue[i]));
                     int textWidth = g.getFontMetrics().stringWidth(valueText);
                     g.drawString(valueText, x + barWidth / 2 - textWidth / 2, y - 5);
                 }

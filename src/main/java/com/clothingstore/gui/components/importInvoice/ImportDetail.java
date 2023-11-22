@@ -43,7 +43,7 @@ public class ImportDetail extends JPanel {
     ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {
       {
         add(new ImportDetail("Mã hóa đơn", "" + importModel.getId()));
-        add(new ImportDetail("Ngày tạo", "" + importModel.getImportDate()));
+        add(new ImportDetail("Ngày tạo", String.valueOf(importModel.getImportDate())));
         add(new ImportDetail("Só sản phẩm", String.valueOf(productQuantity)));
         add(new ImportDetail("Tổng", "" + decimalFormat.format(importModel.getTotalPrice())));
       }

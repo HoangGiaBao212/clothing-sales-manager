@@ -82,6 +82,7 @@ public class Menu extends JPanel {
       if (dataMenuItem != null) {
         for (MenuItemData option : dataMenuItem) {
           JMenuItem menuItem = new JMenuItem(option.getName());
+          menuItem.setFont(new Font("Segoe UI", 1, 13));
           menuItem.setPreferredSize(new Dimension(170, 45));
           menuItem.setBackground(new Color(204, 204, 255));
           menuItem.setHorizontalAlignment(SwingConstants.CENTER);
