@@ -159,16 +159,16 @@ public class PDFWriter {
 
     chooseURL(filepath);
     try {
-      setTitle("Import Receipt");
+      setTitle("Hóa đơn nhập hàng");
 
       // Add header information
       DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      String headerInfoString = String.format("ID: %d\nEmployee: %s\nTotal Price: %s\nCreated At: %s",
+      String headerInfoString = String.format("Mã phiếu nhập: %d\nHọ tên nhân viên: %s\nTổng tiền: %s\nNgày khởi tạo: %s",
           importData.getId(), employee.getName(), formattedTotalPrice, dateFormat.format(importData.getImportDate()));
       writeObject(headerInfoString.split("\n"));
 
       // Add product information
-      String[] columnNames = { "ID", "Name", "Image", "Price", "Size", "Quantity", "Total Price" };
+      String[] columnNames = { "Mã sản phẩm", "Tên", "Ảnh sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng" };
       Object[][] data = new Object[importItemsList.size()][7];
       for (int i = 0; i < importItemsList.size(); i++) {
         ImportItemsModel item = importItemsList.get(i);
@@ -234,9 +234,9 @@ public class PDFWriter {
     if (paymentData.size() == 1) {
       payment = paymentData.get(0);
       if (payment.getPaymentMethodId() == 1) {
-        paymentMethod = "Cash";
+        paymentMethod = "Tiền mặt";
       } else {
-        paymentMethod = "Credit";
+        paymentMethod = "Thẻ tín dụng";
       }
     }
 
@@ -252,20 +252,20 @@ public class PDFWriter {
 
     chooseURL(filepath);
     try {
-      setTitle("Purchase Receipt");
+      setTitle("Hóa đơn mua hàng");
 
       // Add Order Information
       Timestamp orderDateTimestamp = orderModel.getOrderDate();
       LocalDate orderDate = orderDateTimestamp.toLocalDateTime().toLocalDate();
       DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       String orderInfoString = String.format(
-          "Order Date: %s\nOrder ID: %d\nCustomer Name: %s\nEmployee Name: %s\nPayment Method: %s\nTotal Amount: %s",
+          "Ngày mua hàng: %s\nMã đơn hàng: %d\nHọ tên khách hàng: %s\nNhân viên bán hàng: %s\nPhương thức thanh toán: %s\nTổng giá trị thanh toán: %s",
           dateFormat.format(orderDate), orderModel.getId(), customer.getCustomerName(), employee.getName(),
           paymentMethod, formattedTotalPrice);
       writeObject(orderInfoString.split("\n"));
 
       // Add product Information
-      String[] columnNames = { "ID", "Name", "Price", "Size", "Quantity", "Total Price" };
+      String[] columnNames = { "Mã sản phẩm", "Tên sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng tiền" };
       Object[][] data = new Object[orderItemsList.size()][6];
       for (int i = 0; i < orderItemsList.size(); i++) {
         OrderItemModel orderItemModel = orderItemsList.get(i);
