@@ -5,16 +5,13 @@ import com.clothingstore.bus.ImportBUS;
 import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PaymentBUS;
-import com.clothingstore.bus.PaymentMethodBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.UserBUS;
-import com.clothingstore.gui.utilities.ImageUtil;
 import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
-import com.clothingstore.models.PaymentMethodModel;
 import com.clothingstore.models.PaymentModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
@@ -39,8 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import java.awt.image.BufferedImage;
+import java.util.stream.Collectors;
 import javax.swing.JTable;
 
 public class PDFWriter {
@@ -145,41 +141,19 @@ public class PDFWriter {
 
   public void exportImportsToPDF(int importId, String filepath) {
     ImportModel importData = ImportBUS.getInstance().getModelById(importId);
-    List<ImportItemsModel> importItemsList = ImportItemsBUS
-        .getInstance()
-        .getAllModels();
-    List<ImportItemsModel> modifiableItemsList = new ArrayList<>(
-        importItemsList);
-    modifiableItemsList.removeIf(items -> items.getImport_id() != importData.getId());
-
+    List<ImportItemsModel> importItemsList = new ArrayList<>(ImportItemsBUS.getInstance().getAllModels());
     List<ProductModel> productsList = ProductBUS.getInstance().getAllModels();
-    List<ProductModel> modifiableProductsList = new ArrayList<>(productsList);
-    for (int i = modifiableItemsList.size() - 1; i >= 0; i--) {
-      boolean found = false;
-      for (ProductModel productModel : modifiableProductsList) {
-        if (modifiableItemsList.get(i).getId() == productModel.getId()) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        modifiableItemsList.remove(i);
-      }
-    }
+    importItemsList.removeIf(item -> productsList.stream().noneMatch(product -> item.getId() == product.getId()));
 
-    UserModel employee = UserBUS
-        .getInstance()
-        .getModelById(importData.getUserId());
+    UserModel employee = UserBUS.getInstance().getModelById(importData.getUserId());
 
-    // Calculate Total Price
-    double totalPrice = 0;
-    for (ImportItemsModel items : modifiableItemsList) {
-      ProductModel productModel = ProductBUS.getInstance().getModelById(items.getId());
-      double itemTotalPrice = (items.getQuantity() * productModel.getPrice());
-      totalPrice += itemTotalPrice;
-    }
+    double totalPrice = importItemsList.stream()
+        .mapToDouble(item -> {
+          ProductModel productModel = ProductBUS.getInstance().getModelById(item.getId());
+          return item.getQuantity() * productModel.getPrice();
+        })
+        .sum();
 
-    // Format Total Price as Currency
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     String formattedTotalPrice = currencyFormatter.format(totalPrice);
 
@@ -189,166 +163,127 @@ public class PDFWriter {
 
       // Add header information
       DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      String headerInfoString = "ID: " +
-          importData.getId() +
-          "\n" +
-          "Employee: " +
-          employee.getName() +
-          "\n" +
-          "Total Price: " +
-          /* importData.getTotalPrice() */formattedTotalPrice +
-          "\n" +
-          "Created At: " +
-          dateFormat.format(importData.getImportDate());
+      String headerInfoString = String.format("ID: %d\nEmployee: %s\nTotal Price: %s\nCreated At: %s",
+          importData.getId(), employee.getName(), formattedTotalPrice, dateFormat.format(importData.getImportDate()));
       writeObject(headerInfoString.split("\n"));
 
-      // Add product Information
-      String[] columnNames = {
-          "ID",
-          "Image",
-          "Name",
-          "Price",
-          "Quantity",
-          "Total Price",
-      };
-      Object[][] data = new Object[modifiableItemsList.size()][5];
-      for (int i = 0; i < modifiableItemsList.size(); i++) {
-        ImportItemsModel item = modifiableItemsList.get(i);
-        ProductModel product = ProductBUS
-            .getInstance()
-            .getModelById(item.getId());
+      // Add product information
+      String[] columnNames = { "ID", "Name", "Image", "Price", "Size", "Quantity", "Total Price" };
+      Object[][] data = new Object[importItemsList.size()][7];
+      for (int i = 0; i < importItemsList.size(); i++) {
+        ImportItemsModel item = importItemsList.get(i);
+        ProductModel product = ProductBUS.getInstance().getModelById(item.getId());
         double itemTotalPrice = item.getQuantity() * product.getPrice();
         data[i][0] = product.getId();
         data[i][1] = product.getName();
-
-        try {
-          BufferedImage originalImage = ImageUtil.fromBase64(product.getImage());
-          data[i][2] = originalImage;
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        data[i][3] = "$" + product.getPrice();
-        data[i][4] = item.getQuantity();
-        data[i][5] = currencyFormatter.format(itemTotalPrice);
+        // Image handling...
+        data[i][3] = currencyFormatter.format(product.getPrice());
+        data[i][4] = getSizeLabel(item.getSize_id());
+        data[i][5] = item.getQuantity();
+        data[i][6] = currencyFormatter.format(itemTotalPrice);
       }
       JTable table = new JTable(data, columnNames);
       writeTable(table);
 
-      // Close the document
       close();
     } catch (Exception e) {
-      e.printStackTrace();
+      logError(e);
     }
   }
 
+  private String getSizeLabel(int sizeId) {
+    switch (sizeId) {
+      case 1:
+        return "S";
+      case 2:
+        return "M";
+      case 3:
+        return "L";
+      case 4:
+        return "XL";
+      case 5:
+        return "XXL";
+      default:
+        return "Unknown";
+    }
+  }
+
+  private void logError(Exception e) {
+    // Implement error logging mechanism here
+    e.printStackTrace();
+    // Log the error using a logging framework or custom logging mechanism
+  }
+
   public void exportReceiptToPDF(OrderModel orderModel, String filepath) {
-    // Get List products in cart items:
     List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().getAllModels());
 
-    for (int i = 0; i < orderItemsList.size(); i++) {
-      if (orderItemsList.get(i).getOrderId() != orderModel.getId()) {
-        orderItemsList.remove(i);
+    orderItemsList.removeIf(orderItem -> orderItem.getOrderId() != orderModel.getId());
+
+    List<ProductModel> productList = orderItemsList.stream()
+        .map(orderItem -> ProductBUS.getInstance().getModelById(orderItem.getProductId()))
+        .collect(Collectors.toList());
+
+    CustomerModel customer = CustomerBUS.getInstance().getModelById(orderModel.getCustomerId());
+    UserModel employee = UserBUS.getInstance().getModelById(orderModel.getUserId());
+
+    List<PaymentModel> paymentData = PaymentBUS.getInstance().searchModel(String.valueOf(orderModel.getId()),
+        new String[] { "order_id" });
+    String paymentMethod = null;
+    PaymentModel payment = null;
+
+    if (paymentData.size() == 1) {
+      payment = paymentData.get(0);
+      if (payment.getPaymentMethodId() == 1) {
+        paymentMethod = "Cash";
+      } else {
+        paymentMethod = "Credit";
       }
     }
 
-    List<ProductModel> productList = new ArrayList<>();
-    for (int i = 0; i < orderItemsList.size(); i++) {
-      ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemsList.get(i).getProductId());
-      productList.add(productModel);
-    }
+    double totalPrice = orderItemsList.stream()
+        .mapToDouble(cartItem -> {
+          ProductModel product = ProductBUS.getInstance().getModelById(cartItem.getProductId());
+          return cartItem.getQuantity() * product.getPrice();
+        })
+        .sum();
 
-    // Get Customer Data
-    CustomerModel customer = CustomerBUS
-        .getInstance()
-        .getModelById(orderModel.getCustomerId());
-
-    // Get Employee Information
-    UserModel employee = UserBUS
-        .getInstance()
-        .getModelById(orderModel.getUserId());
-
-    // Get Payment & payment method
-    List<PaymentModel> paymentData = PaymentBUS
-        .getInstance()
-        .searchModel(
-            String.valueOf(orderModel.getId()),
-            new String[] { "order_id" });
-    PaymentMethodModel paymentMethod = null;
-    PaymentModel payment = null;
-    if (paymentData.size() == 1) {
-      payment = paymentData.get(0);
-      paymentMethod = PaymentMethodBUS.getInstance().getModelById(payment.getId());
-    }
-
-    // Calculate Total Price
-    double totalPrice = 0;
-    for (OrderItemModel cartItem : orderItemsList) {
-      ProductModel product = ProductBUS
-          .getInstance()
-          .getModelById(cartItem.getProductId());
-      double itemTotalPrice = (cartItem.getQuantity() * product.getPrice());
-      totalPrice += itemTotalPrice;
-    }
-
-    // Format Total Price as Currency
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     String formattedTotalPrice = currencyFormatter.format(totalPrice);
 
-    // Add receipt information into PDF File.
     chooseURL(filepath);
     try {
       setTitle("Purchase Receipt");
 
       // Add Order Information
-      Timestamp orderDateTimestamp = orderModel.getOrderDate(); // Assuming orderDate is a Timestamp
+      Timestamp orderDateTimestamp = orderModel.getOrderDate();
       LocalDate orderDate = orderDateTimestamp.toLocalDateTime().toLocalDate();
       DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      String orderInfoString = "Order Date: " +
-          dateFormat.format(orderDate) +
-          "\n" +
-          "Order ID: " +
-          orderModel.getId() +
-          "\n" +
-          "Customer Name: " +
-          customer.getCustomerName() +
-          "\n" +
-          "Employee Name: " +
-          employee.getName() +
-          "\n" +
-          "Payment Method: " +
-          (paymentMethod != null ? payment.getPaymentMethodId() : "") +
-          "\n" +
-          "Total Amount: " +
-          formattedTotalPrice;
+      String orderInfoString = String.format(
+          "Order Date: %s\nOrder ID: %d\nCustomer Name: %s\nEmployee Name: %s\nPayment Method: %s\nTotal Amount: %s",
+          dateFormat.format(orderDate), orderModel.getId(), customer.getCustomerName(), employee.getName(),
+          paymentMethod, formattedTotalPrice);
       writeObject(orderInfoString.split("\n"));
 
       // Add product Information
-      String[] columnNames = {
-          "ID",
-          "Name",
-          "Price",
-          "Quantity",
-          "Total Price",
-      };
+      String[] columnNames = { "ID", "Name", "Price", "Size", "Quantity", "Total Price" };
       Object[][] data = new Object[orderItemsList.size()][6];
       for (int i = 0; i < orderItemsList.size(); i++) {
         OrderItemModel orderItemModel = orderItemsList.get(i);
-        ProductModel product = ProductBUS
-            .getInstance()
-            .getModelById(orderItemModel.getProductId());
+        ProductModel product = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
         double itemTotalPrice = orderItemModel.getQuantity() * product.getPrice();
         data[i][0] = product.getId();
         data[i][1] = product.getName();
         data[i][2] = product.getPrice();
-        data[i][3] = orderItemModel.getQuantity();
-        data[i][4] = currencyFormatter.format(itemTotalPrice);
+        data[i][3] = getSizeLabel(orderItemModel.getSizeId());
+        data[i][4] = orderItemModel.getQuantity();
+        data[i][5] = currencyFormatter.format(itemTotalPrice);
       }
       JTable table = new JTable(data, columnNames);
       writeTable(table);
 
       close();
     } catch (Exception e) {
-      e.printStackTrace();
+      logError(e);
     }
   }
 }

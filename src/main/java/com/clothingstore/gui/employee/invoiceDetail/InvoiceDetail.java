@@ -607,7 +607,8 @@ public class InvoiceDetail extends JFrame {
     public void focusLost(FocusEvent e) {
       revalidate();
       repaint();
-      if (Phone.getText().equals("0000000000") || Validation.isValidPhoneNumber(Phone.getText().toString())) {
+      //TODO: Check validation?
+      if (Phone.getText().equals("0000000000")) {
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(jf, "Số điện thoại không hợp lệ, vui lòng thử lại");
