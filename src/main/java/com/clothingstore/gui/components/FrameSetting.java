@@ -62,6 +62,7 @@ public class FrameSetting extends JFrame {
       }
     });
 
+    NameLabel.setFont(new Font("Segoe UI", 1, 18));
     add(NameLabel, BorderLayout.NORTH);
 
     Panel.setLayout(new BorderLayout());

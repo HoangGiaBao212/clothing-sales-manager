@@ -35,7 +35,7 @@ public class CustomerDetail extends JPanel {
     
     public  ArrayList<CustomerDetail> getData() {
 
-        PointTransactionModel point = PointTransactionBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
+        PointModel point = PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
         ArrayList<CustomerDetail> data = new ArrayList<CustomerDetail>() {{
             add(new CustomerDetail("Mã khách hàng",String.valueOf(customerModel.getId())));
             add(new CustomerDetail("Tên khách hàng", customerModel.getCustomerName()));

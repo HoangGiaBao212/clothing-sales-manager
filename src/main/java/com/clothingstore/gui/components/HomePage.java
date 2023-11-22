@@ -2,6 +2,7 @@ package com.clothingstore.gui.components;
 
 import javax.swing.*;
 
+import com.clothingstore.gui.admin.dashboard.Dashboard;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.models.MenuData;
@@ -49,7 +50,7 @@ public class HomePage extends JFrame {
     setBackground(Color.BLACK);
     switch (currentUser.getRoleId()) {
       case 1:
-        add(Products.getInstance(), BorderLayout.CENTER);
+        add(Dashboard.getInstance(), BorderLayout.CENTER);
         break;
       case 2:
         add(Products.getInstance(), BorderLayout.CENTER);
@@ -57,11 +58,12 @@ public class HomePage extends JFrame {
       case 3:
         add(Products.getInstance(), BorderLayout.CENTER);
         add(Invoice.getInstance(), BorderLayout.EAST);
+        add(Navigation.getInstance(), BorderLayout.SOUTH);
         break;
       default:
         break;
     }
-    add(Navigation.getInstance(), BorderLayout.SOUTH);
+    
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
