@@ -38,6 +38,7 @@ public class InvoiceDetail extends JFrame {
   private double change = 0;
   private double finalPrice = 0;
   private double point = 0;
+  DecimalFormat decimalFormat = new DecimalFormat("0.####################");
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
     revalidate();
@@ -135,7 +136,7 @@ public class InvoiceDetail extends JFrame {
     Point.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.####################");
+
         if (Point.isSelected()) {
           Discount.setText("" + point);
           Total.setText(totalInvoice - point + "");
@@ -208,11 +209,10 @@ public class InvoiceDetail extends JFrame {
     Total.setEditable(false);
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
-    DecimalFormat decimalFormat = new DecimalFormat("0.####################");
     for (OrderItemModel orderItemModel : orderList) {
       totalInvoice = totalInvoice + orderItemModel.getPrice() * orderItemModel.getQuantity();
     }
-    TotalInvoice.setText("" + decimalFormat.format(totalInvoice));
+    TotalInvoice.setText(decimalFormat.format(totalInvoice));
     TotalInvoice.setEditable(false);
 
     Discount.setFont(new Font("Segoe UI", 0, 14));
@@ -251,10 +251,10 @@ public class InvoiceDetail extends JFrame {
 
     if (!Discount.getText().isBlank() || !Discount.getText().isEmpty()) {
       finalPrice = totalInvoice - Double.parseDouble(Discount.getText());
-      Total.setText("" + decimalFormat.format(finalPrice));
+      Total.setText(decimalFormat.format(finalPrice));
     } else {
       finalPrice = totalInvoice;
-      Total.setText("" + decimalFormat.format(finalPrice));
+      Total.setText(decimalFormat.format(finalPrice));
     }
 
     ButtonPay.addActionListener(new ActionListener() {
@@ -264,6 +264,13 @@ public class InvoiceDetail extends JFrame {
         boolean isWalkinCustomer = WalkInCus.isSelected();
         boolean isCreditSelected = CreditCheckBox.isSelected();
         boolean isCashSelected = CashCheckBox.isSelected();
+
+        if (isRegularCustomer && (Phone.getText().isEmpty() || Phone.getText().isBlank())) {
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          JOptionPane.showMessageDialog(jf, "Số điện thoại bạn không thể bỏ trống!");
+          return;
+        }
 
         if (isCashSelected && change >= 0) {
           processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
@@ -544,10 +551,9 @@ public class InvoiceDetail extends JFrame {
     public void actionPerformed(ActionEvent arg0) {
 
       if (WalkInCus.isSelected()) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.####################");
         Point.setSelected(false);
         Discount.setText("" + 0);
-        Total.setText(decimalFormat.format(totalInvoice) + "");
+        Total.setText(decimalFormat.format(totalInvoice));
         RegularCus.setSelected(false);
         UsePoint.setVisible(false);
         CustomerInfo.setVisible(false);
@@ -669,7 +675,7 @@ public class InvoiceDetail extends JFrame {
         double cusPaying = Double.parseDouble(CusPaying.getText());
         double totalReceipt = Double.parseDouble(Total.getText());
         change = cusPaying - totalReceipt;
-        Change.setText("" + change);
+        Change.setText(decimalFormat.format(change));
       }
     }
   };

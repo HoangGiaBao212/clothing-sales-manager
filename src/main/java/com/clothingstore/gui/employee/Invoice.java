@@ -104,12 +104,12 @@ public class Invoice extends JPanel {
         } else {
           return;
         }
-        if ((orderItemList.isEmpty() || orderItemList == null) && choice == JOptionPane.YES_OPTION) {
-          JFrame jf = new JFrame();
-          jf.setAlwaysOnTop(false);
-          JOptionPane.showMessageDialog(jf, "Bạn không có sản phẩm nào trong giỏ hàng!");
-          return;
-        }
+        // if ((orderItemList.isEmpty() || orderItemList == null) && choice == JOptionPane.YES_OPTION) {
+        //   JFrame jf = new JFrame();
+        //   jf.setAlwaysOnTop(false);
+        //   JOptionPane.showMessageDialog(jf, "Bạn không có sản phẩm nào trong giỏ hàng!");
+        //   return;
+        // }
       }
     });
 
@@ -151,13 +151,13 @@ public class Invoice extends JPanel {
   private JLabel TextSum;
   private JLabel Value;
   private double totalPrice;
+  DecimalFormat decimalFormat = new DecimalFormat("0.####################");
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
     ButtonPay.setVisible(true);
     OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
     boolean found = false;
-    DecimalFormat decimalFormat = new DecimalFormat("0.####################");
 
     for (OrderItemModel item : orderItemList) {
       if (item.getProductId() == orderItemModel.getProductId() && item.getSizeId() == orderItemModel.getSizeId()) {
@@ -175,7 +175,7 @@ public class Invoice extends JPanel {
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
       Invoices.add(invoiceProduct);
       totalPrice += orderItemModel.getPrice() * orderItemModel.getQuantity();
-      Value.setText(" " + decimalFormat.format(totalPrice));
+      Value.setText(decimalFormat.format(totalPrice));
       revalidate();
       repaint();
     }
@@ -202,7 +202,7 @@ public class Invoice extends JPanel {
                 && invoiceProduct.getSizeId() == size && invoiceProduct.getQuantity() == quantity) {
               Invoices.remove(invoiceProduct);
               totalPrice = totalPrice - (productModel.getPrice() * quantity);
-              Value.setText(" " + String.valueOf(totalPrice));
+              Value.setText(decimalFormat.format(totalPrice));
               break;
             }
           }
@@ -242,12 +242,11 @@ public class Invoice extends JPanel {
   private void updateCart() {
     Invoices.removeAll();
     totalPrice = 0;
-    DecimalFormat decimalFormat = new DecimalFormat("\"0.####################\"");
     for (OrderItemModel orderItem : orderItemList) {
       ProductModel productModel = ProductBUS.getInstance().getModelById(orderItem.getProductId());
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, orderItem.getSizeId(), orderItem.getQuantity());
       totalPrice += orderItem.getPrice() * orderItem.getQuantity();
-      Value.setText(" " + decimalFormat.format(totalPrice));
+      Value.setText(decimalFormat.format(totalPrice));
       Invoices.add(invoiceProduct);
     }
 
@@ -287,7 +286,5 @@ public class Invoice extends JPanel {
     totalPrice = 0;
     Value.setText("" + totalPrice);
     Invoices.removeAll();
-    revalidate();
-    repaint();
   }
 }
