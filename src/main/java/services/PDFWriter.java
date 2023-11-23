@@ -26,6 +26,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javax.swing.JTable;
 
 public class PDFWriter {
@@ -163,24 +165,24 @@ public class PDFWriter {
 
       // Add header information
       DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      String headerInfoString = String.format("Mã phiếu nhập: %d\nHọ tên nhân viên: %s\nTổng tiền: %s\nNgày khởi tạo: %s",
+      String headerInfoString = String.format(
+          "Mã phiếu nhập: %d\nHọ tên nhân viên: %s\nTổng tiền: %s\nNgày khởi tạo: %s",
           importData.getId(), employee.getName(), formattedTotalPrice, dateFormat.format(importData.getImportDate()));
       writeObject(headerInfoString.split("\n"));
 
       // Add product information
-      String[] columnNames = { "Mã sản phẩm", "Tên", "Ảnh sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng" };
-      Object[][] data = new Object[importItemsList.size()][7];
+      String[] columnNames = { "Mã sản phẩm", "Tên", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng" };
+      Object[][] data = new Object[importItemsList.size()][6];
       for (int i = 0; i < importItemsList.size(); i++) {
         ImportItemsModel item = importItemsList.get(i);
         ProductModel product = ProductBUS.getInstance().getModelById(item.getId());
         double itemTotalPrice = item.getQuantity() * product.getPrice();
         data[i][0] = product.getId();
         data[i][1] = product.getName();
-        // Image handling...
-        data[i][3] = currencyFormatter.format(product.getPrice());
-        data[i][4] = getSizeLabel(item.getSize_id());
-        data[i][5] = item.getQuantity();
-        data[i][6] = currencyFormatter.format(itemTotalPrice);
+        data[i][2] = currencyFormatter.format(product.getPrice());
+        data[i][3] = getSizeLabel(item.getSize_id());
+        data[i][4] = item.getQuantity();
+        data[i][5] = currencyFormatter.format(itemTotalPrice);
       }
       JTable table = new JTable(data, columnNames);
       writeTable(table);
@@ -286,4 +288,5 @@ public class PDFWriter {
       logError(e);
     }
   }
+
 }
