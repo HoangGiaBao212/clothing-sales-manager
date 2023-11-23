@@ -216,7 +216,7 @@ public class PDFWriter {
     // Log the error using a logging framework or custom logging mechanism
   }
 
-  public void exportReceiptToPDF(OrderModel orderModel, String filepath) {
+  public void exportReceiptToPDF(OrderModel orderModel, String filepath, double totalPrice) {
     List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().getAllModels());
 
     orderItemsList.removeIf(orderItem -> orderItem.getOrderId() != orderModel.getId());
@@ -241,13 +241,6 @@ public class PDFWriter {
         paymentMethod = "Thẻ tín dụng";
       }
     }
-
-    double totalPrice = orderItemsList.stream()
-        .mapToDouble(cartItem -> {
-          ProductModel product = ProductBUS.getInstance().getModelById(cartItem.getProductId());
-          return cartItem.getQuantity() * product.getPrice();
-        })
-        .sum();
 
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     String formattedTotalPrice = currencyFormatter.format(totalPrice);

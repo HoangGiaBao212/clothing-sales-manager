@@ -438,7 +438,9 @@ public class InvoiceDetail extends JFrame {
             OrderBUS.getInstance().refreshData();
             List<OrderModel> orderModels = OrderBUS.getInstance().getAllModels();
             OrderModel orderModel = orderModels.get(orderModels.size() - 1);
-            PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath);
+            String totalText = Total.getText().toString();
+            double totalValue = Double.parseDouble(totalText);
+            PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath, totalValue);
           }
         } else {
           return;

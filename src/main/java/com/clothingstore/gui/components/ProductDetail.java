@@ -188,12 +188,12 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-                spinnerModel.setValue(1);
+        spinnerModel.setValue(1);
         selectedSizeId = 2;
         isSizeMSelected = sizeM.isSelected();
         Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
-          if (sizeItemModels.get(i).getSizeId() == 2) {
+          if (sizeItemModels.get(i).getSizeId() == 2 && sizeItemModels.get(i).getQuantity() > 0) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
             spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
@@ -211,11 +211,10 @@ public class ProductDetail extends JFrame {
           }
         }
       }
-
     });
+
     JRadioButton sizeL = new JRadioButton("L");
     sizeL.addActionListener(new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         spinnerModel.setValue(1);
@@ -223,7 +222,7 @@ public class ProductDetail extends JFrame {
         isSizeLSelected = sizeL.isSelected();
         Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
-          if (sizeItemModels.get(i).getSizeId() == 3) {
+          if (sizeItemModels.get(i).getSizeId() == 3 && sizeItemModels.get(i).getQuantity() > 0) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
             spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
@@ -239,11 +238,10 @@ public class ProductDetail extends JFrame {
           }
         }
       }
-
     });
+
     JRadioButton sizeXL = new JRadioButton("XL");
     sizeXL.addActionListener(new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         spinnerModel.setValue(1);
@@ -251,7 +249,7 @@ public class ProductDetail extends JFrame {
         isSizeXLSelected = sizeXL.isSelected();
         Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
-          if (sizeItemModels.get(i).getSizeId() == 4) {
+          if (sizeItemModels.get(i).getSizeId() == 4 && sizeItemModels.get(i).getQuantity() > 0) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
             spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
@@ -270,9 +268,9 @@ public class ProductDetail extends JFrame {
         }
       }
     });
+
     JRadioButton sizeXXL = new JRadioButton("XXL");
     sizeXXL.addActionListener(new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         spinnerModel.setValue(1);
@@ -280,7 +278,7 @@ public class ProductDetail extends JFrame {
         isSizeXXLSelected = sizeXXL.isSelected();
         Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
-          if (sizeItemModels.get(i).getSizeId() == 5) {
+          if (sizeItemModels.get(i).getSizeId() == 5 && sizeItemModels.get(i).getQuantity() > 0) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
             spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
