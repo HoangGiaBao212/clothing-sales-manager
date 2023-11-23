@@ -122,7 +122,7 @@ public class ImportDAO implements IDAO<ImportModel> {
     }
   }
 
- public List<ImportModel> searchDatetoDate(String fromDate, String toDate) {
+  public List<ImportModel> searchDatetoDate(String fromDate, String toDate) {
     try {
       String query;
       if (fromDate == null && toDate == null) {
@@ -142,11 +142,6 @@ public class ImportDAO implements IDAO<ImportModel> {
           ImportModel importModel = createImportModelFromResultSet(rs);
           importList.add(importModel);
         }
-
-        if (importList.isEmpty()) {
-          throw new SQLException("No records found for the given date range.");
-        }
-
         return importList;
       }
     } catch (SQLException e) {

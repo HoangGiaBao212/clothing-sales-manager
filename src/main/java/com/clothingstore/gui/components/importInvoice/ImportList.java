@@ -246,49 +246,21 @@ public class ImportList extends JPanel {
     }
 
     private void checkDate(Date fromDate, Date toDate) {
-        if (fromDate == null && toDate != null) {
-            JOptionPane.showMessageDialog(null, "không được để trống ngày bắt đầu", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        } else if (toDate == null && fromDate != null) {
-            JOptionPane.showMessageDialog(null, "không được để trống ngày kết thúc", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        } else if (fromDate == null && toDate == null) {
-            JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu ngày tháng", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
-        else {
-            int result1 = fromDate.compareTo(currentDate);
-            int result2 = fromDate.compareTo(toDate);
-            if (result1 > 0) {
-                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể lớn hơn ngày hiện tại.", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-                startDate.setDate(null);
-            } else if (result2 > 0) {
-                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể lớn hơn ngày kết thúc.", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-                startDate.setDate(null);
-            } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String fromDateStr = (fromDate != null) ? sdf.format(fromDate) : null;
-                String toDateStr = (toDate != null) ? sdf.format(toDate) : null;
-
-                importList = new ArrayList<>(ImportBUS.getInstance().searchDateToDate(fromDateStr, toDateStr));
-                Collections.reverse(importList);
-                if (importList.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn trong khoảng thời gian đã chọn.",
-                            "Thông báo",
-                            JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    invoices.removeAll();
-                    for (ImportModel importModel : importList) {
-                        ImportInvoice invoice = new ImportInvoice();
-                        invoice.setImportModel(importModel);
-                        invoices.add(invoice);
-                    }
-                    Scroll.setViewportView(invoices);
-                }
+        try {
+            ImportBUS importBUS = ImportBUS.getInstance();
+            importList = new ArrayList<>(importBUS.searchDateToDate(fromDate, toDate));
+            Collections.reverse(importList);
+            invoices.removeAll();
+            for (ImportModel importModel : importList) {
+                ImportInvoice invoice = new ImportInvoice();
+                invoice.setImportModel(importModel);
+                invoices.add(invoice);
             }
+            Scroll.setViewportView(invoices);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
