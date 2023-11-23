@@ -113,7 +113,7 @@ public class Login extends JFrame {
     grPassWord.setPreferredSize(new Dimension(200, 0));
     grPassWord.setBackground(new java.awt.Color(173, 216, 230));
     passwordLabel = new JLabel();
-    passwordLabel.setText("Mật khẩu");
+    passwordLabel.setText("Mật khẩu        ");
     passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 13));
     passwordLabel.setForeground(java.awt.Color.BLACK);
     passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
