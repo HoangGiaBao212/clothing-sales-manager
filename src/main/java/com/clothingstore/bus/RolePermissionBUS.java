@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.clothingstore.dao.RolePermissionDAO;
-import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.models.RolePermissionModel;
 
 public class RolePermissionBUS {
@@ -45,10 +44,6 @@ public class RolePermissionBUS {
     public int addRolePermission(RolePermissionModel rolePermission) {
         int id = RolePermissionDAO.getInstance().insert(rolePermission);
         rolePermission.setId(id);
-        rolePermission.setRolePermissionStatus(
-                rolePermission.getRolePermissionStatus() != null ? rolePermission.getRolePermissionStatus()
-                        : RolePermissionStatus.ACTIVE);
-        rolePermissionList.add(rolePermission);
         return id;
     }
 
@@ -105,11 +100,6 @@ public class RolePermissionBUS {
                 }
                 case "permission_id" -> {
                     if (Integer.parseInt(value) == rolePermission.getPermissionId()) {
-                        return true;
-                    }
-                }
-                case "status" -> {
-                    if (rolePermission.getRolePermissionStatus().toString().toLowerCase().equalsIgnoreCase(value)) {
                         return true;
                     }
                 }

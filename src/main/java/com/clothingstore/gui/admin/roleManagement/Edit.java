@@ -13,7 +13,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.clothingstore.bus.PermissionBUS;
 import com.clothingstore.bus.RoleBUS;
 import com.clothingstore.bus.RolePermissionBUS;
-import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.models.PermissionModel;
 import com.clothingstore.models.RoleModel;
 import com.clothingstore.models.RolePermissionModel;
@@ -184,7 +183,7 @@ public class Edit extends JFrame {
 			}
 		}
 		
-		RolePermissionModel rolePermission = new RolePermissionModel(id,roleID,permissionID,RolePermissionStatus.INACTIVE);
+		RolePermissionModel rolePermission = new RolePermissionModel(id,roleID,permissionID);
 		int updatedRows = rolePermissionBus.updateRolePermission(rolePermission);
 		if(updatedRows > 0) {
 			JOptionPane.showMessageDialog(null, "Update thành công");

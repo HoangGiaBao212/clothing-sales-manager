@@ -46,7 +46,6 @@ CREATE TABLE
         `id` INT NOT NULL AUTO_INCREMENT,
         `role_id` INT,
         `permission_id` INT,
-        `status` ENUM ('active', 'inactive') NOT NULL DEFAULT "inactive",
         PRIMARY KEY (`id`)
     );
 

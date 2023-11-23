@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.clothingstore.enums.RolePermissionStatus;
 import com.clothingstore.interfaces.IDAO;
 import com.clothingstore.models.RolePermissionModel;
 
@@ -26,8 +25,7 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
     int id = rs.getInt("id");
     int roleId = rs.getInt("role_id");
     int permissionId = rs.getInt("permission_id");
-    RolePermissionStatus status = RolePermissionStatus.valueOf(rs.getString("status").toUpperCase());
-    return new RolePermissionModel(id, roleId, permissionId, status);
+    return new RolePermissionModel(id, roleId, permissionId);
   }
 
   @Override
@@ -47,11 +45,10 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int insert(RolePermissionModel rolePermissionModel) {
-    String insertSql = "INSERT INTO role_permissions (role_id, permission_id, status) VALUES (?, ?, ?)";
+    String insertSql = "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
     Object[] args = {
         rolePermissionModel.getRoleId(),
         rolePermissionModel.getPermissionId(),
-        rolePermissionModel.getRolePermissionStatus()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -63,11 +60,10 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int update(RolePermissionModel rolePermissionModel) {
-    String updateSql = "UPDATE role_permissions SET role_id = ?, permission_id = ?, status = ? WHERE id = ?";
+    String updateSql = "UPDATE role_permissions SET role_id = ?, permission_id = ? WHERE id = ?";
     Object[] args = {
         rolePermissionModel.getRoleId(),
         rolePermissionModel.getPermissionId(),
-        rolePermissionModel.getRolePermissionStatus(),
         rolePermissionModel.getId()
     };
     try {
@@ -100,12 +96,12 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
       String query;
       if (columnNames == null || columnNames.length == 0) {
-        query = "SELECT * FROM role_permissions WHERE CONCAT(id, role_id, permission_id, status) LIKE ?";
+        query = "SELECT * FROM role_permissions WHERE CONCAT(id, role_id, permission_id) LIKE ?";
       } else if (columnNames.length == 1) {
         String column = columnNames[0];
         query = "SELECT * FROM role_permissions WHERE " + column + " LIKE ?";
       } else {
-        query = "SELECT id, role_id, permission_id, status FROM role_permissions WHERE CONCAT("
+        query = "SELECT id, role_id, permission_id FROM role_permissions WHERE CONCAT("
             +
             String.join(", ", columnNames) +
             ") LIKE ?";
