@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.clothingstore.bus.PermissionBUS;
 import com.clothingstore.bus.UserPermissionBUS;
 import com.clothingstore.enums.UserPermissionStatus;
 import com.clothingstore.gui.admin.dashboard.Dashboard;
@@ -28,6 +29,7 @@ import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.login.Login;
 import com.clothingstore.models.UserPermissionModel;
+import com.clothingstore.models.PermissionModel;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 
@@ -82,14 +84,15 @@ public class MenuData {
         if (currentUser.getRoleId() == 1)
             data.add(new MenuData("DashBoard", null, DashboardAction(), "dashboard"));
         for (UserPermissionModel userPermissionModel : userPermissionList) {
+            PermissionModel permissionModel = PermissionBUS.getInstance().getModelById(userPermissionModel.getPermissionId());
             if (userPermissionModel.getStatus() == UserPermissionStatus.ACTIVE) {
                 if (userPermissionModel.getPermissionId() == 1) {
-                    data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+                    data.add(new MenuData(permissionModel.getPermissionName(), null, ProductAction(), "products"));
                 }
 
                 if (userPermissionModel.getPermissionId() == 2) {
                     data.add(new MenuData(
-                            "Quản lý nhập hàng",
+                            permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 {
                                     add(new MenuItemData("Danh sách hóa đơn nhập", ImportAction()));
@@ -100,11 +103,11 @@ public class MenuData {
                             null, "import"));
                 }
                 if (userPermissionModel.getPermissionId() == 3) {
-                    data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
+                    data.add(new MenuData(permissionModel.getPermissionName(), null, InvoiceHistoryAction(), "invoice"));
                 }
                 if (userPermissionModel.getPermissionId() == 4) {
                     data.add(new MenuData(
-                            "Quản lý nhân viên",
+                            permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 // {
                                 // add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
@@ -116,12 +119,12 @@ public class MenuData {
 
                 }
                 if (userPermissionModel.getPermissionId() == 5) {
-                    data.add(new MenuData("Quản lý khách hàng", null, CustomerAction(), "customer"));
+                    data.add(new MenuData(permissionModel.getPermissionName(), null, CustomerAction(), "customer"));
 
                 }
                 if (userPermissionModel.getPermissionId() == 6) {
                     data.add(new MenuData(
-                            "Thống kê",
+                            permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 {
                                     add(new MenuItemData("Thống kê ngày", StatisticAction()));
@@ -134,7 +137,7 @@ public class MenuData {
                 }
                 if (userPermissionModel.getPermissionId() == 7) {
                     data.add(new MenuData(
-                            "Quản lý phân quyền",
+                            permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 {
                                     add(new MenuItemData("Theo chức vụ", RoleAction()));
@@ -175,7 +178,6 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
-
             if (e.getActionCommand().equals("Danh sách hóa đơn nhập")) {
                 homePage.Add(ImportHistory.getInstance());
             } else if (e.getActionCommand().equals("Thêm hóa đơn nhập")) {
