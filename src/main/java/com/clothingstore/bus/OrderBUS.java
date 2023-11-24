@@ -1,7 +1,9 @@
 package com.clothingstore.bus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.clothingstore.dao.OrderDAO;
@@ -152,9 +154,36 @@ public class OrderBUS implements IBUS<OrderModel> {
     return results;
   }
 
-  public List<OrderModel> searchDateToDate(String fromDate, String toDate) {
-    List<OrderModel> results = new ArrayList<>();
-    results = OrderDAO.getInstance().searchDatetoDate(fromDate, toDate);
+  public List<OrderModel> searchDateToDate(Date fromDate, Date toDate) {
+    checkDateValidation(fromDate, toDate);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String fromDateStr = (fromDate != null) ? sdf.format(fromDate) : null;
+    String toDateStr = (toDate != null) ? sdf.format(toDate) : null;
+    List<OrderModel> results = OrderDAO.getInstance().searchDatetoDate(fromDateStr, toDateStr);
+    if (results.isEmpty())
+      throw new IllegalArgumentException("Không có hóa đơn nào trong khoảng thời gian mà bạn tìm kiếm");
     return results;
+  }
+
+  private void checkDateValidation(Date fromDate, Date toDate) {
+    Date currentDate = new Date();
+    if (fromDate == null && toDate != null) {
+      throw new IllegalArgumentException("Không được để trống ngày bắt đầu");
+    } else if (toDate == null && fromDate != null) {
+      throw new IllegalArgumentException("Không được để trống ngày kết thúc");
+    } else if (fromDate == null && toDate == null) {
+      throw new IllegalArgumentException("Chưa nhập dữ liệu ngày tháng");
+    } else {
+      int result1 = fromDate.compareTo(currentDate);
+      int result2 = toDate.compareTo(currentDate);
+      int result3 = fromDate.compareTo(toDate);
+      if (result1 > 0) {
+        throw new IllegalArgumentException("Ngày bắt đầu không thể lớn hơn ngày hiện tại.");
+      } else if (result2 > 0) {
+        throw new IllegalArgumentException("Ngày kết thúc không thể lớn hơn ngày hiện tại.");
+      } else if (result3 > 0) {
+        throw new IllegalArgumentException("Ngày bắt đầu không thể lớn hơn ngày kết thúc.");
+      }
+    }
   }
 }
