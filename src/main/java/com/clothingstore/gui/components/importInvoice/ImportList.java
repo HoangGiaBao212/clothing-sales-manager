@@ -2,7 +2,6 @@ package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class ImportList extends JPanel {
     private JButton removeFilterButton;
 
     private static ImportList instance;
-    private Date currentDate = new Date();
     private List<ImportModel> importList;
 
     public static ImportList getInstance() {
@@ -52,18 +50,12 @@ public class ImportList extends JPanel {
         removeFilterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                invoices.removeAll();
                 startDate.setDate(null);
                 endDate.setDate(null);
                 importList = new ArrayList<>(ImportBUS.getInstance().getAllModels());
                 Collections.reverse(importList);
-                for (ImportModel importModel : importList) {
-                    ImportInvoice invoice = new ImportInvoice();
-                    invoice.setImportModel(importModel);
-                    invoices.add(invoice);
-                }
+                updateImportList(importList);
                 CheckResponsive();
-                Scroll.setViewportView(invoices);
             }
         });
 
@@ -89,48 +81,6 @@ public class ImportList extends JPanel {
         JTextField editorEndDate = (JTextField) endDate.getDateEditor();
         editorEndDate.setEditable(false);
 
-        searchButton.addActionListener(e -> {
-            String searchValue = searchValueTextField.getText();
-            if (searchValue == null || searchValue.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                for (ImportModel importModel : importList) {
-                    ImportInvoice invoice = new ImportInvoice();
-                    invoice.setImportModel(importModel);
-                    invoices.add(invoice);
-                }
-            } else {
-                try {
-                    int searchId = Integer.parseInt(searchValue);
-                    if (searchId > 0) {
-                        invoices.removeAll();
-                        for (ImportModel importModel : importList) {
-                            if (importModel.getId() == searchId) {
-                                ImportInvoice invoice = new ImportInvoice();
-                                invoice.setImportModel(importModel);
-                                invoices.add(invoice);
-                            }
-                        }
-                        if (invoices.getComponentCount() == 0) {
-                            JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue,
-                                    "Lỗi",
-                                    JOptionPane.ERROR_MESSAGE);
-                            for (ImportModel importModel : importList) {
-                                ImportInvoice invoice = new ImportInvoice();
-                                invoice.setImportModel(importModel);
-                                invoices.add(invoice);
-                            }
-                        }
-                        Scroll.setViewportView(invoices);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Mã sản phẩm phải là số lớn hơn 0", "Lỗi",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Mã sản phẩm không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-
         searchValueTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -146,18 +96,54 @@ public class ImportList extends JPanel {
                 }
             }
         });
+
+        searchButton.addActionListener(e -> {
+            String searchValue = searchValueTextField.getText();
+            try {
+                importList = new ArrayList<>(ImportBUS.getInstance().searchModel(searchValue,
+                        new String[] { "id" }));
+                updateImportList(importList);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
     private void initData() {
 
     }
 
-    private void updateImportList(String value) {
+    private void updateImportList(List<ImportModel> importListUpdate) {
+        invoices.removeAll();
+        for (ImportModel importModel : importListUpdate) {
+            ImportInvoice invoice = new ImportInvoice();
+            invoice.setImportModel(importModel);
+            invoices.add(invoice);
+        }
+        Scroll.setViewportView(invoices);
+    }
 
+    private void checkDate(Date fromDate, Date toDate) {
+        try {
+            ImportBUS importBUS = ImportBUS.getInstance();
+            importList = new ArrayList<>(importBUS.searchDateToDate(fromDate, toDate));
+            Collections.reverse(importList);
+            updateImportList(importList);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void CheckResponsive() {
+        if (importList.size() > 10)
+            invoices.setLayout(new GridLayout(0, 1));
+        else
+            invoices.setLayout(new GridLayout(10, 1));
     }
 
     private void initComponents() {
-
         headerPanel = new JPanel();
         nameheaderPanel = new JPanel();
         namePanel = new JLabel();
@@ -169,8 +155,8 @@ public class ImportList extends JPanel {
         Scroll = new JScrollPane();
         fillPanel = new JPanel();
 
-        this.filterButton = new JButton("Filter");
-        this.removeFilterButton = new JButton("Remove Filter");
+        this.filterButton = new JButton("Lọc");
+        this.removeFilterButton = new JButton("Làm mới bộ lọc");
         this.startDate = new JDateChooser();
         this.endDate = new JDateChooser();
 
@@ -234,41 +220,9 @@ public class ImportList extends JPanel {
         importList = new ArrayList<>(ImportBUS.getInstance().getAllModels());
         Collections.reverse(importList);
         CheckResponsive();
-        for (ImportModel importModel : importList) {
-            ImportInvoice invoice = new ImportInvoice();
-            invoice.setImportModel(importModel);
-            invoices.add(invoice);
-        }
-
-        Scroll.setViewportView(invoices);
+        updateImportList(importList);
         Scroll.getVerticalScrollBar().setUnitIncrement(10);
         add(Scroll, BorderLayout.CENTER);
     }
 
-    private void checkDate(Date fromDate, Date toDate) {
-        try {
-            ImportBUS importBUS = ImportBUS.getInstance();
-            importList = new ArrayList<>(importBUS.searchDateToDate(fromDate, toDate));
-            Collections.reverse(importList);
-            invoices.removeAll();
-            for (ImportModel importModel : importList) {
-                ImportInvoice invoice = new ImportInvoice();
-                invoice.setImportModel(importModel);
-                invoices.add(invoice);
-            }
-            Scroll.setViewportView(invoices);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void CheckResponsive() {
-        if (importList.size() > 10)
-            invoices.setLayout(new GridLayout(0, 1));
-        else
-            invoices.setLayout(new GridLayout(10, 1));
-
-    }
 }

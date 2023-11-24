@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 public class InvoiceProduct extends JPanel {
   private ProductModel productModel;
 
-  DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
   String[] data;
 
   public InvoiceProduct(ImportItemsModel importItemsModel, int i) {
@@ -32,7 +32,7 @@ public class InvoiceProduct extends JPanel {
         String.valueOf(i),
         String.valueOf(importItemsModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
-        String.valueOf(importItemsModel.getPrice()),
+        decimalFormat.format(importItemsModel.getPrice()),
         decimalFormat.format(importItemsModel.getPrice() * importItemsModel.getQuantity()),
     };
     initComponents(data);
@@ -54,8 +54,8 @@ public class InvoiceProduct extends JPanel {
         String.valueOf(i),
         String.valueOf(orderItemModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
-        String.valueOf(productModel.getPrice() * invoiceProduct.getQuantity()),
-        String.valueOf(invoiceProduct.getQuantity())
+        decimalFormat.format(productModel.getPrice() * invoiceProduct.getQuantity()),
+        decimalFormat.format(invoiceProduct.getQuantity())
     };
     initComponents(data);
   }

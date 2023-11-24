@@ -95,7 +95,7 @@ public class ImportInvoice extends JPanel {
 
     private void initData() {
         idInvoiceLabel.setText(String.valueOf(importModel.getId()));
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
         String formattedAmount = decimalFormat.format(importModel.getTotalPrice());
         priceLabel.setText(formattedAmount);
         String dateTimeString = String.valueOf(importModel.getImportDate());
