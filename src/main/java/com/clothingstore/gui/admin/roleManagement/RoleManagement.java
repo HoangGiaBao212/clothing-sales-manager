@@ -465,6 +465,10 @@ public class RoleManagement extends JPanel {
     public void showUpdateInfo(int id) {
         Edit editRole = new Edit();
         RolePermissionModel rolePermissionModel = RolePermissionBUS.getInstance().getRolePermissionById(id);
+        if(rolePermissionModel == null){
+            JOptionPane.showMessageDialog(null,"Bạn chưa chọn dòng muốn sửa");
+            return;
+        }
         rolePermissionBUS.refreshData();
 
         editRole.textField_id.setText(String.valueOf(rolePermissionModel.getId()));
