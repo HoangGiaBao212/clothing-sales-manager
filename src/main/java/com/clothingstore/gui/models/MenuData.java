@@ -95,8 +95,8 @@ public class MenuData {
                             permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 {
-                                    add(new MenuItemData("Danh sách hóa đơn nhập", ImportAction()));
-                                    add(new MenuItemData("Thêm hóa đơn nhập", ImportAction()));
+                                    add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
+                                    add(new MenuItemData("Thêm hóa đơn", ImportAction()));
 
                                 }
                             },
@@ -178,9 +178,9 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
-            if (e.getActionCommand().equals("Danh sách hóa đơn nhập")) {
+            if (e.getActionCommand().equals("Danh sách hóa đơn")) {
                 homePage.Add(ImportHistory.getInstance());
-            } else if (e.getActionCommand().equals("Thêm hóa đơn nhập")) {
+            } else if (e.getActionCommand().equals("Thêm hóa đơn")) {
                 homePage.Add(AddNewImport.getInstance());
             }
 

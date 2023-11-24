@@ -91,7 +91,7 @@ public class InvoiceDetail extends JFrame {
     Header.setLayout(new AbsoluteLayout());
 
     NameFrame.setFont(new Font("Segoe UI", 1, 24));
-    NameFrame.setText("Invoice Products");
+    NameFrame.setText("Chi tiết hóa đơn");
 
     Content.setLayout(new BorderLayout());
 
@@ -118,18 +118,18 @@ public class InvoiceDetail extends JFrame {
 
     RegularCus.setFont(new Font("Segoe UI", 1, 15));
     RegularCus.setForeground(new Color(0, 102, 102));
-    RegularCus.setText("Regular customers");
+    RegularCus.setText("Khách hàng thân quen");
     RegularCus.addActionListener(RegularCusOnCheck);
 
     WalkInCus.setFont(new Font("Segoe UI", 1, 15));
     WalkInCus.setSelected(true);
-    WalkInCus.setText("Walk-in customers");
+    WalkInCus.setText("Khách vãng lai");
     WalkInCus.addActionListener(WalkInCusOnCheck);
 
     CustomerInfo.setLayout(new AbsoluteLayout());
 
     NameText.setFont(new Font("Segoe UI", 3, 14));
-    NameText.setText("Name:");
+    NameText.setText("Tên:");
     Point.setFont(new Font("Segoe UI", 0, 14));
     Point.setForeground(new Color(255, 102, 0));
     Point.setText("0 Point");
@@ -149,7 +149,7 @@ public class InvoiceDetail extends JFrame {
       }
     });
     PhoneText.setFont(new Font("Segoe UI", 3, 14));
-    PhoneText.setText("Phone: ");
+    PhoneText.setText("SĐT: ");
 
     Name.setFont(new Font("Segoe UI", 0, 14));
     Name.setHorizontalAlignment(JTextField.RIGHT);
@@ -171,7 +171,7 @@ public class InvoiceDetail extends JFrame {
 
     ButtonExit.setBackground(new Color(153, 255, 255));
     ButtonExit.setFont(new Font("Segoe UI", 1, 14));
-    ButtonExit.setText("Exit");
+    ButtonExit.setText("Thoát");
     ButtonExit.setPreferredSize(new Dimension(80, 30));
     ButtonExit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
@@ -183,7 +183,7 @@ public class InvoiceDetail extends JFrame {
 
     ButtonPay.setBackground(new Color(153, 255, 255));
     ButtonPay.setFont(new Font("Segoe UI", 1, 14));
-    ButtonPay.setText("Pay");
+    ButtonPay.setText("Thanh toán");
     ButtonPay.setPreferredSize(new Dimension(80, 30));
 
     PayPanel.setPreferredSize(new Dimension(280, 230));
@@ -192,17 +192,17 @@ public class InvoiceDetail extends JFrame {
     TotalText.setFont(new Font("Segoe UI", 3, 14));
     TotalText.setForeground(new Color(255, 0, 51));
     TotalText.setHorizontalAlignment(SwingConstants.RIGHT);
-    TotalText.setText("Total:");
+    TotalText.setText("Tổng:");
 
     TotalInvoiceText.setFont(new Font("Segoe UI", 3, 14));
     TotalInvoiceText.setForeground(new Color(51, 51, 255));
     TotalInvoiceText.setHorizontalAlignment(SwingConstants.RIGHT);
-    TotalInvoiceText.setText("Total Invoice:");
+    TotalInvoiceText.setText("Tổng hóa đơn:");
 
     PointText.setFont(new Font("Segoe UI", 3, 14));
     PointText.setForeground(new Color(51, 51, 255));
     PointText.setHorizontalAlignment(SwingConstants.RIGHT);
-    PointText.setText("Point:");
+    PointText.setText("Điểm dùng:");
 
     Total.setFont(new Font("Segoe UI", 0, 15));
     Total.setForeground(new Color(255, 51, 51));
@@ -223,18 +223,18 @@ public class InvoiceDetail extends JFrame {
     CashCheckBox.setFont(new Font("Segoe UI", 1, 15));
     CashCheckBox.setForeground(new Color(0, 102, 102));
     CashCheckBox.setSelected(true);
-    CashCheckBox.setText("Cash");
+    CashCheckBox.setText("Tiền mặt");
     CashCheckBox.addActionListener(CashOnCheck);
 
     CreditCheckBox.setFont(new Font("Segoe UI", 1, 15));
     CreditCheckBox.setForeground(new Color(0, 102, 102));
-    CreditCheckBox.setText("Credit");
+    CreditCheckBox.setText("Trực tuyến");
     CreditCheckBox.addActionListener(CreditOnCheck);
 
     CusPayingText.setFont(new Font("Segoe UI", 3, 14));
     CusPayingText.setForeground(new Color(51, 51, 255));
     CusPayingText.setHorizontalAlignment(SwingConstants.RIGHT);
-    CusPayingText.setText("Customer Paying: ");
+    CusPayingText.setText("Tiền nhận: ");
 
     CusPaying.setFont(new Font("Segoe UI", 0, 14));
     CusPaying.setForeground(new Color(255, 51, 255));
@@ -243,7 +243,7 @@ public class InvoiceDetail extends JFrame {
     ChangeText.setFont(new Font("Segoe UI", 3, 14));
     ChangeText.setForeground(new Color(51, 51, 255));
     ChangeText.setHorizontalAlignment(SwingConstants.RIGHT);
-    ChangeText.setText("Change: ");
+    ChangeText.setText("Tiền thừa: ");
 
     Change.setFont(new Font("Segoe UI", 0, 14));
     Change.setForeground(new Color(255, 51, 255));
@@ -476,7 +476,7 @@ public class InvoiceDetail extends JFrame {
     Content.add(Scroll, BorderLayout.CENTER);
     getContentPane().add(Content, BorderLayout.CENTER);
 
-    CustomerPanel.add(RegularCus, new AbsoluteConstraints(210, 10, 170, -1));
+    CustomerPanel.add(RegularCus, new AbsoluteConstraints(210, 10, 190, -1));
     CustomerPanel.add(WalkInCus, new AbsoluteConstraints(30, 10, 170, -1));
 
     CustomerInfo.add(PhoneText, new AbsoluteConstraints(20, 20, -1, -1));
@@ -501,8 +501,8 @@ public class InvoiceDetail extends JFrame {
     PayPanel.add(Discount, new AbsoluteConstraints(160, 50, 110, 30));
     PayPanel.add(TotalText, new AbsoluteConstraints(10, 90, 130, 30));
     PayPanel.add(Total, new AbsoluteConstraints(160, 90, 110, 30));
-    PayPanel.add(CashCheckBox, new AbsoluteConstraints(60, 130, 60, 30));
-    PayPanel.add(CreditCheckBox, new AbsoluteConstraints(170, 130, 80, 30));
+    PayPanel.add(CashCheckBox, new AbsoluteConstraints(55, 130, 90, 30));
+    PayPanel.add(CreditCheckBox, new AbsoluteConstraints(170, 130, 110, 30));
     PayPanel.add(CusPayingText, new AbsoluteConstraints(0, 160, 130, 30));
     PayPanel.add(CusPaying, new AbsoluteConstraints(140, 160, 110, 30));
     PayPanel.add(ChangeText, new AbsoluteConstraints(0, 195, 130, 30));

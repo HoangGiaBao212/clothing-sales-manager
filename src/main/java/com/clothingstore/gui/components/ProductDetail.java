@@ -87,7 +87,7 @@ public class ProductDetail extends JFrame {
 
     ImageIcon icon = new ImageIcon(productModel.getImage());
     Image image = icon.getImage();
-    Image scaledImage = image.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+    Image scaledImage = image.getScaledInstance(180, 220, java.awt.Image.SCALE_SMOOTH);
     ImageIcon scaledIcon = new ImageIcon(scaledImage);
     JLabel imageLabel = new JLabel(scaledIcon);
     getContentPane().add(imageLabel, new AbsoluteConstraints(10, 20, 190, 240));
@@ -113,12 +113,12 @@ public class ProductDetail extends JFrame {
     AmountText.setForeground(new Color(102, 102, 102));
     AmountText.setHorizontalAlignment(SwingConstants.RIGHT);
     AmountText.setText("Số lượng:");
-    getContentPane().add(AmountText, new AbsoluteConstraints(240, 165, 60, 20));
+    getContentPane().add(AmountText, new AbsoluteConstraints(240, 165, 100, 20));
 
     CategoryText.setFont(new Font("Segoe UI", 2, 15));
     CategoryText.setForeground(new Color(102, 102, 102));
     CategoryText.setText("Loại sản phẩm:");
-    getContentPane().add(CategoryText, new AbsoluteConstraints(240, 105, 70, -1));
+    getContentPane().add(CategoryText, new AbsoluteConstraints(240, 105, 100, -1));
 
     Gender.setFont(new Font("Segoe UI", 0, 16));
     if (productModel.getGender() == 1) {
@@ -127,18 +127,18 @@ public class ProductDetail extends JFrame {
       Gender.setText("Nữ");
     }
 
-    getContentPane().add(Gender, new AbsoluteConstraints(320, 130, 130, 30));
+    getContentPane().add(Gender, new AbsoluteConstraints(360, 130, 130, 30));
 
     Category.setFont(new Font("Segoe UI", 0, 16));
     Category.setForeground(new Color(0, 51, 51));
     Category.setText(CategoryBUS.getInstance().getCategoryById(productModel.getCategoryId()).getCategoryName());
-    getContentPane().add(Category, new AbsoluteConstraints(320, 105, 130, 20));
+    getContentPane().add(Category, new AbsoluteConstraints(360, 105, 130, 20));
 
     GenderText.setFont(new Font("Segoe UI", 2, 15));
     GenderText.setForeground(new Color(102, 102, 102));
     GenderText.setHorizontalAlignment(SwingConstants.RIGHT);
     GenderText.setText("Giới tính:");
-    getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 60, 30));
+    getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 100, 30));
 
     SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, null, 1);
     Spinner = new JSpinner(spinnerModel);
@@ -329,17 +329,17 @@ public class ProductDetail extends JFrame {
       ButtonAdd.addActionListener(AddToCartAction);
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(550, 250, -1, -1));
 
-      getContentPane().add(Spinner, new AbsoluteConstraints(320, 165, 60, 20));
+      getContentPane().add(Spinner, new AbsoluteConstraints(360, 165, 60, 20));
 
-      getContentPane().add(Remaining, new AbsoluteConstraints(440, 165, 170, 17));
+      getContentPane().add(Remaining, new AbsoluteConstraints(460, 165, 170, 17));
     } else {
       JLabel Total = new JLabel("( " + String.valueOf(totalProduct) + " )");
       Total.setFont(new Font("Segoe UI", 0, 15));
       Total.setForeground(new Color(102, 102, 102));
-      getContentPane().add(Total, new AbsoluteConstraints(460, 165, 170, 17));
+      getContentPane().add(Total, new AbsoluteConstraints(500, 165, 170, 17));
       sizeS.doClick();
       getContentPane().add(buttonEdit, new AbsoluteConstraints(250, 250, -1, -1));
-      getContentPane().add(Remaining, new AbsoluteConstraints(320, 165, 170, 17));
+      getContentPane().add(Remaining, new AbsoluteConstraints(360, 165, 170, 17));
 
       if (productModel.getStatus() != 0) {
         buttonDiscontinued.setText("Discontinued");

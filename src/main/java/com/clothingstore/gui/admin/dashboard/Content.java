@@ -97,9 +97,9 @@ public class Content extends JPanel {
         }
 
         if(list.size() < 6)
-            InvoiceList.setLayout(new GridLayout(6,1));
+            InvoiceList.setLayout(new GridLayout(6,1,5,5));
         else
-            InvoiceList.setLayout(new GridLayout(0,1));
+            InvoiceList.setLayout(new GridLayout(0,1,5,5));
         Scroll.setViewportView(InvoiceList);
         Invoices.add(Scroll, BorderLayout.CENTER);
 

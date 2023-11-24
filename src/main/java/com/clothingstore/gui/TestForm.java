@@ -19,7 +19,7 @@ public class TestForm {
     SwingUtilities.invokeLater(() -> {
       UserModel user;
       try {
-        user = UserBUS.getInstance().login("admin12345", "User12345");
+        user = UserBUS.getInstance().login("trieu12345", "User12345");
         Authentication.setCurrentUser(user);
         HomePage homePage = HomePage.getInstance();
         homePage.setVisible(true);
