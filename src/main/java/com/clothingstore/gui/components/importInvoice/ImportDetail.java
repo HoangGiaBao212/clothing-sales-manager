@@ -24,7 +24,7 @@ public class ImportDetail extends JPanel {
   private int productQuantity = 0;
 
 
-  static DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+  static DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
   public ImportDetail(ImportModel importModel) {
     this.importModel = importModel;
