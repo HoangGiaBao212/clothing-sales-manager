@@ -2,6 +2,7 @@ package com.clothingstore.gui.components;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -28,6 +29,7 @@ public class ProductDetail extends JFrame {
   int selectedSizeId = -1;
   ProductModel productModel;
   int totalProduct = 0;
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
   private boolean isSizeSSelected;
   private boolean isSizeMSelected;
   private boolean isSizeLSelected;
@@ -101,7 +103,7 @@ public class ProductDetail extends JFrame {
 
     Price.setFont(new Font("Segoe UI", 0, 21));
     Price.setForeground(new Color(255, 51, 51));
-    Price.setText(productModel.getPrice() + "đ");
+    Price.setText(decimalFormat.format(productModel.getPrice()));
     getContentPane().add(Price, new AbsoluteConstraints(240, 65, 140, 30));
 
     Id.setFont(new Font("Segoe UI Semibold", 0, 13));

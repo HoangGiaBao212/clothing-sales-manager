@@ -3,6 +3,7 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -11,6 +12,8 @@ import com.clothingstore.models.ProductModel;
 
 public class Product extends JPanel {
   public static List<OrderItemModel> cartItems = new ArrayList<>();
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
 
   public Product(ProductModel productModel) {
     initComponents(productModel);
@@ -63,7 +66,7 @@ public class Product extends JPanel {
     nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
     footer.add(nameLabel);
 
-    JLabel priceLabel = new JLabel(String.valueOf(productModel.getPrice()));
+    JLabel priceLabel = new JLabel(String.valueOf(decimalFormat.format(productModel.getPrice())));
     priceLabel.setFont(new Font("Segoe UI", Font.ITALIC, 16));
     priceLabel.setForeground(new Color(240, 18, 18));
     priceLabel.setHorizontalAlignment(SwingConstants.CENTER);

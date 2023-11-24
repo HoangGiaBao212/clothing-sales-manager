@@ -88,7 +88,7 @@ public class Content extends JPanel {
         for(OrderModel order : list) {
             	double totalPrice = order.getTotalPrice();
             	
-            	DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+            	DecimalFormat decimalFormat = new DecimalFormat("###,###");
                 String formattedTotalPrice = decimalFormat.format(totalPrice);
                 
             	com.clothingstore.gui.admin.dashboard.Invoice invoice = new com.clothingstore.gui.admin.dashboard.Invoice(String.valueOf(order.getId()), order.getOrderDate().toString(), formattedTotalPrice);
