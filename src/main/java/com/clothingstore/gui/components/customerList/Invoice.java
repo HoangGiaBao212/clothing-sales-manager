@@ -33,9 +33,8 @@ public class Invoice extends JPanel {
     
     java.util.Date timestamp = new java.util.Date();
     try {
-      timestamp = new SimpleDateFormat(String.valueOf(orderModel.getOrderDate())).parse("yyyy-MM-dd HH:mm:ss");
+      timestamp = new SimpleDateFormat(String.valueOf(orderModel.getOrderDate())).parse("yyyy-MM-dd");
     } catch (ParseException e) {
-      e.printStackTrace();
     }
     SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
     String date = outputFormat.format(timestamp);

@@ -2,6 +2,7 @@ package com.clothingstore.gui.components;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -28,6 +29,7 @@ public class ProductDetail extends JFrame {
   int selectedSizeId = -1;
   ProductModel productModel;
   int totalProduct = 0;
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
   private boolean isSizeSSelected;
   private boolean isSizeMSelected;
   private boolean isSizeLSelected;
@@ -101,7 +103,7 @@ public class ProductDetail extends JFrame {
 
     Price.setFont(new Font("Segoe UI", 0, 21));
     Price.setForeground(new Color(255, 51, 51));
-    Price.setText(productModel.getPrice() + "đ");
+    Price.setText(decimalFormat.format(productModel.getPrice()));
     getContentPane().add(Price, new AbsoluteConstraints(240, 65, 140, 30));
 
     Id.setFont(new Font("Segoe UI Semibold", 0, 13));
@@ -342,12 +344,12 @@ public class ProductDetail extends JFrame {
       getContentPane().add(Remaining, new AbsoluteConstraints(360, 165, 170, 17));
 
       if (productModel.getStatus() != 0) {
-        buttonDiscontinued.setText("Discontinued");
+        buttonDiscontinued.setText("Khóa");
         buttonDiscontinued.setPreferredSize(new Dimension(94, 28));
         buttonDiscontinued.addActionListener(actionDiscontinued);
         getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 250, -1, -1));
       } else {
-        buttonContinued.setText("Continued");
+        buttonContinued.setText("Mở khóa");
         buttonContinued.setPreferredSize(new Dimension(94, 28));
         buttonContinued.addActionListener(actionContinued);
         getContentPane().add(buttonContinued, new AbsoluteConstraints(380, 250, -1, -1));

@@ -196,7 +196,7 @@ public class InvoiceList extends JPanel {
   }
 
   public void setFilterButton() {
-    this.filterButton = new JButton("Filter");
+    this.filterButton = new JButton("Lọc");
     filterButton.setBounds(360, 75, 80, 30);
     filterButton.addActionListener(new ActionListener() {
       @Override
@@ -211,7 +211,7 @@ public class InvoiceList extends JPanel {
   }
 
   public void setRemoveFilterButton() {
-    this.removeFilterButton = new JButton("Remove Filter");
+    this.removeFilterButton = new JButton("Xóa");
     removeFilterButton.setBounds(360, 75, 80, 30);
     removeFilterButton.addActionListener(new ActionListener() {
       @Override

@@ -27,7 +27,7 @@ public class ImportHistory extends JPanel {
     private void initComponents() {
         setLayout(new BorderLayout());
         add(ImportList.getInstance(), BorderLayout.WEST);
-        add(new ImportDetail(importList.get(0)), BorderLayout.CENTER);
+        add(new ImportDetail(importList.get(importList.size()-1)), BorderLayout.CENTER);
     }
 
     public void Remove(){

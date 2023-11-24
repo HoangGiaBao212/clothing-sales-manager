@@ -259,24 +259,24 @@ public class UserBUS implements IBUS<UserModel> {
 
   public UserModel login(String username, String password) throws LoginException {
     if (!Validation.isValidUsername(username)) {
-      throw new LoginException("The account must have at least 8 characters, both letters and numbers");
+      throw new LoginException("Tên đăng nhập phải đủ 8 kí tự trở lên, phải có chữ và số");
     }
     if (!Validation.isValidPassword(password)) {
       throw new LoginException(
-          "Password must have at least 8 characters, contain both letters and numbers, and capitalize the first letter");
+          "Mật khẩu phải đủ 8 kí tự trở lên, phải có chữ và số và in hoa kí tự đầu");
     }
     UserModel userModel = UserDAO.getInstance().getUserByUsername(username);
     if (userModel == null) {
-      throw new LoginException("User not found");
+      throw new LoginException("Tên đăng nhập không tồn tại!");
     }
     if (!PasswordUtils.checkPassword(password, userModel.getPassword())) {
-      throw new LoginException("Incorrect password");
+      throw new LoginException("Mật khẩu không đúng");
     }
     if (userModel.getUserStatus() == UserStatus.INACTIVE) {
-      throw new LoginException("User is inactive");
+      throw new LoginException("Tài khoản đang hoạt động");
     }
     if (userModel.getUserStatus() == UserStatus.BANNED) {
-      throw new LoginException("User is banned");
+      throw new LoginException("Tài khoản bị khóa!");
     }
     return userModel;
   }

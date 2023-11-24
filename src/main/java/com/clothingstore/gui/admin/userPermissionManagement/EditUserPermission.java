@@ -81,7 +81,7 @@ public class EditUserPermission extends JPanel {
     }
 
     public void initComponents() {
-        updateUserPerButton = new JButton("Update user permissions");
+        updateUserPerButton = new JButton("Cập nhật thay đổi");
         NamePanel = new JLabel();
         Info = new JPanel();
         Products = new JPanel();
