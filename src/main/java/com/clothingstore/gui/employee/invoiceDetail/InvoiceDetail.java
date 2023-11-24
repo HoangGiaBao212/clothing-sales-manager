@@ -264,20 +264,28 @@ public class InvoiceDetail extends JFrame {
         boolean isWalkinCustomer = WalkInCus.isSelected();
         boolean isCreditSelected = CreditCheckBox.isSelected();
         boolean isCashSelected = CashCheckBox.isSelected();
-
-        if (isRegularCustomer && (Phone.getText().isEmpty() || Phone.getText().isBlank())) {
-          JFrame jf = new JFrame();
-          jf.setAlwaysOnTop(true);
-          JOptionPane.showMessageDialog(jf, "Số điện thoại bạn không thể bỏ trống!");
+        if (CusPaying.getText().isBlank()) {
+          showMessageDialog("Hãy nhập số tiền khách hàng đưa!");
+          return;
+        }
+        if (isRegularCustomer && Phone.getText().isBlank()) {
+          showMessageDialog("Số điện thoại bạn không thể bỏ trống!");
+          return;
+        } else if (isRegularCustomer && ((Phone.getText().isBlank() && Name.getText().isBlank())
+            || (!Phone.getText().isBlank() && Name.getText().isBlank()))) {
+          showMessageDialog("Tên khách hàng không thể bỏ trống");
           return;
         }
 
-        if (isCashSelected && change >= 0) {
+        if ((isWalkinCustomer && isCashSelected && change >= 0) || isCreditSelected) {
+          processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
+        } else if (isCashSelected && change >= 0) {
           processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
         } else if (isCreditSelected) {
           // Handle credit payment
           processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
         }
+
         clearCart(orderList);
       }
 
@@ -453,10 +461,14 @@ public class InvoiceDetail extends JFrame {
       }
 
       private void showInsufficientPaymentError() {
+        showMessageDialog(
+            "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
+      }
+
+      private void showMessageDialog(String message) {
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
-        JOptionPane.showMessageDialog(jf,
-            "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
+        JOptionPane.showMessageDialog(jf, message);
       }
 
       private void clearCart(List<OrderItemModel> orderList) {
@@ -656,7 +668,9 @@ public class InvoiceDetail extends JFrame {
           Name.addFocusListener(nameFocusListener);
           revalidate();
           repaint();
-        } else if (choice == JOptionPane.NO_OPTION) {
+        } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION) {
+          Phone.setText("");
+          WalkInCus.setSelected(true);
           RegularCus.setSelected(false);
           UsePoint.setVisible(false);
           CustomerInfo.setVisible(false);
@@ -709,6 +723,12 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
+      if (Name.getText().isBlank()) {
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(jf, "Tên khách hàng không thể bỏ trống");
+        return;
+      }
       CustomerModel customer = new CustomerModel(0, Name.getText().toString(), Phone.getText(), null);
       CustomerBUS.getInstance().addModel(customer);
       JFrame fr1 = new JFrame();
