@@ -11,7 +11,6 @@ public class Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
     SwingUtilities.invokeLater(() -> {
       Login login = Login.getInstance();
       login.setVisible(true);

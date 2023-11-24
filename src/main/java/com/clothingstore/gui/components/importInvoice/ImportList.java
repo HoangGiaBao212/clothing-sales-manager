@@ -2,7 +2,6 @@ package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class ImportList extends JPanel {
     private JButton removeFilterButton;
 
     private static ImportList instance;
-    private Date currentDate = new Date();
     private List<ImportModel> importList;
 
     public static ImportList getInstance() {
@@ -91,44 +89,19 @@ public class ImportList extends JPanel {
 
         searchButton.addActionListener(e -> {
             String searchValue = searchValueTextField.getText();
-            if (searchValue == null || searchValue.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Chưa nhập dữ liệu", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                for (ImportModel importModel : importList) {
+            try {
+                List<ImportModel> searchResults = ImportBUS.getInstance().searchModel(searchValue,
+                new String[] { "id" });
+                invoices.removeAll();
+                for (ImportModel importModel : searchResults) {
                     ImportInvoice invoice = new ImportInvoice();
                     invoice.setImportModel(importModel);
                     invoices.add(invoice);
                 }
-            } else {
-                try {
-                    int searchId = Integer.parseInt(searchValue);
-                    if (searchId > 0) {
-                        invoices.removeAll();
-                        for (ImportModel importModel : importList) {
-                            if (importModel.getId() == searchId) {
-                                ImportInvoice invoice = new ImportInvoice();
-                                invoice.setImportModel(importModel);
-                                invoices.add(invoice);
-                            }
-                        }
-                        if (invoices.getComponentCount() == 0) {
-                            JOptionPane.showMessageDialog(null, "Không có đơn nhập hàng nào có mã là: " + searchValue,
-                                    "Lỗi",
-                                    JOptionPane.ERROR_MESSAGE);
-                            for (ImportModel importModel : importList) {
-                                ImportInvoice invoice = new ImportInvoice();
-                                invoice.setImportModel(importModel);
-                                invoices.add(invoice);
-                            }
-                        }
-                        Scroll.setViewportView(invoices);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Mã sản phẩm phải là số lớn hơn 0", "Lỗi",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Mã sản phẩm không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
+            Scroll.setViewportView(invoices);
         });
 
         searchValueTextField.addFocusListener(new FocusListener() {
@@ -153,7 +126,7 @@ public class ImportList extends JPanel {
     }
 
     private void updateImportList(String value) {
-
+        
     }
 
     private void initComponents() {

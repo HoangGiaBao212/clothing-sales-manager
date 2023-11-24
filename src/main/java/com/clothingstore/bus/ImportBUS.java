@@ -64,7 +64,6 @@ public class ImportBUS implements IBUS<ImportModel> {
   @Override
   public int addModel(ImportModel model) {
     if (model == null ||
-    // model.getImportDate() == null ||
         model.getTotalPrice() <= 0) {
       throw new IllegalArgumentException(
           "There may be errors in required fields, please check your input and try again.");
@@ -139,14 +138,30 @@ public class ImportBUS implements IBUS<ImportModel> {
 
   @Override
   public List<ImportModel> searchModel(String value, String[] columns) {
+    if (value == null || value.trim().isEmpty()) {
+      throw new IllegalArgumentException("Chưa nhập dữ liệu");
+    }
+    int searchId;
+    try {
+      searchId = Integer.parseInt(value);
+      if (searchId <= 0) {
+        throw new IllegalArgumentException("Mã đơn nhập phải lớn hơn 0");
+      }
+    } catch (NumberFormatException ex) {
+      throw new IllegalArgumentException("Mã đơn nhập không hợp lệ");
+    }
+
     List<ImportModel> results = new ArrayList<>();
     List<ImportModel> entities = ImportDAO.getInstance().search(value, columns);
+
     for (ImportModel entity : entities) {
       ImportModel model = mapToEntity(entity);
       if (checkFilter(model, value, columns)) {
         results.add(model);
       }
     }
+    if (results.size() <= 0)
+      throw new IllegalArgumentException("Không có đơn nhập hàng nào có mã là " + searchId);
     return results;
   }
 
