@@ -118,9 +118,9 @@ public class RoleManagement extends JPanel {
         btnMenu.addActionListener(new NavData().MenuAction());
         panel_1.add(btnMenu, BorderLayout.WEST);
 
-        titleLabel = new JLabel("   Role Management");
+        titleLabel = new JLabel("   Quản lý phân quyền");
         titleLabel.setForeground(new Color(255, 255, 255));
-        titleLabel.setFont(new Font("Arial Black", Font.PLAIN, 30));
+        titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
         topPanel.add(titleLabel);
 
         panel = new JPanel();
@@ -149,7 +149,7 @@ public class RoleManagement extends JPanel {
         panel_table.setBackground(new Color(0, 38, 77));
         panel_table.setBorder(new TitledBorder(
                 new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-                "List of roles", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+                "Danh sách người dùng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
         panel_table.setPreferredSize(new Dimension(600, 400));
         panel_table.setLayout(new BorderLayout());
         bottomPanel.add(panel_table, BorderLayout.CENTER);
@@ -186,7 +186,7 @@ public class RoleManagement extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                        "ID", "Permission Name"
+                        "ID", "Tên quyền"
                 }));
         table_admin.setRowHeight(40);
         scrollPane_admin = new JScrollPane(table_admin);
@@ -221,7 +221,7 @@ public class RoleManagement extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                        "ID", "Permission Name"
+                        "ID", "Tên quyền"
                 }));
         table_manager.setRowHeight(40);
         scrollPane_manager = new JScrollPane(table_manager);
@@ -256,7 +256,7 @@ public class RoleManagement extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                        "ID", "Permission Name"
+                        "ID", "Tền quyền"
                 }));
         table_employee.setRowHeight(40);
         scrollPane_employee = new JScrollPane(table_employee);
@@ -267,12 +267,12 @@ public class RoleManagement extends JPanel {
         panel_Model.setBackground(new Color(0, 38, 77));
         panel_Model.setBorder(new TitledBorder(
                 new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-                "Button list", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+                "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
         panel_Model.setPreferredSize(new Dimension(200, 80));
         panel_table.add(panel_Model, BorderLayout.SOUTH);
         bottomPanel.add(panel_table, BorderLayout.CENTER);
 
-        btnAdd = new JButton("Add Role");
+        btnAdd = new JButton("Thêm");
         btnAdd.setPreferredSize(new Dimension(200, 40));
         panel_Model.add(btnAdd);
         btnAdd.addActionListener(new ActionListener() {
@@ -283,12 +283,12 @@ public class RoleManagement extends JPanel {
             }
         });
 
-        btnDelete = new JButton("Delete Role");
+        btnDelete = new JButton("Xóa");
         btnDelete.setPreferredSize(new Dimension(200, 40));
         panel_Model.add(btnDelete);
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int choice = JOptionPane.showConfirmDialog(null, "Do you want to delete this Role?", "Confirm Deletion",
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa phân quyền này", "Confirm Deletion",
                         JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
                     int selectedRowID = handleDeleteButtonClickDelete();
@@ -302,7 +302,7 @@ public class RoleManagement extends JPanel {
             }
         });
 
-        btnEdit = new JButton("Edit Role");
+        btnEdit = new JButton("Sửa");
         btnEdit.setPreferredSize(new Dimension(200, 40));
         panel_Model.add(btnEdit);
         btnEdit.addActionListener(new ActionListener() {

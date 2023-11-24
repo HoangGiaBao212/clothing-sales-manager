@@ -342,12 +342,12 @@ public class ProductDetail extends JFrame {
       getContentPane().add(Remaining, new AbsoluteConstraints(360, 165, 170, 17));
 
       if (productModel.getStatus() != 0) {
-        buttonDiscontinued.setText("Discontinued");
+        buttonDiscontinued.setText("Khóa");
         buttonDiscontinued.setPreferredSize(new Dimension(94, 28));
         buttonDiscontinued.addActionListener(actionDiscontinued);
         getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 250, -1, -1));
       } else {
-        buttonContinued.setText("Continued");
+        buttonContinued.setText("Mở khóa");
         buttonContinued.setPreferredSize(new Dimension(94, 28));
         buttonContinued.addActionListener(actionContinued);
         getContentPane().add(buttonContinued, new AbsoluteConstraints(380, 250, -1, -1));

@@ -10,6 +10,7 @@ import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.OrderItemModel;
 
 import java.awt.*;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,12 @@ public class ImportDetail extends JPanel {
   public ArrayList<ImportDetail> getData() {
     for(ImportItemsModel importItemsModel : importItemsList)
       productQuantity += importItemsModel.getQuantity();
+
+    Timestamp timestamp = Timestamp.valueOf(importModel.getImportDate());
     ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {
       {
         add(new ImportDetail("Mã hóa đơn", "" + importModel.getId()));
-        add(new ImportDetail("Ngày tạo", String.valueOf(importModel.getImportDate())));
+        add(new ImportDetail("Ngày tạo", String.valueOf(timestamp)));
         add(new ImportDetail("Số sản phẩm", String.valueOf(productQuantity)));
         add(new ImportDetail("Tổng", "" + decimalFormat.format(importModel.getTotalPrice())));
       }
