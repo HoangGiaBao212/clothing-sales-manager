@@ -3,6 +3,7 @@ package com.clothingstore.gui.components.invoicesHistory;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,6 +14,8 @@ import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
+
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
   public Invoice(OrderModel orderModel) {
     initComponents(orderModel);
@@ -82,7 +85,7 @@ public class Invoice extends JPanel {
     Panel.setBackground(color);
 
     Price.setHorizontalAlignment(SwingConstants.CENTER);
-    Price.setText(" " + orderModel.getTotalPrice());
+    Price.setText(decimalFormat.format(orderModel.getTotalPrice()));
     Price.setFont(new Font("Segoe UI", 0, 14));
     Price.setForeground(Color.RED);
     Panel.add(Price);

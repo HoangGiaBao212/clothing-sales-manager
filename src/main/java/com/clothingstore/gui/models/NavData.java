@@ -49,6 +49,7 @@ public class NavData {
         add(new NavData("Quần dài", LongPantAction()));
         add(new NavData("Quần ngắn", ShortAction()));
         add(new NavData("Quần Tây", TrouserAction()));
+        add(new NavData("Khóa", BlockAction()));
       }
     };
     return data;
@@ -148,6 +149,15 @@ public class NavData {
       @Override
       public void actionPerformed(ActionEvent e) {
         List<ProductModel> productModels = ProductBUS.getInstance().searchModel("9", new String[]{"category_id"});
+        Products.getInstance().showProductsFromResult(productModels);
+      }
+    };
+  }
+  public ActionListener BlockAction() {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("0", new String[]{"status"});
         Products.getInstance().showProductsFromResult(productModels);
       }
     };

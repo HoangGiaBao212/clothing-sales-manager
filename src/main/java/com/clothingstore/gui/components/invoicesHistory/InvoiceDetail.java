@@ -14,6 +14,7 @@ import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class InvoiceDetail extends JPanel {
   private String name;
   private String value;
   private int quantity = 0;
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
 
   OrderModel orderModel;
   List<OrderItemModel> orderItemModels;
@@ -65,7 +68,7 @@ public class InvoiceDetail extends JPanel {
         add(new InvoiceDetail("Mã hóa đơn", "" + orderModel.getId()));
         add(new InvoiceDetail("Nhân viên phụ trách", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
         add(new InvoiceDetail("Ngày tạo", "" + orderModel.getOrderDate()));
-        add(new InvoiceDetail("Tổng tiền", "" + orderModel.getTotalPrice()));
+        add(new InvoiceDetail("Tổng tiền", "" + decimalFormat.format(orderModel.getTotalPrice())));
         add(new InvoiceDetail("Phương thức thanh toán", "" + PaymentMethodBUS.getInstance().getModelById(PaymentBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"}).get(0).getPaymentMethodId()).getMethodName()));
         add(new InvoiceDetail("Tên khách hàng",nameCustomer));
         add(new InvoiceDetail("Số điện thoại", phone));

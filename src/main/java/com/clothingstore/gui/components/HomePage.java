@@ -54,6 +54,7 @@ public class HomePage extends JFrame {
         break;
       case 2:
         add(Products.getInstance(), BorderLayout.CENTER);
+        add(Navigation.getInstance(), BorderLayout.SOUTH);
         break;
       case 3:
         add(Products.getInstance(), BorderLayout.CENTER);
