@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
@@ -105,15 +106,14 @@ public class EditProduct extends JFrame {
     jTextFieldName.setPreferredSize(new java.awt.Dimension(300, 40));
     jTextFieldName.setText(productModel.getName());
     jTextFieldName.setBorder(null);
-    jTextFieldName.addFocusListener(editText);
+    jTextFieldName.addFocusListener(editTextName);
 
     jTextFieldPrice.setPreferredSize(new java.awt.Dimension(300, 40));
     jTextFieldPrice.setText(String.valueOf(productModel.getPrice()));
     jTextFieldPrice.setBorder(null);
-    jTextFieldPrice.addFocusListener(editText);
+    jTextFieldPrice.addFocusListener(editTextPrice);
 
     comboBoxGender.setPreferredSize(new java.awt.Dimension(300, 40));
-    comboBoxGender.addFocusListener(editText);
     comboBoxGender.addActionListener(e -> {
       String selectedGender = (String) comboBoxGender.getSelectedItem();
       selectedGenderId = switch (selectedGender) {
@@ -121,6 +121,7 @@ public class EditProduct extends JFrame {
         case "Nữ" -> 0;
         default -> -1;
       };
+      edit = true;
     });
 
     int selectedGenderId = productModel.getGender();
@@ -131,15 +132,14 @@ public class EditProduct extends JFrame {
     } else {
       // selectedGender = "Khác"; // hoặc đặt giá trị mặc định khác
     }
-
     comboBoxCategory.setPreferredSize(new java.awt.Dimension(300, 40));
-    comboBoxCategory.addFocusListener(editText);
     updateCategoryComboBox();
     comboBoxCategory.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         String selectedCategoryName = (String) comboBoxCategory.getSelectedItem();
         selectedCategoryId = CategoryBUS.getInstance().getCategoryIdByName(selectedCategoryName);
+        edit = true;
       }
 
     });
@@ -264,8 +264,7 @@ public class EditProduct extends JFrame {
       frame.setSize(400, 200);
       JFileChooser fileChooser = new JFileChooser();
       fileChooser.setAcceptAllFileFilterUsed(false);
-      FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png",
-          "gif");
+      FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif");
       fileChooser.addChoosableFileFilter(imageFilter);
       int result = fileChooser.showOpenDialog(frame);
 
@@ -280,8 +279,7 @@ public class EditProduct extends JFrame {
         int originalHeight = originalIcon.getIconHeight();
 
         if (originalWidth > maxImageWidth || originalHeight > maxImageHeight) {
-          double scale = Math.min((double) maxImageWidth / originalWidth,
-              (double) maxImageHeight / originalHeight);
+          double scale = Math.min((double) maxImageWidth / originalWidth, (double) maxImageHeight / originalHeight);
 
           Image scaledImage = originalIcon.getImage().getScaledInstance((int) (originalWidth * scale),
               (int) (originalHeight * scale), Image.SCALE_SMOOTH);
@@ -362,31 +360,75 @@ public class EditProduct extends JFrame {
     @Override
     public void focusGained(FocusEvent e) {
       originalText = ((JTextField) e.getComponent()).getText();
-      if (showMessage) {
-        int option = JOptionPane.showConfirmDialog(null, "Có phải bạn muốn sửa thông tin?", "Xác nhận",
-            JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-          allowEdit = true;
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+      List<JTextField> allTextFields = new ArrayList<>(sizeToTextFieldMap.values());
+      Boolean checkQuantity = true;
+      for (JTextField textField : allTextFields) {
+        String newText = textField.getText();
+        if (!Validation.isValidProductQuantity(newText)) {
+          textField.setBorder(BorderFactory.createLineBorder(Color.RED));
+          checkQuantity = false;
         } else {
-          allowEdit = false;
+          if (!originalText.equals(newText)) {
+            textField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+          }
         }
-        showMessage = false;
       }
-      if (allowEdit) {
-        ((JTextField) e.getComponent()).setEditable(true);
+      if (checkQuantity == false) {
+        edit = false;
+        JOptionPane.showMessageDialog(null, "Số lượng sản phẩm không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
       } else {
-        ((JTextField) e.getComponent()).setEditable(false);
+        edit = true;
       }
+    }
+  };
+
+  private FocusListener editTextName = new FocusListener() {
+    private String originalText;
+
+    @Override
+    public void focusGained(FocusEvent e) {
+      originalText = ((JTextField) e.getComponent()).getText();
     }
 
     @Override
     public void focusLost(FocusEvent e) {
       String newText = ((JTextField) e.getComponent()).getText();
-
-      if (!originalText.equals(newText)) {
-        edit = true;
+      if (!Validation.isValidName(newText) || newText.isEmpty()) {
+        ((JTextField) e.getComponent()).setBorder(BorderFactory.createLineBorder(Color.RED));
+        JOptionPane.showMessageDialog(null, "Tên sản phẩm không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+      } else {
+        if (!originalText.equals(newText)) {
+          ((JTextField) e.getComponent()).setBorder(BorderFactory.createLineBorder(Color.GREEN));
+          edit = true;
+        }
       }
-      showMessage = true;
+    }
+  };
+
+  private FocusListener editTextPrice = new FocusListener() {
+    private String originalText;
+
+    @Override
+    public void focusGained(FocusEvent e) {
+      originalText = ((JTextField) e.getComponent()).getText();
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+      String newText = ((JTextField) e.getComponent()).getText();
+      if (!Validation.isValidPrice(newText)) {
+        ((JTextField) e.getComponent()).setBorder(BorderFactory.createLineBorder(Color.RED));
+        JOptionPane.showMessageDialog(null, "Giá bán không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+      } else {
+        if (!originalText.equals(newText)) {
+          ((JTextField) e.getComponent()).setBorder(BorderFactory.createLineBorder(Color.GREEN));
+          edit = true;
+        }
+      }
     }
   };
 
@@ -406,54 +448,43 @@ public class EditProduct extends JFrame {
           JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Thông báo",
               JOptionPane.ERROR_MESSAGE);
         } else {
-          if (Validation.isValidPrice(jTextFieldName.getText())) {
-            JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống!", "Lỗi",
-                JOptionPane.ERROR_MESSAGE);
-            jTextFieldName.setBorder(BorderFactory.createLineBorder(Color.RED));
-            jTextFieldName.setText(null);
-          } else if (!Validation.isValidPrice(jTextFieldPrice.getText())) {
-            JOptionPane.showMessageDialog(null, "Giá bán không hợp lệ!", "Lỗi",
-                JOptionPane.ERROR_MESSAGE);
-            jTextFieldPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
-            jTextFieldPrice.setText(null);
-          } else {
-            productModel.setName(jTextFieldName.getText());
-            productModel.setGender(selectedGenderId);
-            productModel.setCategoryId(selectedCategoryId);
-            productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
-            productModel.setImage(imagePath);
 
-            for (SizeItemModel sizeItemModel : sizeItemModels) {
-              if (sizeItemModel.getSizeId() == 1) {
-                sizeItemModel.setQuantity(Integer.parseInt(sizeSValue));
-              } else if (sizeItemModel.getSizeId() == 2) {
-                sizeItemModel.setQuantity(Integer.parseInt(sizeMValue));
-              } else if (sizeItemModel.getSizeId() == 3) {
-                sizeItemModel.setQuantity(Integer.parseInt(sizeLValue));
-              } else if (sizeItemModel.getSizeId() == 1) {
-                sizeItemModel.setQuantity(Integer.parseInt(sizeXLValue));
-              } else {
-                sizeItemModel.setQuantity(Integer.parseInt(sizeXXLValue));
-              }
-              SizeItemBUS.getInstance().updateModel(sizeItemModel);
-            }
-            int result = ProductBUS.getInstance().updateModel(productModel);
-            if (result == 1) {
-              JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công", "Thông báo",
-                  JOptionPane.INFORMATION_MESSAGE);
-              ProductBUS.getInstance().refreshData();
-              SizeItemBUS.getInstance().refreshData();
-              dispose();
-              HomePage.getInstance();
+          productModel.setName(jTextFieldName.getText());
+          productModel.setGender(selectedGenderId);
+          productModel.setCategoryId(selectedCategoryId);
+          productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
+          productModel.setImage(imagePath);
+
+          for (SizeItemModel sizeItemModel : sizeItemModels) {
+            if (sizeItemModel.getSizeId() == 1) {
+              sizeItemModel.setQuantity(Integer.parseInt(sizeSValue));
+            } else if (sizeItemModel.getSizeId() == 2) {
+              sizeItemModel.setQuantity(Integer.parseInt(sizeMValue));
+            } else if (sizeItemModel.getSizeId() == 3) {
+              sizeItemModel.setQuantity(Integer.parseInt(sizeLValue));
+            } else if (sizeItemModel.getSizeId() == 1) {
+              sizeItemModel.setQuantity(Integer.parseInt(sizeXLValue));
             } else {
-              JOptionPane.showMessageDialog(null, "An error occurred. Please try again.",
-                  "Error",
-                  JOptionPane.ERROR_MESSAGE);
+              sizeItemModel.setQuantity(Integer.parseInt(sizeXXLValue));
             }
+            SizeItemBUS.getInstance().updateModel(sizeItemModel);
           }
+          int result = ProductBUS.getInstance().updateModel(productModel);
+          if (result == 1) {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công", "Thông báo",
+                JOptionPane.INFORMATION_MESSAGE);
+            ProductBUS.getInstance().refreshData();
+            SizeItemBUS.getInstance().refreshData();
+            dispose();
+            HomePage.getInstance();
+          } else {
+            JOptionPane.showMessageDialog(null, "An error occurred. Please try again.", "Error",
+                JOptionPane.ERROR_MESSAGE);
+          }
+
         }
       } else {
-        JOptionPane.showMessageDialog(null, "Không có thông tin thay đổi", "Thông báo",
+        JOptionPane.showMessageDialog(null, "Cập nhật thất bại", "Lỗi",
             JOptionPane.INFORMATION_MESSAGE);
       }
     }
@@ -489,8 +520,6 @@ public class EditProduct extends JFrame {
   private String sizeLValue;
   private String sizeXLValue;
   private String sizeXXLValue;
-  private boolean showMessage = true;
-  private boolean allowEdit = false;
   private boolean edit = false;
 
 }

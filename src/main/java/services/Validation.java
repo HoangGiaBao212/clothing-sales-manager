@@ -11,12 +11,14 @@ public class Validation {
   }
 
   public static boolean isValidName(String name) {
-    String regex = "^[a-zA-Z\\s]+$";
+    // String regex = "^[a-zA-Z\\p{L}\\s]+$";
+    String regex = "^[a-zA-Z0-9\\p{L}\\s.,\\-\\/]+$";
     return isMatch(name, regex);
   }
 
   public static boolean isValidUsername(String username) {
     String regex = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]+$";
+
     return isMatch(username, regex);
   }
 
@@ -37,12 +39,17 @@ public class Validation {
 
   public static boolean isValidPrice(String input) {
     String regex = "^[1-9]\\d*(\\.\\d+)?$";
-    return input.matches(regex);
+    return input.matches(regex) && Double.parseDouble(input) > 0;
   }
 
   public static boolean isValidAddress(String address) {
     String regex = "^[a-zA-Z0-9., \\-\\/]+$";
     return isMatch(address, regex);
+  }
+
+  public static boolean isValidProductQuantity(String quantity) {
+    String regex = "^(0|[1-9]\\d*)$";
+    return !quantity.isEmpty() && isMatch(quantity, regex);
   }
 
 }
