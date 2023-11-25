@@ -1065,16 +1065,16 @@ INSERT INTO `roles`(`name`) VALUES
 ('EMPLOYEE');
 -- password: User12345
 INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image`,`role_id`,`address`,`status`) VALUES
-('admin12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','admin@gmail.com','Admin','0123456781',1,'./src/main/java/config/image/roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
-('manager12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','manager@gmail.com','Manager','0123456782',1,'./src/main/java/config/image/roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
-('chinh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','chinh@gmail.com','Chinh','0123456783',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('cuong12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','cuong@gmail.com','Cuong','0123456784',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('bao12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','bao@gmail.com','Bao','0123456785',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('cat12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','cat@gmail.com','Cat','0123456786',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('thanh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','thanh@gmail.com','Thanh','01234567897',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('danh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','danh@gmail.com','Danh','0123456788',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('thang12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','thang@gmail.com','Thang','0123456789',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('trieu12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','trieu@gmail.com','Trieu','0123456780',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
+('admin12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','admin@gmail.com','Admin','0908141453',1,'./src/main/java/config/image/roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
+('manager12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','manager@gmail.com','Manager','0908141452',1,'./src/main/java/config/image/roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
+('chinh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','chinh@gmail.com','Chinh','0966782508',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('cuong12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','cuong@gmail.com','Cuong','0908141451',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('bao12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','bao@gmail.com','Bao','0908141642',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('cat12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','cat@gmail.com','Cat','0908141508',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('thanh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','thanh@gmail.com','Thanh','0908782456',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('danh12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','danh@gmail.com','Danh','0908123856',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('thang12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','thang@gmail.com','Thang','0963269711',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('trieu12345','$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi','trieu@gmail.com','Trieu','0913563532',1,'./src/main/java/config/image/roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
 INSERT INTO `imports` (`user_id`,`import_date`, `total_price`)
 VALUES (4,'2023-10-13 13:30:00', 255000000),
        (5,'2023-10-13 14:30:00', 339150000),

@@ -36,7 +36,7 @@ public class Validation {
   }
 
   public static boolean isValidPrice(String input) {
-    String regex = "^\\d+(\\.\\d+)?$";
+    String regex = "^[1-9]\\d*(\\.\\d+)?$";
     return input.matches(regex);
   }
 

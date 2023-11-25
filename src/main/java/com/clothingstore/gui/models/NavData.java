@@ -19,7 +19,7 @@ public class NavData {
   private ArrayList<MenuData> menuData = new MenuData().getDataMenu();
   private Menu menu = Menu.getInstance(menuData);
 
-  public NavData(){
+  public NavData() {
 
   }
 
@@ -69,7 +69,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("1", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("1", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -79,7 +79,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("2", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("2", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -89,7 +89,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("3", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("3", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -99,16 +99,17 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("4", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("4", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
   }
+
   public ActionListener JacketAction() {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("5", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("5", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -118,7 +119,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("6", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("6", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -128,7 +129,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("7", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("7", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -138,7 +139,7 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("8", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("8", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
@@ -148,23 +149,24 @@ public class NavData {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("9", new String[]{"category_id"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("9", new String[] { "category_id" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
   }
+
   public ActionListener BlockAction() {
     return new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("0", new String[]{"status"});
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel("0", new String[] { "status" });
         Products.getInstance().showProductsFromResult(productModels);
       }
     };
   }
 
   public ActionListener MenuAction() {
-    
+
     menuWidth = menu.getWidth();
     return new ActionListener() {
       @Override

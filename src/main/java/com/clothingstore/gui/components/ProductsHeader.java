@@ -81,14 +81,22 @@ public class ProductsHeader extends JPanel {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (Value.getText().isEmpty() || Value.getText().isBlank()) {
+        if (Value.getText().isEmpty() || Value.getText().isBlank() || Value.getText().equals("Tìm kiếm sản phẩm")) {
           JFrame jf = new JFrame();
           jf.setAlwaysOnTop(true);
-          JOptionPane.showMessageDialog(jf, "Bạn không nhập gì hết vào ô tìm kiếm. Vui lòng kiểm tra lại");
+          JOptionPane.showMessageDialog(jf, "Vui lòng nhập thông tin cần tìm!");
           return;
         }
         String input = Value.getText().toLowerCase();
-        List<ProductModel> productModels = ProductBUS.getInstance().searchModel(input, new String[] { "name" });
+        List<ProductModel> productModels = null;
+        ProductModel productModel = ProductBUS.getInstance().getModelById(Integer.parseInt(Value.getText()));
+        if (isInteger(input) == true && productModel != null) {
+          ProductDetail productDetail = new ProductDetail(productModel);
+          productDetail.setVisible(true);
+          return;
+        } else {
+          productModels = ProductBUS.getInstance().searchModel(input, new String[] { "name" });
+        }
         if (productModels == null || productModels.isEmpty()) {
           JFrame jf = new JFrame();
           JOptionPane.showMessageDialog(jf, "Không tìm thấy sản phẩm!");
@@ -121,6 +129,15 @@ public class ProductsHeader extends JPanel {
     add(ButtonMenu, BorderLayout.WEST);
 
     add(Panel, BorderLayout.LINE_END);
+  }
+
+  private boolean isInteger(String s) {
+    try {
+      Integer.parseInt(s);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
   }
 
   private JButton ButtonAdd;
