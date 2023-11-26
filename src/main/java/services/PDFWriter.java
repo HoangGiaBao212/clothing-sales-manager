@@ -34,7 +34,9 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -142,16 +144,13 @@ public class PDFWriter {
 
   public void exportImportsToPDF(int importId, String filepath) {
     ImportModel importData = ImportBUS.getInstance().getModelById(importId);
-    List<ImportItemsModel> importItemsList = new ArrayList<>(ImportItemsBUS.getInstance().getAllModels());
-    List<ProductModel> productsList = ProductBUS.getInstance().getAllModels();
-    importItemsList.removeIf(item -> productsList.stream().noneMatch(product -> item.getId() == product.getId()));
-
+    List<ImportItemsModel> importItemsList = new ArrayList<>(
+        ImportItemsBUS.getInstance().searchModel(importId + "", new String[] { "import_id" }));
     UserModel employee = UserBUS.getInstance().getModelById(importData.getUserId());
 
     double totalPrice = importItemsList.stream()
         .mapToDouble(item -> {
-          ProductModel productModel = ProductBUS.getInstance().getModelById(item.getId());
-          return item.getQuantity() * productModel.getPrice();
+          return item.getQuantity() * item.getPrice();
         })
         .sum();
 
@@ -170,22 +169,58 @@ public class PDFWriter {
       writeObject(headerInfoString.split("\n"));
 
       // Add product information
-      String[] columnNames = { "Mã sản phẩm", "Tên", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng" };
-      Object[][] data = new Object[importItemsList.size()][6];
-      for (int i = 0; i < importItemsList.size(); i++) {
-        ImportItemsModel item = importItemsList.get(i);
-        ProductModel product = ProductBUS.getInstance().getModelById(item.getId());
-        double itemTotalPrice = item.getQuantity() * product.getPrice();
-        data[i][0] = product.getId();
-        data[i][1] = product.getName();
-        data[i][2] = currencyFormatter.format(product.getPrice());
-        data[i][3] = getSizeLabel(item.getSize_id());
-        data[i][4] = item.getQuantity();
-        data[i][5] = currencyFormatter.format(itemTotalPrice);
+      Set<Integer> uniqueProductIds = new HashSet<>();
+
+      for (ImportItemsModel importItemsModel : importItemsList) {
+        uniqueProductIds.add(importItemsModel.getProduct_id());
       }
+
+      int numberOfUniqueProductIds = uniqueProductIds.size();
+      String[] columnNames = { "Mã sản phẩm", "Tên", "Giá tiền", "Kích cỡ và Số lượng", "Tổng từng loại" };
+      Object[][] data = new Object[numberOfUniqueProductIds][5];
+      int id = 0;
+      int count = 0;
+      
+      for (int i = 0; i < importItemsList.size() && count < numberOfUniqueProductIds; i++) {
+          if (id != importItemsList.get(i).getProduct_id()) {
+              ImportItemsModel item = importItemsList.get(i);
+              ProductModel product = ProductBUS.getInstance().getModelById(item.getProduct_id());
+              double itemTotalPrice = item.getQuantity() * item.getPrice();
+      
+              List<ImportItemsModel> importItemListByImportId = new ArrayList<>();
+              for (ImportItemsModel importItemsModel : importItemsList) {
+                  if (importItemsModel.getProduct_id() == item.getProduct_id()) {
+                      importItemListByImportId.add(importItemsModel);
+                  }
+              }
+              StringBuilder sizeAndQuantityBuilder = new StringBuilder();
+              StringBuilder priceBuilder = new StringBuilder();
+      
+              for (ImportItemsModel importItemsModel : importItemListByImportId) {
+                  sizeAndQuantityBuilder.append(String.format("%s - %d\n", getSizeLabel(importItemsModel.getSize_id()),
+                          importItemsModel.getQuantity()));
+      
+                  double totalPrices = importItemsModel.getPrice() * importItemsModel.getQuantity();
+                  priceBuilder.append(String.format("%s\n", currencyFormatter.format(totalPrices)));
+              }
+      
+              String sizeAndQuantity = sizeAndQuantityBuilder.toString();
+              String totalPriceString = priceBuilder.toString();
+      
+              data[count][0] = product.getId();
+              data[count][1] = product.getName();
+              data[count][2] = currencyFormatter.format(item.getPrice());
+              data[count][3] = sizeAndQuantity;
+              data[count][4] = totalPriceString;
+      
+              id = importItemsList.get(i).getProduct_id();
+              count++;
+          }
+      }
+      
+
       JTable table = new JTable(data, columnNames);
       writeTable(table);
-
       close();
     } catch (Exception e) {
       logError(e);
@@ -217,7 +252,8 @@ public class PDFWriter {
 
   public void exportReceiptToPDF(OrderModel orderModel, String filepath, double totalPrice) {
     OrderItemBUS.getInstance().refreshData();
-    List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[] {"order_id"}));
+    List<OrderItemModel> orderItemsList = new ArrayList<>(
+        OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[] { "order_id" }));
 
     CustomerModel customer = CustomerBUS.getInstance().getModelById(orderModel.getCustomerId());
     UserModel employee = UserBUS.getInstance().getModelById(orderModel.getUserId());
@@ -254,7 +290,7 @@ public class PDFWriter {
       writeObject(orderInfoString.split("\n"));
 
       // Add product Information
-      String[] columnNames = { "Mã sản phẩm", "Tên sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng tiền" };
+      String[] columnNames = { "Mã sản phẩm", "Tên sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng tiền từng kích cỡ" };
       Object[][] data = new Object[orderItemsList.size()][6];
       for (int i = 0; i < orderItemsList.size(); i++) {
         OrderItemModel orderItemModel = orderItemsList.get(i);

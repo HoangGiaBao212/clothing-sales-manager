@@ -1,6 +1,7 @@
 package com.clothingstore.gui.components.importInvoice.addImport;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.clothingstore.bus.ImportBUS;
 import com.clothingstore.bus.ImportItemsBUS;
@@ -14,8 +15,10 @@ import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.UserModel;
 
 import services.Authentication;
+import services.PDFWriter;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -210,6 +213,8 @@ public class AddNewImport extends JPanel {
             updateStatusTable();
             listImportItemPanel.removeAll();
             listImportItemPanel.repaint();
+            
+            exportReceiptToPDF();
         } else {
             JOptionPane.showMessageDialog(null, "Đã hủy tạo phiếu nhập",
                     "Error",
@@ -221,11 +226,12 @@ public class AddNewImport extends JPanel {
         try {
             int idProduct = Integer.parseInt(idProductTextField.getText());
             if (idProduct <= 0) {
-                JOptionPane.showMessageDialog(this, "Id sản phẩm là 1 số lớn hơn 0", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Id sản phẩm là 1 số lớn hơn 0", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             ProductModel productModel = ProductBUS.getInstance().getModelById(idProduct);
-    
+
             if (productModel == null) {
                 SwingUtilities.invokeLater(
                         () -> JOptionPane.showMessageDialog(this,
@@ -236,7 +242,8 @@ public class AddNewImport extends JPanel {
                 Boolean check = true;
                 for (ImportItemsModel importItemModel : importItemList) {
                     if (importItemModel.getProduct_id() == idProduct) {
-                        JOptionPane.showMessageDialog(this, "Sản phẩm này đã được thêm!!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sản phẩm này đã được thêm!!", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                         check = false;
                         break;
                     }
@@ -262,7 +269,7 @@ public class AddNewImport extends JPanel {
                     JOptionPane.ERROR_MESSAGE));
         }
     }
-    
+
     private void updateQuantityImportItem() {
         quantityImportItem = importItemProducts.size() + 1;
     }
@@ -274,6 +281,32 @@ public class AddNewImport extends JPanel {
         listImportItemPanel.repaint();
         updateQuantityImportItem();
         updateStatusTable();
+    }
+
+    private void exportReceiptToPDF() {
+        int choice = JOptionPane.showConfirmDialog(AddNewImport.this, "Bạn có muốn xuất hóa đơn không?");
+        if (choice == JOptionPane.YES_OPTION) {
+            JFileChooser fileChooser = new JFileChooser();
+            AddNewImport.this.add(fileChooser);
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+            fileChooser.setFileFilter(filter);
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
+                if (!filePath.toLowerCase().endsWith(".pdf")) {
+                    filePath += ".pdf";
+                }
+                ImportBUS.getInstance().refreshData();
+                ImportItemsBUS.getInstance().refreshData();
+                List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
+                ImportModel importModel = importList.get(importList.size() - 1);
+                PDFWriter.getInstance().exportImportsToPDF(importModel.getId(), filePath);
+            }
+        } else {
+            return;
+        }
     }
 
     private void initComponents() {

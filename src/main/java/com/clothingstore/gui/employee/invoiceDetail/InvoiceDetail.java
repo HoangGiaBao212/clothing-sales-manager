@@ -425,14 +425,10 @@ public class InvoiceDetail extends JFrame {
       }
 
       private void exportReceiptToPDF(List<OrderItemModel> orderList, int idCustomer) {
-        JFrame jf = new JFrame();
-        jf.setAlwaysOnTop(true);
-        int choice = JOptionPane.showConfirmDialog(jf, "Bạn có muốn xuất hóa đơn không?");
+        int choice = JOptionPane.showConfirmDialog(InvoiceDetail.this, "Bạn có muốn xuất hóa đơn không?");
         if (choice == JOptionPane.YES_OPTION) {
-          JFrame jf1 = new JFrame();
-          jf1.setAlwaysOnTop(true);
           JFileChooser fileChooser = new JFileChooser();
-          jf1.add(fileChooser);
+          InvoiceDetail.this.add(fileChooser);
           fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
           FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
           fileChooser.setFileFilter(filter);
