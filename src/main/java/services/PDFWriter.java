@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.swing.JTable;
 
@@ -217,13 +216,8 @@ public class PDFWriter {
   }
 
   public void exportReceiptToPDF(OrderModel orderModel, String filepath, double totalPrice) {
-    List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().getAllModels());
-
-    orderItemsList.removeIf(orderItem -> orderItem.getOrderId() != orderModel.getId());
-
-    List<ProductModel> productList = orderItemsList.stream()
-        .map(orderItem -> ProductBUS.getInstance().getModelById(orderItem.getProductId()))
-        .collect(Collectors.toList());
+    OrderItemBUS.getInstance().refreshData();
+    List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[] {"order_id"}));
 
     CustomerModel customer = CustomerBUS.getInstance().getModelById(orderModel.getCustomerId());
     UserModel employee = UserBUS.getInstance().getModelById(orderModel.getUserId());

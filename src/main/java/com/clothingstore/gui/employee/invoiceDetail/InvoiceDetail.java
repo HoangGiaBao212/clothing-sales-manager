@@ -277,9 +277,9 @@ public class InvoiceDetail extends JFrame {
           return;
         }
 
-        if ((isWalkinCustomer && isCashSelected && change >= 0) || isCreditSelected) {
+        if ((isWalkinCustomer && isCashSelected) || (isWalkinCustomer && isCreditSelected)) {
           processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
-        } else if (isCashSelected && change >= 0) {
+        } else if (isCashSelected) {
           processCashPayment(orderList, isRegularCustomer, isWalkinCustomer);
         } else if (isCreditSelected) {
           // Handle credit payment
