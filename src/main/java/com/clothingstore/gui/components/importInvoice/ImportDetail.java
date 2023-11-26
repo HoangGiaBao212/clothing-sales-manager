@@ -3,11 +3,11 @@ package com.clothingstore.gui.components.importInvoice;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportItemsBUS;
+import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
-import com.clothingstore.models.OrderItemModel;
 
 import java.awt.*;
 import java.sql.Timestamp;
@@ -22,7 +22,6 @@ public class ImportDetail extends JPanel {
   private ImportModel importModel;
   private List<ImportItemsModel> importItemsList;
   private int productQuantity = 0;
-
 
   static DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
@@ -39,13 +38,15 @@ public class ImportDetail extends JPanel {
   }
 
   public ArrayList<ImportDetail> getData() {
-    for(ImportItemsModel importItemsModel : importItemsList)
+    for (ImportItemsModel importItemsModel : importItemsList)
       productQuantity += importItemsModel.getQuantity();
 
     Timestamp timestamp = Timestamp.valueOf(importModel.getImportDate());
     ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {
       {
-        add(new ImportDetail("Mã hóa đơn", "" + importModel.getId()));
+        add(new ImportDetail("Mã hóa đơn nhập", "" + importModel.getId()));
+        add(new ImportDetail("Tên nhân viên nhập",
+            "" + UserBUS.getInstance().getModelById(importModel.getUserId()).getName()));
         add(new ImportDetail("Ngày tạo", String.valueOf(timestamp)));
         add(new ImportDetail("Số sản phẩm", String.valueOf(productQuantity)));
         add(new ImportDetail("Tổng", "" + decimalFormat.format(importModel.getTotalPrice())));

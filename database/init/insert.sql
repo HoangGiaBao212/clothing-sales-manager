@@ -1270,7 +1270,7 @@ INSERT INTO `customers` (`name`, `phone`, `email`) VALUES
 INSERT INTO `permissions`(`name`) VALUES
 ('Quản Lý Sản Phẩm '),
 ('Quản Lý Kho Hàng'),
-('Quản Lý Bán Hàng'),
+('Quản Lý Hóa Đơn'),
 ('Quản Lý Nhân Viên'),
 ('Quản Lý Khách Hàng'),
 ('Thống Kê Doanh Số'),

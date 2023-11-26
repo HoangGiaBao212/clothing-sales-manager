@@ -2,17 +2,13 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 import javax.swing.*;
 
-import com.clothingstore.bus.ImportBUS;
 import com.clothingstore.bus.OrderBUS;
-import com.clothingstore.gui.components.importInvoice.ImportInvoice;
 import com.clothingstore.gui.models.NavData;
-import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.OrderModel;
 import com.toedter.calendar.JDateChooser;
 
@@ -169,12 +165,7 @@ public class InvoiceList extends JPanel {
     orderList = new ArrayList<>(OrderBUS.getInstance().getAllModels());
     Collections.reverse(orderList);
     CheckResponsive();
-    for (OrderModel orderModel : orderList) {
-      Invoice invoice = new Invoice(orderModel);
-      Invoices.add(invoice);
-    }
-
-    Scroll.setViewportView(Invoices);
+    updateOrderList(orderList);
     Scroll.getVerticalScrollBar().setUnitIncrement(10);
     add(Scroll, BorderLayout.CENTER);
   }
@@ -216,31 +207,30 @@ public class InvoiceList extends JPanel {
     removeFilterButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        Invoices.removeAll();
         startDate.setDate(null);
         endDate.setDate(null);
-        orderList = new ArrayList<>(OrderBUS.getInstance().getAllModels());
         Collections.reverse(orderList);
-        for (OrderModel orderModel : orderList) {
-          Invoice invoice = new Invoice(orderModel);
-          Invoices.add(invoice);
-        }
+        orderList = new ArrayList<>(OrderBUS.getInstance().getAllModels());
+        updateOrderList(orderList);
         CheckResponsive();
-        Scroll.setViewportView(Invoices);
       }
     });
+  }
+
+  private void updateOrderList(List<OrderModel> orderListUpdate) {
+    Invoices.removeAll();
+    for (OrderModel orderModel : orderListUpdate) {
+      Invoice invoice = new Invoice(orderModel);
+      Invoices.add(invoice);
+    }
+    Scroll.setViewportView(Invoices);
   }
 
   private void checkDate(Date fromDate, Date toDate) {
     try {
       orderList = new ArrayList<>(OrderBUS.getInstance().searchDateToDate(fromDate, toDate));
       Collections.reverse(orderList);
-      Invoices.removeAll();
-      for (OrderModel orderModel : orderList) {
-        Invoice invoice = new Invoice(orderModel);
-        Invoices.add(invoice);
-      }
-      Scroll.setViewportView(Invoices);
+      updateOrderList(orderList);
     } catch (IllegalArgumentException e) {
       JOptionPane.showMessageDialog(null, e.getMessage(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     } catch (Exception e) {

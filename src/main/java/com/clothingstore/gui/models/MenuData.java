@@ -95,8 +95,8 @@ public class MenuData {
                             permissionModel.getPermissionName(),
                             new ArrayList<MenuItemData>() {
                                 {
-                                    add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
-                                    add(new MenuItemData("Thêm hóa đơn", ImportAction()));
+                                    add(new MenuItemData("Danh sách phiếu nhập", ImportAction()));
+                                    add(new MenuItemData("Thêm phiếu nhập", ImportAction()));
 
                                 }
                             },
@@ -178,9 +178,9 @@ public class MenuData {
         return e -> {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
-            if (e.getActionCommand().equals("Danh sách hóa đơn")) {
+            if (e.getActionCommand().equals("Danh sách phiếu nhập")) {
                 homePage.Add(ImportHistory.getInstance());
-            } else if (e.getActionCommand().equals("Thêm hóa đơn")) {
+            } else if (e.getActionCommand().equals("Thêm phiếu nhập")) {
                 homePage.Add(AddNewImport.getInstance());
             }
 
@@ -244,7 +244,7 @@ public class MenuData {
         return e -> {
             int option = JOptionPane.showConfirmDialog(
                     null,
-                    "Are you sure you want to logout?",
+                    "Bạn có muốn đăng xuất không?",
                     "Logout",
                     JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {

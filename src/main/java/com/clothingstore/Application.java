@@ -1,7 +1,6 @@
 package com.clothingstore;
 
 import javax.swing.*;
-
 import com.clothingstore.gui.login.Login;
 
 public class Application {

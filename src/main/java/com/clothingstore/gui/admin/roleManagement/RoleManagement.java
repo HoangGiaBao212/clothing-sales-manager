@@ -316,7 +316,7 @@ public class RoleManagement extends JPanel {
             }
         });
 
-        btnRefresh = new JButton("Refresh");
+        btnRefresh = new JButton("Làm mới");
         btnRefresh.setPreferredSize(new Dimension(200, 40));
         panel_Model.add(btnRefresh);
         btnRefresh.addActionListener(new ActionListener() {
