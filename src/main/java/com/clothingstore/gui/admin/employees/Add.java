@@ -340,28 +340,30 @@ public class Add extends JFrame {
         newEmployee.setRoleId(roleID);
         newEmployee.setAddress(address);
         newEmployee.setImage(imagePath);
-
-        // success
-        int newUserID = UserBUS.getInstance().addModel(newEmployee);
-        if (newUserID == 1) {
-            JOptionPane.showMessageDialog(null, "Thêm thành công");
-            clearForm();
-            setVisible(false);
-        }
-        UserBUS.getInstance().refreshData();
-        List<UserModel> allUserModels = UserBUS.getInstance().getAllModels();
-        UserModel lastUserAdded = allUserModels.get(allUserModels.size() - 1);
-        for (int i = 1; i <= 7; i++) {
-            UserPermissionModel userPermissionModel = new UserPermissionModel();
-            userPermissionModel.setUserId(lastUserAdded.getId());
-            userPermissionModel.setPermissionId(i);
-            userPermissionModel.setStatus(UserPermissionStatus.INACTIVE);
-            for (RolePermissionModel rolePermissionModel : rolePermissionList) {
-                if (rolePermissionModel.getPermissionId() == i && rolePermissionModel.getRoleId() == roleID) {
-                    userPermissionModel.setStatus(UserPermissionStatus.ACTIVE);
-                }
+        try {
+            int newUserID = UserBUS.getInstance().addModel(newEmployee);
+            if (newUserID == 1) {
+                JOptionPane.showMessageDialog(null, "Thêm thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                setVisible(false);
             }
-            UserPermissionBUS.getInstance().addModel(userPermissionModel);
+            UserBUS.getInstance().refreshData();
+            List<UserModel> allUserModels = UserBUS.getInstance().getAllModels();
+            UserModel lastUserAdded = allUserModels.get(allUserModels.size() - 1);
+            for (int i = 1; i <= 7; i++) {
+                UserPermissionModel userPermissionModel = new UserPermissionModel();
+                userPermissionModel.setUserId(lastUserAdded.getId());
+                userPermissionModel.setPermissionId(i);
+                userPermissionModel.setStatus(UserPermissionStatus.INACTIVE);
+                for (RolePermissionModel rolePermissionModel : rolePermissionList) {
+                    if (rolePermissionModel.getPermissionId() == i && rolePermissionModel.getRoleId() == roleID) {
+                        userPermissionModel.setStatus(UserPermissionStatus.ACTIVE);
+                    }
+                }
+                UserPermissionBUS.getInstance().addModel(userPermissionModel);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
