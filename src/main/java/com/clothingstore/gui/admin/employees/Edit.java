@@ -321,13 +321,21 @@ public class Edit extends JFrame {
         UserModel userModel = new UserModel(id, username, "User12345", email, name, phone, address, gender, imagePath,
                 roleID, UserStatus.ACTIVE);
         // success
-        int updatedRows = userBus.updateModel(userModel);
-        if (updatedRows > 0) {
-            JOptionPane.showMessageDialog(null, "Update thành công");
-            setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Update thất bại");
+        try {
+            int updatedRows = userBus.updateModel(userModel);
+            if (updatedRows > 0) {
+                JOptionPane.showMessageDialog(null, "Cập nhập thành công", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Cập nhật thất bại", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
 }
