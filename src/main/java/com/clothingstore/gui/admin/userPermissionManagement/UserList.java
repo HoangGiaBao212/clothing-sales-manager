@@ -76,7 +76,7 @@ public class UserList extends JPanel {
     Panel.add(ButtonSearch, BorderLayout.WEST);
 
     SearchValue.setBackground(new Color(242, 242, 242));
-    SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
+    SearchValue.setFont(new Font("Segoe UI", 0, 14)); 
     SearchValue.setText("Tìm theo mã nhân viên");
     SearchValue.setBackground(Color.white);
     SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
@@ -105,6 +105,7 @@ public class UserList extends JPanel {
     Users.setLayout(new GridLayout(0, 1));
     Users.setBackground(color);
 
+    UserBUS.getInstance().refreshData();
     List<UserModel> userList = new ArrayList<>(UserBUS.getInstance().getAllModels());
     userList.remove(0);
     Collections.reverse(userList);

@@ -51,7 +51,7 @@ public class UserPermissionDAO implements IDAO<UserPermissionModel> {
     Object[] args = {
         userPermissionModel.getUserId(),
         userPermissionModel.getPermissionId(),
-        userPermissionModel.getStatus()
+        userPermissionModel.getStatus().toString().toUpperCase()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);

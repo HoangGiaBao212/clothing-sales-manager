@@ -3,6 +3,8 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -10,9 +12,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.clothingstore.bus.RoleBUS;
+import com.clothingstore.bus.RolePermissionBUS;
 import com.clothingstore.bus.UserBUS;
+import com.clothingstore.bus.UserPermissionBUS;
+import com.clothingstore.enums.UserPermissionStatus;
 import com.clothingstore.models.RoleModel;
+import com.clothingstore.models.RolePermissionModel;
 import com.clothingstore.models.UserModel;
+import com.clothingstore.models.UserPermissionModel;
 
 public class Add extends JFrame {
 
@@ -24,10 +31,11 @@ public class Add extends JFrame {
     public JTextField textField_email;
     public JTextField textField_name;
     public JTextField textField_address;
-    Employees employeeGUI = new Employees();
+    private Employees employeeGUI = new Employees();
     private RoleBUS roleBus = RoleBUS.getInstance();
-    private JComboBox comboBox_gender;
-    private JComboBox comboBox_role;
+    private List<RolePermissionModel> rolePermissionList = RolePermissionBUS.getInstance().getAllModels();
+    private JComboBox<String> comboBox_gender;
+    private JComboBox<String> comboBox_role;
     private JLabel lbl_img;
     private String imagePath;
     private JPanel panel_image;
@@ -128,8 +136,8 @@ public class Add extends JFrame {
         gbc_lbl_gender.gridy = 2;
         panel_3.add(lbl_gender, gbc_lbl_gender);
 
-        comboBox_gender = new JComboBox();
-        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
+        comboBox_gender = new JComboBox<>();
+        comboBox_gender.setModel(new DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -160,7 +168,7 @@ public class Add extends JFrame {
         gbc_lbl_role.gridy = 3;
         panel_3.add(lbl_role, gbc_lbl_role);
 
-        comboBox_role = new JComboBox();
+        comboBox_role = new JComboBox<>();
         for (RoleModel role : roleBus.getAllModels()) {
             if (role.getId() > 1) {
                 comboBox_role.addItem(role.getName());
@@ -340,7 +348,21 @@ public class Add extends JFrame {
             clearForm();
             setVisible(false);
         }
-
+        UserBUS.getInstance().refreshData();
+        List<UserModel> allUserModels = UserBUS.getInstance().getAllModels();
+        UserModel lastUserAdded = allUserModels.get(allUserModels.size() - 1);
+        for (int i = 1; i <= 7; i++) {
+            UserPermissionModel userPermissionModel = new UserPermissionModel();
+            userPermissionModel.setUserId(lastUserAdded.getId());
+            userPermissionModel.setPermissionId(i);
+            userPermissionModel.setStatus(UserPermissionStatus.INACTIVE);
+            for (RolePermissionModel rolePermissionModel : rolePermissionList) {
+                if (rolePermissionModel.getPermissionId() == i && rolePermissionModel.getRoleId() == roleID) {
+                    userPermissionModel.setStatus(UserPermissionStatus.ACTIVE);
+                }
+            }
+            UserPermissionBUS.getInstance().addModel(userPermissionModel);
+        }
     }
 
 }

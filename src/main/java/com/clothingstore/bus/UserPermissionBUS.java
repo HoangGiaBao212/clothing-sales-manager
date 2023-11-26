@@ -50,9 +50,6 @@ public class UserPermissionBUS implements IBUS<UserPermissionModel> {
     public int addModel(UserPermissionModel userPermissionModel) {
         int id = UserPermissionDAO.getInstance().insert(userPermissionModel);
         userPermissionModel.setId(id);
-        userPermissionModel.setStatus(
-                userPermissionModel.getStatus() != null ? userPermissionModel.getStatus()
-                        : UserPermissionStatus.ACTIVE);
         userPermissionList.add(userPermissionModel);
         return id;
     }

@@ -33,6 +33,7 @@ public class EditUserPermission extends JPanel {
 
     public EditUserPermission(UserModel userModel) {
         this.userModel = userModel;
+        UserPermissionBUS.getInstance().refreshData();
         userPermissionList = UserPermissionBUS.getInstance().searchModel(String.valueOf(userModel.getId()),
                 new String[] { "user_id" });
         initComponents();
