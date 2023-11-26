@@ -13,16 +13,16 @@ import com.clothingstore.enums.UserStatus;
 import com.clothingstore.gui.admin.employees.ImageRender;
 import com.clothingstore.models.UserModel;
 
-public class User extends JPanel {
+public class UserDetail extends JPanel {
 
-  public User(UserModel userModel) {
+  public UserDetail(UserModel userModel) {
     initComponents(userModel);
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        EditUserPermission customerDetail = new EditUserPermission(userModel);
+        EditUserPermission editUserPermission = new EditUserPermission(userModel);
         UserPermissionManagement.getInstance().Remove();
-        UserPermissionManagement.getInstance().add(customerDetail, BorderLayout.CENTER);
+        UserPermissionManagement.getInstance().add(editUserPermission, BorderLayout.CENTER);
         UserPermissionManagement.getInstance().revalidate();
         UserPermissionManagement.getInstance().repaint();
       }
@@ -99,5 +99,3 @@ public class User extends JPanel {
     table.getColumnModel().getColumn(7).setCellRenderer(new ImageRender());
   }
 }
-    
-

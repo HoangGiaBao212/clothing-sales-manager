@@ -114,14 +114,28 @@ public class UserPermissionBUS implements IBUS<UserPermissionModel> {
                     }
                 }
                 case "status" -> {
-                    if (value.equals(userPermissionModel.getStatus())) {
-                        return true;
+                    if (value instanceof String) {
+                        if (value.equals(userPermissionModel.getStatus().toString())) {
+                            return true;
+                        }
                     }
                 }
                 default -> {
+                    if (checkAllColumns(userPermissionModel, value)) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
+
+    private boolean checkAllColumns(UserPermissionModel userPermissionModel, String value) {
+        return (userPermissionModel.getId() == Integer.parseInt(value) ||
+                userPermissionModel.getUserId() == Integer.parseInt(value) ||
+                userPermissionModel.getPermissionId() == Integer.parseInt(value) ||
+                userPermissionModel.getStatus().equals(UserPermissionStatus.ACTIVE) ||
+                userPermissionModel.getStatus().equals(UserPermissionStatus.INACTIVE));
+    }
+
 }

@@ -45,13 +45,14 @@ public class EditUserPermission extends JPanel {
     }
 
     private void updateUserPermission() {
-        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật quyền không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-    
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật quyền không?", "Xác nhận",
+                JOptionPane.YES_NO_OPTION);
+
         if (option == JOptionPane.YES_OPTION) {
             for (int i = 0; i < checkBoxList.size(); i++) {
                 JCheckBox checkBox = checkBoxList.get(i);
                 UserPermissionModel userPermissionModel = userPermissionList.get(i);
-    
+
                 if (checkBox.isSelected()) {
                     userPermissionModel.setStatus(UserPermissionStatus.ACTIVE);
                 } else {
@@ -59,10 +60,10 @@ public class EditUserPermission extends JPanel {
                 }
                 UserPermissionBUS.getInstance().updateModel(userPermissionModel);
             }
-            JOptionPane.showMessageDialog(this, "Cập nhật quyền thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cập nhật quyền thành công", "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
 
     public EditUserPermission(String name, String value) {
         this.name = name;
