@@ -302,13 +302,13 @@ public class InvoiceDetail extends JFrame {
 
       private void handleSuccessfulPayment(List<OrderItemModel> orderList, boolean isRegularCustomer,
           boolean isWalkinCustomer) {
-        // Logic for successful payment
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(jf, "Thanh toán thành công");
+        dispose();
+
         int idCustomer = 1;
         if (isRegularCustomer) {
-          // Retrieve customer data
           idCustomer = getCustomerId();
         } else if (isWalkinCustomer) {
           idCustomer = 1;

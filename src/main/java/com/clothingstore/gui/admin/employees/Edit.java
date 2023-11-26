@@ -320,7 +320,6 @@ public class Edit extends JFrame {
         int gender = genderCombobox.equals("Nam") ? 1 : 0;
         UserModel userModel = new UserModel(id, username, "User12345", email, name, phone, address, gender, imagePath,
                 roleID, UserStatus.ACTIVE);
-        // success
         try {
             int updatedRows = userBus.updateModel(userModel);
             if (updatedRows > 0) {
