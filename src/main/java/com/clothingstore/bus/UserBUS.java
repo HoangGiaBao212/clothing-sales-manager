@@ -67,19 +67,19 @@ public class UserBUS implements IBUS<UserModel> {
         userModel.getPassword() == null ||
         userModel.getPassword().isEmpty()) {
       throw new IllegalArgumentException(
-          "Username, name and password cannot be empty. Please check the input and try again.");
+          "Tên đăng nhập, tên và mật khẩu không được để trống. Vui lòng kiểm tra lại đầu vào.");
     }
 
     ArrayList<UserModel> userList = UserDAO.getInstance().readDatabase();
     for (UserModel userModel2 : userList) {
       if (userModel2.getUsername().equals(userModel.getUsername())) {
-        throw new IllegalArgumentException("Username is exist");
+        throw new IllegalArgumentException("Tài khoản đã tồn tại!");
       }
       if (userModel2.getEmail().equals(userModel.getEmail())) {
-        throw new IllegalArgumentException("Email is exist");
+        throw new IllegalArgumentException("Email đã tồn tại!");
       }
       if (userModel2.getPhone().equals(userModel.getPhone())) {
-        throw new IllegalArgumentException("Phone is exist");
+        throw new IllegalArgumentException("Số điện thoại đã tồn tại!");
       }
     }
 
@@ -87,11 +87,11 @@ public class UserBUS implements IBUS<UserModel> {
     boolean hasEmail = userModel.getEmail() != null && !userModel.getEmail().isEmpty();
 
     if (hasEmail && !Validation.isValidEmail(userModel.getEmail())) {
-      throw new IllegalArgumentException("Invalid email address.");
+      throw new IllegalArgumentException("Email không hợp lệ!");
     }
 
     if (hasPhone && !Validation.isValidPhoneNumber(userModel.getPhone())) {
-      throw new IllegalArgumentException("Invalid number format.");
+      throw new IllegalArgumentException("Số điện thoại không hợp lệ!");
     }
 
     // 1 is admin, 2 is manager, 3 is employee
@@ -108,6 +108,39 @@ public class UserBUS implements IBUS<UserModel> {
 
   @Override
   public int updateModel(UserModel userModel) {
+    if (userModel.getUsername() == null ||
+        userModel.getUsername().isEmpty() ||
+        userModel.getName() == null ||
+        userModel.getName().isEmpty() ||
+        userModel.getPassword() == null ||
+        userModel.getPassword().isEmpty()) {
+      throw new IllegalArgumentException(
+          "Tên đăng nhập, tên và mật khẩu không được để trống. Vui lòng kiểm tra lại đầu vào.");
+    }
+
+    ArrayList<UserModel> userList = UserDAO.getInstance().readDatabase();
+    for (UserModel userModel2 : userList) {
+      if (userModel2.getUsername().equals(userModel.getUsername())) {
+        throw new IllegalArgumentException("Tài khoản đã tồn tại!");
+      }
+      if (userModel2.getEmail().equals(userModel.getEmail())) {
+        throw new IllegalArgumentException("Email đã tồn tại!");
+      }
+      if (userModel2.getPhone().equals(userModel.getPhone())) {
+        throw new IllegalArgumentException("Số điện thoại đã tồn tại!");
+      }
+    }
+
+    boolean hasPhone = userModel.getPhone() != null && !userModel.getPhone().isEmpty();
+    boolean hasEmail = userModel.getEmail() != null && !userModel.getEmail().isEmpty();
+
+    if (hasEmail && !Validation.isValidEmail(userModel.getEmail())) {
+      throw new IllegalArgumentException("Email không hợp lệ!");
+    }
+
+    if (hasPhone && !Validation.isValidPhoneNumber(userModel.getPhone())) {
+      throw new IllegalArgumentException("Số điện thoại không hợp lệ!");
+    }
     int updatedRows = UserDAO.getInstance().update(userModel);
     if (updatedRows > 0) {
       for (int i = 0; i < userList.size(); i++) {

@@ -26,8 +26,8 @@ public class Edit extends JFrame {
     public JTextField textField_email;
     public JTextField textField_name;
     public JTextField textField_address;
-    public JComboBox comboBox_role;
-    public JComboBox comboBox_gender;
+    public JComboBox<String> comboBox_role;
+    public JComboBox<String> comboBox_gender;
     private RoleBUS roleBus = RoleBUS.getInstance();
     private UserBUS userBus = UserBUS.getInstance();
     public JLabel lbl_img;
@@ -136,8 +136,8 @@ public class Edit extends JFrame {
         gbc_lbl_Gender.gridy = 2;
         panel_3.add(lbl_Gender, gbc_lbl_Gender);
 
-        comboBox_gender = new JComboBox();
-        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
+        comboBox_gender = new JComboBox<>();
+        comboBox_gender.setModel(new DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -170,7 +170,7 @@ public class Edit extends JFrame {
         gbc_lbl_Role.gridy = 3;
         panel_3.add(lbl_Role, gbc_lbl_Role);
 
-        comboBox_role = new JComboBox();
+        comboBox_role = new JComboBox<>();
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;
