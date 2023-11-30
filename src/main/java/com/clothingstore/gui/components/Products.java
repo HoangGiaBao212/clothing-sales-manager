@@ -93,11 +93,9 @@ public class Products extends JPanel {
         productsPanel.removeAll();
         if (productModels != null) {
             for (ProductModel product : productModels) {
-                if (product.getStatus() == 1) {
-                    Product productComponent = new Product(product);
-                    productComponent.setBackground(new Color(170, 205, 239));
-                    productsPanel.add(productComponent);
-                }
+                Product productComponent = new Product(product);
+                productComponent.setBackground(new Color(170, 205, 239));
+                productsPanel.add(productComponent);
             }
         }
         revalidate();

@@ -122,9 +122,6 @@ public class ProductDAO implements IDAO<ProductModel> {
           ProductModel productModel = createProductModelFromResultSet(rs);
           productList.add(productModel);
         }
-        if (productList.isEmpty()) {
-          throw new SQLException("No records found for the given condition: " + condition);
-        }
         return productList;
       }
     } catch (SQLException e) {

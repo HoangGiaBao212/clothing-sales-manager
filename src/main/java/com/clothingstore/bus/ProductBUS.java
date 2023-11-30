@@ -124,6 +124,11 @@ public class ProductBUS implements IBUS<ProductModel> {
             return true;
           }
         }
+        case "status" -> {
+          if (product.getStatus() == Integer.parseInt(value)) {
+            return true;
+          }
+        }
         default -> {
           if (checkAllColumns(product, value)) {
             return true;
@@ -150,6 +155,10 @@ public class ProductBUS implements IBUS<ProductModel> {
       if (checkFilter(model, value, columns)) {
         results.add(model);
       }
+    }
+    if (results.size() <= 0) {
+      throw new IllegalArgumentException(
+          "Không có sản phẩm nào!");
     }
     return results;
   }
