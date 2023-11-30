@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Order;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Chart extends JPanel {
     public static int count = 0;
     private int currentMonth = 0;
     private List<Integer> monthlyRevenue = new ArrayList<>();
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
     private JPanel Panel;
 
 
@@ -116,7 +118,7 @@ public class Chart extends JPanel {
         for (int i = 0; i <= currentMonth; i++) {
 //            int barHeight = (int) ((double) monthlyRevenue.get(i) / maxRevenue * (height - 50));
             int barHeight = (int) ((double) monthlyRevenue.get(i) / maxRevenue * (height - 50));
-            int x = i * (barWidth + 50) + 25; // 50 khoảng cách giữa các cột 25 là padding trái
+            int x = i * (barWidth + 50) + 32; // 50 khoảng cách giữa các cột 25 là padding trái
             int y = height - barHeight - 30;
 
             if(i==6)
@@ -130,7 +132,7 @@ public class Chart extends JPanel {
             g.setColor(Color.black);
             g.drawRect(x, y, barWidth, barHeight);
 
-            String valueText = String.valueOf(monthlyRevenue.get(i));
+            String valueText = decimalFormat.format(monthlyRevenue.get(i));
             int textWidth = g.getFontMetrics().stringWidth(valueText);
             g.drawString(valueText, x + barWidth / 2 - textWidth / 2, y - 5);
         }

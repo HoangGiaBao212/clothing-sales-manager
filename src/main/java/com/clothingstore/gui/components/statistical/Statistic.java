@@ -36,7 +36,7 @@ public class Statistic extends JPanel {
     private double totalMoneyCusNew;
     private int productQuantity;
     private int pointUsed;
-    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
     public Statistic() {
         this.date = LocalDate.now();
@@ -106,9 +106,9 @@ public class Statistic extends JPanel {
 
         GeneralContent.setLayout(new GridLayout(3,1,15,15));
         GeneralContent.setBackground(new Color(230, 243, 255));
-        GeneralContent.add(new GeneralPanel("Tổng", String.valueOf(invoiceQuantity), String.valueOf(totalMoney),17));
-        GeneralContent.add(new GeneralPanel("Khách hàng thân thiết", String.valueOf(invoiceQuantity-customerNew), String.valueOf(totalMoney-totalMoneyCusNew),17));
-        GeneralContent.add(new GeneralPanel("Khách vãng lai", String.valueOf(customerNew), String.valueOf(totalMoneyCusNew),17));
+        GeneralContent.add(new GeneralPanel("Tổng", String.valueOf(invoiceQuantity), decimalFormat.format(totalMoney),17));
+        GeneralContent.add(new GeneralPanel("Khách hàng thân thiết", String.valueOf(invoiceQuantity-customerNew), decimalFormat.format(totalMoney-totalMoneyCusNew),17));
+        GeneralContent.add(new GeneralPanel("Khách vãng lai", String.valueOf(customerNew), decimalFormat.format(totalMoneyCusNew),17));
 
         General.add(GeneralContent, BorderLayout.CENTER);
         Panel.add(General, BorderLayout.NORTH);

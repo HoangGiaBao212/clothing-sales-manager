@@ -211,7 +211,7 @@ public class Content extends JPanel {
                 totalOrdersPreviousMonth++;
             }
         }
-        percentTotal = ((totalOrdersCurrentMonth - totalOrdersPreviousMonth)/totalOrdersPreviousMonth) * 100;
+        // percentTotal = ((totalOrdersCurrentMonth - totalOrdersPreviousMonth)/totalOrdersPreviousMonth) * 100;
 
         return 100;
     }
@@ -231,7 +231,7 @@ public class Content extends JPanel {
                 totalRevenuePreviousMonth += order.getTotalPrice();
             }
         }
-        percentTotal = ((totalRevenueCurrentMonth - totalRevenuePreviousMonth)/totalRevenuePreviousMonth) * 100;
+        // percentTotal = ((totalRevenueCurrentMonth - totalRevenuePreviousMonth)/totalRevenuePreviousMonth) * 100;
 
 
         return 100;
@@ -281,7 +281,7 @@ public class Content extends JPanel {
             }
         }
 
-        percentTotal = ((totalPointsCurrentMonth - totalPointsPreviousMonth)/totalPointsPreviousMonth) * 100;
+        // percentTotal = ((totalPointsCurrentMonth - totalPointsPreviousMonth)/totalPointsPreviousMonth) * 100;
         return 100;
     }
 

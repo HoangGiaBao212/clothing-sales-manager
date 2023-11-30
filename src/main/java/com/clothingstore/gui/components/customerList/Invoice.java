@@ -3,6 +3,7 @@ package com.clothingstore.gui.components.customerList;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.clothingstore.models.OrderModel;
 public class Invoice extends JPanel {
   private Color background;
   private int quantity = 0;
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
 
   public Invoice() {
     background = new Color(153, 179, 255);
@@ -41,7 +44,7 @@ public class Invoice extends JPanel {
 
     String id = String.valueOf(orderModel.getId());
     String productTotal = String.valueOf(quantity);
-    String totalPrice = String.valueOf(orderModel.getTotalPrice());
+    String totalPrice = decimalFormat.format(orderModel.getTotalPrice());
     initComponents(id, date, productTotal, totalPrice);
     this.addMouseListener(new MouseAdapter() {
       @Override
