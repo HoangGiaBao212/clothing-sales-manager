@@ -71,7 +71,7 @@ public class InvoiceProduct extends JPanel {
         String.valueOf(i),
         String.valueOf(orderItemModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
-        String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),
+        String.valueOf(decimalFormat.format(productModel.getPrice() * orderItemModel.getQuantity())),
         String.valueOf(orderItemModel.getQuantity())
     };
     initComponents(data);

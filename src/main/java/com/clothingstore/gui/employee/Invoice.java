@@ -151,7 +151,7 @@ public class Invoice extends JPanel {
   private JLabel TextSum;
   private JLabel Value;
   private double totalPrice;
-  DecimalFormat decimalFormat = new DecimalFormat("0.####################");
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
     ButtonPay.setVisible(true);

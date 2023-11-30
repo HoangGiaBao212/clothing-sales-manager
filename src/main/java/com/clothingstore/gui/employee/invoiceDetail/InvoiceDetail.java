@@ -38,7 +38,7 @@ public class InvoiceDetail extends JFrame {
   private double change = 0;
   private double finalPrice = 0;
   private double point = 0;
-  DecimalFormat decimalFormat = new DecimalFormat("0.####################");
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
     revalidate();
@@ -71,7 +71,6 @@ public class InvoiceDetail extends JFrame {
     PhoneText = new JLabel();
     Name = new JTextField();
     Phone = new JTextField();
-    UsePoint = new JTextField();
     Buttons = new JPanel();
     ButtonExit = new JButton();
     ButtonPay = new JButton();
@@ -100,7 +99,10 @@ public class InvoiceDetail extends JFrame {
     ContentHeader.setLayout(new BorderLayout());
 
     Products.setBackground(new Color(255, 255, 255));
-    Products.setLayout(new GridLayout(0, 1));
+    if(orderList.size() < 4)
+      Products.setLayout(new GridLayout(3, 1));
+    else
+      Products.setLayout(new GridLayout(0, 1));
 
     int sr = 1;
     for (OrderItemModel orderItemModel : orderList) {
@@ -139,12 +141,12 @@ public class InvoiceDetail extends JFrame {
 
         if (Point.isSelected()) {
           Discount.setText("" + point);
-          Total.setText(totalInvoice - point + "");
+          Total.setText(decimalFormat.format(totalInvoice - point));
         } else {
           revalidate();
           repaint();
           Discount.setText("" + 0);
-          Total.setText(decimalFormat.format(totalInvoice) + "");
+          Total.setText(decimalFormat.format(totalInvoice));
         }
       }
     });
@@ -159,10 +161,6 @@ public class InvoiceDetail extends JFrame {
     Phone.addFocusListener(LostFocusPhone);
     Phone.setHorizontalAlignment(JTextField.RIGHT);
 
-    UsePoint.setFont(new Font("Segoe UI", 0, 14));
-    UsePoint.setHorizontalAlignment(JTextField.RIGHT);
-    UsePoint.addFocusListener(LostFocusUsePoint);
-    UsePoint.setEditable(false);
     Slogan.setFont(new Font("Segoe UI", 2, 13));
 
     Buttons.setBorder(BorderFactory.createEtchedBorder());
@@ -180,6 +178,7 @@ public class InvoiceDetail extends JFrame {
     });
     gridBagConstraints = new GridBagConstraints();
     gridBagConstraints.insets = new Insets(10, 10, 10, 40);
+    gridBagConstraints.ipadx = 40;
 
     ButtonPay.setBackground(new Color(153, 255, 255));
     ButtonPay.setFont(new Font("Segoe UI", 1, 14));
@@ -492,7 +491,6 @@ public class InvoiceDetail extends JFrame {
     CustomerInfo.add(NameText, new AbsoluteConstraints(240, 20, -1, -1));
     CustomerInfo.add(Name, new AbsoluteConstraints(300, 20, 170, 25));
     CustomerInfo.add(Point, new AbsoluteConstraints(70, 50, -1, 20));
-    CustomerInfo.add(UsePoint, new AbsoluteConstraints(190, 50, 150, 20));
     CustomerPanel.add(CustomerInfo, new AbsoluteConstraints(10, 40, 500, 120));
 
     CustomerPanel.add(Slogan, new AbsoluteConstraints(60, 0, 500, 120));
@@ -500,7 +498,7 @@ public class InvoiceDetail extends JFrame {
     Footer.add(CustomerPanel, BorderLayout.CENTER);
 
     Buttons.add(ButtonExit, gridBagConstraints);
-    Buttons.add(ButtonPay, new GridBagConstraints());
+    Buttons.add(ButtonPay, gridBagConstraints);
     Footer.add(Buttons, BorderLayout.PAGE_END);
 
     PayPanel.add(TotalInvoiceText, new AbsoluteConstraints(10, 10, 130, 30));
@@ -552,7 +550,6 @@ public class InvoiceDetail extends JFrame {
   private JTextField Total;
   private JTextField TotalInvoice;
   private JLabel TotalText;
-  private JTextField UsePoint;
   private JCheckBox WalkInCus;
   private JLabel Slogan;
 
@@ -565,7 +562,6 @@ public class InvoiceDetail extends JFrame {
         Discount.setText("" + 0);
         Total.setText(decimalFormat.format(totalInvoice));
         RegularCus.setSelected(false);
-        UsePoint.setVisible(false);
         CustomerInfo.setVisible(false);
         Slogan.setVisible(true);
       }
@@ -668,7 +664,6 @@ public class InvoiceDetail extends JFrame {
           Phone.setText("");
           WalkInCus.setSelected(true);
           RegularCus.setSelected(false);
-          UsePoint.setVisible(false);
           CustomerInfo.setVisible(false);
           Slogan.setVisible(true);
         }
@@ -685,7 +680,7 @@ public class InvoiceDetail extends JFrame {
     public void focusLost(FocusEvent e) {
       if (!CusPaying.getText().isBlank() && !CusPaying.getText().isEmpty()) {
         double cusPaying = Double.parseDouble(CusPaying.getText());
-        double totalReceipt = Double.parseDouble(Total.getText());
+        double totalReceipt = finalPrice;
         change = cusPaying - totalReceipt;
         Change.setText(decimalFormat.format(change));
       }

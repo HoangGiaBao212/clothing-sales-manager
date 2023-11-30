@@ -3,6 +3,7 @@ package com.clothingstore.gui.employee;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class InvoiceProduct extends JPanel {
   private ProductModel productModel;
   private int sizeId;
   private int quantity;
+  DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
   public InvoiceProduct(ProductModel productModel, int size, int quantity) {
     this.productModel = productModel;
@@ -81,7 +83,7 @@ public class InvoiceProduct extends JPanel {
     } else if (size == 5) {
       Size.setText("( XXL )");
     }
-    add(Size, new AbsoluteConstraints(45, 28, 45, 30));
+    add(Size, new AbsoluteConstraints(35, 28, 85, 30));
 
     spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, sizeItemModels.get(0).getQuantity(), 1));
     spinner.setBackground(new Color(255, 204, 204));
@@ -100,7 +102,7 @@ public class InvoiceProduct extends JPanel {
 
     double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
         * (int) spinner.getValue();
-    Price.setText("" + totalPrice);
+    Price.setText(decimalFormat.format(totalPrice));
     add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 
     ImageIcon originalIcon = new ImageIcon(getClass().getResource("/resources/icons/delete.png"));
