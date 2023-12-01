@@ -141,7 +141,8 @@ public class Statistic extends JPanel {
         ChartPanel.add(ChartLabel, BorderLayout.NORTH);
     
         Content.add(ChartPanel, BorderLayout.SOUTH);
-        
+
+        Scroll.getVerticalScrollBar().setUnitIncrement(10);
         Scroll.setViewportView(Content);
         add(Scroll, BorderLayout.CENTER);
     }
@@ -237,7 +238,7 @@ public class Statistic extends JPanel {
             setBackground(new Color(230, 243, 255));
 
             Panel.setLayout(new GridLayout(1, 12));
-            Panel.setPreferredSize(new Dimension(50, 50));
+            Panel.setPreferredSize(new Dimension(30, 30));
             Panel.setBackground(new Color(153, 206, 255));
 
             for (int i = 2; i < 26; i++) {
