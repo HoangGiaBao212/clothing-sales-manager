@@ -89,7 +89,10 @@ public class ProductsHeader extends JPanel {
         }
         String input = Value.getText().toLowerCase();
         List<ProductModel> productModels = null;
-        ProductModel productModel = ProductBUS.getInstance().getModelById(Integer.parseInt(Value.getText()));
+        ProductModel productModel = null;
+        if(isInteger(input)){
+           productModel = ProductBUS.getInstance().getModelById(Integer.parseInt(Value.getText()));
+        }
         if (isInteger(input) == true && productModel != null) {
           ProductDetail productDetail = new ProductDetail(productModel);
           productDetail.setVisible(true);

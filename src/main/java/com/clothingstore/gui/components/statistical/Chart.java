@@ -35,7 +35,7 @@ public class Chart extends JPanel {
         setBackground(Color.WHITE);
 
         Panel.setLayout(new GridLayout(1,7));
-        Panel.setPreferredSize(new Dimension(50,50));
+        Panel.setPreferredSize(new Dimension(30,30));
 
 //        LocalDate today = LocalDate.of(2023,10,24);
         LocalDate today = LocalDate.now();
@@ -112,7 +112,7 @@ public class Chart extends JPanel {
 
 
 
-        int barWidth = width / monthlyRevenue.size() + 20; // trừ đi chiều dài panel
+        int barWidth = width / monthlyRevenue.size() + 25; // trừ đi chiều dài panel
         int maxRevenue = getMaxRevenue();
 
         for (int i = 0; i <= currentMonth; i++) {
