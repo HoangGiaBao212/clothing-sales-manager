@@ -36,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,7 +155,9 @@ public class PDFWriter {
         })
         .sum();
 
-    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+    Locale vietnamLocale = new Locale("vi", "VN");
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(vietnamLocale);
+    // Replace this with your actual total price
     String formattedTotalPrice = currencyFormatter.format(totalPrice);
 
     chooseURL(filepath);
@@ -180,44 +183,43 @@ public class PDFWriter {
       Object[][] data = new Object[numberOfUniqueProductIds][5];
       int id = 0;
       int count = 0;
-      
+
       for (int i = 0; i < importItemsList.size() && count < numberOfUniqueProductIds; i++) {
-          if (id != importItemsList.get(i).getProduct_id()) {
-              ImportItemsModel item = importItemsList.get(i);
-              ProductModel product = ProductBUS.getInstance().getModelById(item.getProduct_id());
-              double itemTotalPrice = item.getQuantity() * item.getPrice();
-      
-              List<ImportItemsModel> importItemListByImportId = new ArrayList<>();
-              for (ImportItemsModel importItemsModel : importItemsList) {
-                  if (importItemsModel.getProduct_id() == item.getProduct_id()) {
-                      importItemListByImportId.add(importItemsModel);
-                  }
-              }
-              StringBuilder sizeAndQuantityBuilder = new StringBuilder();
-              StringBuilder priceBuilder = new StringBuilder();
-      
-              for (ImportItemsModel importItemsModel : importItemListByImportId) {
-                  sizeAndQuantityBuilder.append(String.format("%s - %d\n", getSizeLabel(importItemsModel.getSize_id()),
-                          importItemsModel.getQuantity()));
-      
-                  double totalPrices = importItemsModel.getPrice() * importItemsModel.getQuantity();
-                  priceBuilder.append(String.format("%s\n", currencyFormatter.format(totalPrices)));
-              }
-      
-              String sizeAndQuantity = sizeAndQuantityBuilder.toString();
-              String totalPriceString = priceBuilder.toString();
-      
-              data[count][0] = product.getId();
-              data[count][1] = product.getName();
-              data[count][2] = currencyFormatter.format(item.getPrice());
-              data[count][3] = sizeAndQuantity;
-              data[count][4] = totalPriceString;
-      
-              id = importItemsList.get(i).getProduct_id();
-              count++;
+        if (id != importItemsList.get(i).getProduct_id()) {
+          ImportItemsModel item = importItemsList.get(i);
+          ProductModel product = ProductBUS.getInstance().getModelById(item.getProduct_id());
+          double itemTotalPrice = item.getQuantity() * item.getPrice();
+
+          List<ImportItemsModel> importItemListByImportId = new ArrayList<>();
+          for (ImportItemsModel importItemsModel : importItemsList) {
+            if (importItemsModel.getProduct_id() == item.getProduct_id()) {
+              importItemListByImportId.add(importItemsModel);
+            }
           }
+          StringBuilder sizeAndQuantityBuilder = new StringBuilder();
+          StringBuilder priceBuilder = new StringBuilder();
+
+          for (ImportItemsModel importItemsModel : importItemListByImportId) {
+            sizeAndQuantityBuilder.append(String.format("%s - %d\n", getSizeLabel(importItemsModel.getSize_id()),
+                importItemsModel.getQuantity()));
+
+            double totalPrices = importItemsModel.getPrice() * importItemsModel.getQuantity();
+            priceBuilder.append(String.format("%s\n", currencyFormatter.format(totalPrices)));
+          }
+
+          String sizeAndQuantity = sizeAndQuantityBuilder.toString();
+          String totalPriceString = priceBuilder.toString();
+
+          data[count][0] = product.getId();
+          data[count][1] = product.getName();
+          data[count][2] = currencyFormatter.format(item.getPrice());
+          data[count][3] = sizeAndQuantity;
+          data[count][4] = totalPriceString;
+
+          id = importItemsList.get(i).getProduct_id();
+          count++;
+        }
       }
-      
 
       JTable table = new JTable(data, columnNames);
       writeTable(table);
@@ -272,7 +274,9 @@ public class PDFWriter {
       }
     }
 
-    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+    Locale vietnamLocale = new Locale("vi", "VN");
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(vietnamLocale);
+    // Replace this with your actual total price
     String formattedTotalPrice = currencyFormatter.format(totalPrice);
 
     chooseURL(filepath);
@@ -290,7 +294,8 @@ public class PDFWriter {
       writeObject(orderInfoString.split("\n"));
 
       // Add product Information
-      String[] columnNames = { "Mã sản phẩm", "Tên sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng", "Tổng tiền từng kích cỡ" };
+      String[] columnNames = { "Mã sản phẩm", "Tên sản phẩm", "Giá tiền", "Kích cỡ", "Số lượng",
+          "Tổng tiền từng kích cỡ" };
       Object[][] data = new Object[orderItemsList.size()][6];
       for (int i = 0; i < orderItemsList.size(); i++) {
         OrderItemModel orderItemModel = orderItemsList.get(i);
