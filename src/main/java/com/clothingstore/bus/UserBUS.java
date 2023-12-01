@@ -119,6 +119,18 @@ public class UserBUS implements IBUS<UserModel> {
     }
 
     ArrayList<UserModel> userList = UserDAO.getInstance().readDatabase();
+    for (UserModel userModel2 : userList) {
+      if (userModel2.getUsername().equals(userModel.getUsername()) && userModel.getId() != userModel2.getId()) {
+        throw new IllegalArgumentException("Tài khoản đã tồn tại!");
+      }
+      if (userModel2.getEmail().equals(userModel.getEmail()) && userModel.getId() != userModel2.getId()) {
+        throw new IllegalArgumentException("Email đã tồn tại!");
+      }
+      if (userModel2.getPhone().equals(userModel.getPhone()) && userModel.getId() != userModel2.getId()) {
+        throw new IllegalArgumentException("Số điện thoại đã tồn tại!");
+      }
+    }
+
     boolean hasPhone = userModel.getPhone() != null && !userModel.getPhone().isEmpty();
     boolean hasEmail = userModel.getEmail() != null && !userModel.getEmail().isEmpty();
 
