@@ -38,7 +38,7 @@ public class InvoiceDetail extends JFrame {
   private double change = 0;
   private double finalPrice = 0;
   private double point = 0;
-  DecimalFormat decimalFormat = new DecimalFormat("###,###");
+  DecimalFormat decimalFormat = new DecimalFormat("0.####################");
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
     revalidate();
