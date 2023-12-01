@@ -188,7 +188,7 @@ public class PDFWriter {
         if (id != importItemsList.get(i).getProduct_id()) {
           ImportItemsModel item = importItemsList.get(i);
           ProductModel product = ProductBUS.getInstance().getModelById(item.getProduct_id());
-          double itemTotalPrice = item.getQuantity() * item.getPrice();
+          // double itemTotalPrice = item.getQuantity() * item.getPrice();
 
           List<ImportItemsModel> importItemListByImportId = new ArrayList<>();
           for (ImportItemsModel importItemsModel : importItemsList) {
